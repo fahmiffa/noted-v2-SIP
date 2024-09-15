@@ -75,14 +75,6 @@ class ConsultationController extends Controller
             toastr()->error('Notulen maksimal 2', ['timeOut' => 5000]);
             return back()->withInput();
         }
-
-        // $intersection = array_intersect($request->notulen, $request->konsultan);
-        
-        // if(count($intersection) > 0)
-        // {
-        //     toastr()->error('Anggota dengan ketua tidak boleh sama', ['timeOut' => 5000]);
-        //     return back()->withInput();
-        // }
         
         $path = null;
         $kons = new Consultation;
@@ -182,7 +174,11 @@ class ConsultationController extends Controller
             $link->save();
             return $name;    
         }
-
+        else
+        {
+            $link->files = $path;
+            $link->save();
+        }
 
     }
 

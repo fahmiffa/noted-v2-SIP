@@ -1,32 +1,6 @@
-<!DOCTYPE html>
-<html>
+@extends('layout.pdf')
 
-<head>
-    <title>{{env('APP_NAME')}} | {{env('APP_TAG')}}</title>
-</head>
-<style>
-    body {
-        font-size: 12px;
-        font-family: DejaVu Sans;
-    }
-
-    table {
-        border-collapse: collapse;
-        border-spacing: 0;
-    }
-
-    td {
-        border: 1px solid black;
-    }
-
-    .img {
-        object-fit: cover;
-        width: 50px;
-        height: 50px;
-    }
-</style>
-
-<body>
+@section('main')
     <header >
         <table style="width: 100%; border:none">
             <tr>
@@ -42,20 +16,19 @@
         </table>
     </header>
     @php  
-        $header = (array) json_decode($news->doc->header); 
-        $mheader = json_decode($meet->header); 
-        $items = json_decode($meet->item);  
-        $item = (array) json_decode($news->item);
-        $other = json_decode($meet->other);
+        $header = (array) json_decode($head->bak->doc->header); 
+        $mheader = json_decode($head->barp->header); 
+        $items = json_decode($head->barp->item);  
+        $item = (array) json_decode($head->bak->item);
+        $other = json_decode($head->barp->other);
         $umum = $item['informasi_umum'];
         $bangunan = $item['informasi_bangunan_gedung'];
     @endphp
-
     <p>Sehubungan telah dilakukannya Konsultasi dengan TPT/TPA DPUPR Kabupaten Tegal pada :</p>
     <table style="width:98%" align="center">        
             <tr>
                 <td width="40%" style="border:none">Hari / Tanggal</td>
-                <td width="60%" style="border:none">: {{dateID($meet->tanggal)}} </td>
+                <td width="60%" style="border:none">: {{dateID($head->barp->tanggal)}} </td>
                 <td width="40%" style="border:none">Permohonan </td>
                 <td width="60%" style="border:none">: {{strtoupper($header[1])}}</td>
             </tr>
@@ -113,22 +86,20 @@
 
         </tbody>
     </table>  
-
     <p>Sebagaimana terlampir pada Lembar Berita Acara Konsultasi
         No.
-        {{ str_replace('SPm', 'BAK', str_replace('600.1.15', '600.1.15/PBLT', $meet->doc->nomor)) }}
+        {{ str_replace('SPm', 'BAK', str_replace('600.1.15', '600.1.15/PBLT', $head->barp->doc->nomor)) }}
         yang
         merupakan bagian tidak terpisahkan dari Berita Acara Rapat Pleno ini,
         TPT/TPA memberikan masukkan:
         <br>
         {!!$items->item[0]!!}
     </p>
-
     <p>Dan dengan pertimbangan bahwa :<br>{!!$items->item[1]!!}</p>
     Memutuskan untuk :   
     <table style="width:100%;">   
         <tr>
-            <td width="3%" style="border: none;vertical-align:top">{!! $items->val[0] == 1 ? '&#x2611;' : '&#9746;' !!}</td>
+            <td width="3%" style="border: none;vertical-align:top;font-family:DejaVu Sans">{!! $items->val[0] == 1 ? '&#x2611;' : '&#9746;' !!}</td>
             <td style="border: none;vertical-align:top">Merekomendasikan penerbitan Surat Pernyataan Pemenuhan Standar Teknis PBG dan/atau SLF dengan :													
             </td>
         </tr>       
@@ -146,13 +117,6 @@
             @foreach($items->luas as $key => $val)
             <td style="padding: 0.3rem">{{$val}}</td>
             @endforeach       
-        </tr>   
-        <tr>
-            <td style="padding: 0.3rem">Prasarana (jika ada)																	
-            </td>
-            @foreach($items->pra as $key => $val)
-            <td style="padding: 0.3rem">{{$val}}</td>
-            @endforeach              
         </tr>       
         @for ($i = 0; $i < count($other); $i++)
         <tr>
@@ -166,18 +130,18 @@
     </table>
     <table style="width:100%;">   
         <tr>
-            <td width="3%" style="border: none;vertical-align:top">{!! $items->val[1] == 1 ? '&#x2611;' : '&#9746;' !!}</td>
+            <td width="3%" style="border: none;vertical-align:top;font-family:DejaVu Sans">{!! $items->val[1] == 1 ? '&#x2611;' : '&#9746;' !!}</td>
             <td style="border: none;vertical-align:top">Merekomendasikan pemohon untuk memperbaiki
                 dokumen / informasi yang diunggah melalui SIMBG</td>
         </tr>
         <tr>
-            <td style="border: none;vertical-align:top">{!! $items->val[2] == 1 ? '&#x2611;' : '&#9746;' !!}</td>
+            <td style="border: none;vertical-align:top;font-family:DejaVu Sans">{!! $items->val[2] == 1 ? '&#x2611;' : '&#9746;' !!}</td>
             <td style="border: none;vertical-align:top">
                 Merekomendasikan pemohon untuk melakukan
                 pendaftaran ulang PBG dan/atau SLF melalui SIMBG</td>
         </tr>
         <tr>
-            <td style="border: none;vertical-align:top">{!! $items->val[3] == 1 ? '&#x2611;' : '&#9746;' !!}</td>
+            <td style="border: none;vertical-align:top;font-family:DejaVu Sans">{!! $items->val[3] == 1 ? '&#x2611;' : '&#9746;' !!}</td>
             <td style="border: none;vertical-align:top">
                 Proses PBG dan/atau SLF tidak dapat dilanjutkan
                 / ditolak</td>
@@ -211,16 +175,14 @@
                 <p>Mengetahui,<br>
                     Ketua Rapat Pleno TPT/TPA
                 </p>
-                    @if($meet->sign)
-                    <img src="{{$meet->sign}}"  width="50%"  style="margin: auto">
+                    @if($head->barp->sign)
+                    <img src="{{$head->barp->sign}}"  width="50%"  style="margin: auto">
                     <br>
                     @else
                     <br><br><br><br>
                     @endif
-                    {{$news->primary == 'TPT' ? $news->kabid : $head->kons->not->name}}
+                    {{$head->barp->primary == 'TPT' ? $head->barp->kabid : $head->kons->not->name}}
             </td>    
         </tr>    
     </table>        
-</body>
-
-</html>
+@endsection

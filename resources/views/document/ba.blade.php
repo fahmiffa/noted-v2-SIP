@@ -41,16 +41,16 @@
                                             {{ $item->reg }}
                                         </td>
                                         <td>
-                                            {{ $header ? $header[2] : null }}
+                                            <h6 class="mb-0">Nama</h6>{{ $header ? $header[2] : null }}      
+                                            <h6 class="mb-0">Alamat</h6>
+                                            {{ $item->region ? $item->region->name.', ' : null }} {!! $item->region ? $item->region->kecamatan->name.'<br>' : null !!} {{ $header ? $header[4] : null }}                                                                                
                                         </td>
                                         <td>
                                             {{ $header ? $header[5] : null }}
 
                                         </td>
                                         <td>
-                                            {{ $item->region ? $item->region->name : null }},
-                                            {{ $item->region ? $item->region->kecamatan->name : null }},
-                                            <br>{{ $header ? $header[4] : null }}
+                                            {{ $header ? $header[7] : null }}
                                         </td>
                                         <td>
                                             {{ $item->nomor }}
@@ -59,7 +59,7 @@
                                             <a target="_blank"
                                                 href="{{ route('ba.sign', ['id' => md5($item->id)]) }}"
                                                 data-toggle="tooltip" data-placement="top" title="Dokumen PDF"
-                                                class="btn btn-sm btn-secondary mb-1"><i class="bi bi-file-pdf"></i> </a>                               
+                                                class="btn btn-sm {{$item->do == 0 ? 'btn-secondary' : 'btn-danger'}} mb-1"><i class="bi bi-file-pdf"></i> </a>                               
                                         </td>                            
                                     </tr>
                                 @endforeach

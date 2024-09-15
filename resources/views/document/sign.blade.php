@@ -21,6 +21,7 @@
                     array_push($uri, 1);
                 }
             @endphp
+
             @foreach ($uri as $val)
                 <div class="col-md-6">
                     <div class="mx-auto text-center my-1" id="toolbar{{ $val }}">
@@ -35,11 +36,21 @@
                         </div>
                     </div>
                     <canvas id="pdf-canvas{{ $val }}" style="display: none;" class="border border-light"></canvas>
-                    <button type="button" data-val="{{ $val }}"
-                        class="btn btn-primary btn-sm rounded-pill mx-auto d-block my-3 signs">Tanda
-                        Tangan</button>
+
+                    @if ($head->bak->primary == 'TPT' && $head->do == 0)
+                        <button type="button" data-val="{{ $val }}"
+                            class="btn btn-primary btn-sm rounded-pill mx-auto d-block my-3 signs">Tanda
+                            Tangan</button>
+                    @endif
                 </div>
             @endforeach
+
+            @if ($head->do == 0 && $head->bak->primary == 'TPA')
+                <div class="col-md-12">
+                    <button type="button"
+                        class="btn btn-success btn-sm rounded-pill mx-auto d-block my-3 ver text-center">Verifikasi</button>
+                </div>    
+            @endif
 
             <div class="modal fade sign" id="signature" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -62,6 +73,28 @@
                                 <button type="submit" class="btn btn-success rounded-pill btn-sm save">Approve</button>
                                 <button type="button" class="btn btn-danger rounded-pill btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#reject">Reject</button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="verifikasi">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Verifikasi Dokumen</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('ba.ver', ['id' => md5($head->id)]) }}" method="post">
+                                @csrf
+                                <button type="submit" class="btn btn-success rounded-pill btn-sm">Approve</button>
+                                {{-- <button type="button" class="btn btn-danger rounded-pill btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#reject">Reject</button> --}}
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -222,10 +255,16 @@
             var id = $(this).attr('data-val');
             $('#type').val(id);
             $('#typer').val(id);
-            // $('#signature').modal('show');
             var myModal = new bootstrap.Modal(document.getElementById('signature'));
             myModal.show();
             signaturePad.clear();
+        });
+
+        $('.ver').on('click', function() {
+            var id = $(this).attr('data-val');
+            // $('#verifikasi').show();
+            var myModal = new bootstrap.Modal(document.getElementById('verifikasi'));
+            myModal.show();
         });
 
         $('.clear').on('click', function() {

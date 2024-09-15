@@ -119,9 +119,7 @@ class AttachController extends Controller
         $rule = [
             'doc' => 'required',
             'luas' => 'required',
-            'bukti' => 'required',
-            // 'lahan' => 'required',
-            // 'lokasi' => 'required',
+            'bukti' => 'required',   
             'koordinat' => 'required',
             'pile_loc' => 'nullable|mimes:jpeg,png,jpg,|max:2048',
             'pile_land' => 'nullable|mimes:jpeg,png,jpg|max:2048',
@@ -164,8 +162,6 @@ class AttachController extends Controller
             );
             $item->pile_land = $path;
         }
-        // $item->lahan = $request->lahan;
-        // $item->lokasi = $request->lokasi;
         $item->luas = $request->luas;
         $item->koordinat = $request->koordinat;
         $item->save();

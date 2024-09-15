@@ -39,15 +39,15 @@
                                             {{ $item->reg }}
                                         </td>
                                         <td>
-                                            {{ $header ? $header[2] : null }}<br>
+                                            <h6 class="mb-0">Nama</h6>{{ $header ? $header[2] : null }}      
+                                            <h6 class="mb-0">Alamat</h6>
+                                            {{ $item->region ? $item->region->name.', ' : null }} {!! $item->region ? $item->region->kecamatan->name.'<br>' : null !!} {{ $header ? $header[4] : null }}                                                                                
                                         </td>
                                         <td>
                                             {{ $header ? $header[5] : null }}
                                         </td>
                                         <td>
-                                            {{ $item->region ? $item->region->name . ',' : null }}
-                                            {{ $item->region ? $item->region->kecamatan->name . ', ' : null }}
-                                            {!! $header ? '<br>' . $header[4] : null !!}
+                                            {{ $header ? $header[7] : null }}
                                         </td>
                                         <td>
                                             {{ $item->nomor }}

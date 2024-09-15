@@ -20,9 +20,11 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>Nomor</th>
-                                    <th>Pemohon</th>                                    
-                                    <th>Tipe</th>
+                                    <th>No. Registrasi</th>
+                                    <th>Pemohon</th>      
+                                    <th>Bangunan</th>                                    
+                                    <th>Lokasi</th>                                    
+                                    <th>No. Dokumen</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -34,48 +36,30 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>
-                                            <h6>Registrasi</h6>
                                             {{ $item->reg }}
-                                            <h6>Dokumen</h6>
-                                            {{ $item->nomor }}
                                         </td>
                                         <td>
-                                            {{ $header ? $header[2] : null }}<br>
+                                            <h6 class="mb-0">Nama</h6>{{ $header ? $header[2] : null }}      
                                             <h6 class="mb-0">Alamat</h6>
-                                            {{ $item->region ? $item->region->name : null }},{{ $item->region ? $item->region->kecamatan->name : null }},{{ $header ? $header[4] : null }}
-                                            <hr>
-                                            <h6 class="mb-0">Bangunan</h6>
-                                            {{ $header[5] }}<br>
-                                            <h6 class="mb-0">Lokasi</h6>
-                                            {{ $header[7] }} Kec. {{ $item->region->name }},
-                                            Kab.{{ $item->region->kecamatan->name }} <br>
-                                            <h6 class="mb-0">Fungsi</h6>
-                                            {{ $header[6] }}
-                                        </td>                                      
-                                        <td>{{ ucfirst($item->type) }}</td>
+                                            {{ $item->region ? $item->region->name.', ' : null }} {!! $item->region ? $item->region->kecamatan->name.'<br>' : null !!} {{ $header ? $header[4] : null }}       
+                                        </td>      
                                         <td>
-                                            @if ($item->tax)
-                                                <a class="btn btn-{{ $item->tax->status == 2 ? 'warning' : 'success' }} btn-sm"
-                                                    href="{{ route('step.tax', ['id' => md5($item->id)]) }}"
-                                                    data-toggle="tooltip" data-placement="top" title="Dokumen Draft">
-                                                    <i
-                                                        class="bi bi-{{ $item->tax->status == 2 ? 'archive' : 'send' }}"></i>
-                                                </a>
-
+                                            {{ $header ? $header[5] : null }}
+                                        </td>
+                                        <td>
+                                            {{ $header ? $header[7] : null }}
+                                        </td>                                
+                                        <td>{{ $item->nomor }}</td>
+                                        <td>
+                                            @if ($item->tax)                      
                                                 <a target="_blank" href="{{ route('doc.tax', ['id' => md5($item->id)]) }}"
                                                     class="btn btn-sm btn-danger"><i class="bi bi-file-pdf"></i></a>
-                                            @else
-                                                @if ($item->tax)
-                                                    <button data-toggle="tooltip" data-placement="top"
-                                                        title="Dokumen terlah diverifikasi"
-                                                        class="btn btn-success btn-sm"><i class="bi bi-check"></i></button>
-                                                @else
-                                                    <a class="btn btn-primary btn-sm"
-                                                        href="{{ route('step.tax', ['id' => md5($item->id)]) }}"
-                                                        data-toggle="tooltip" data-placement="top" title="Submit Dokumen">
-                                                        <i class="bi bi-send"></i>
-                                                    </a>
-                                                @endif
+                                            @else                                    
+                                                <a class="btn btn-primary btn-sm"
+                                                    href="{{ route('step.tax', ['id' => md5($item->id)]) }}"
+                                                    data-toggle="tooltip" data-placement="top" title="Submit Dokumen">
+                                                    <i class="bi bi-send"></i>
+                                                </a>
                                             @endif
                                         </td>
                                     </tr>

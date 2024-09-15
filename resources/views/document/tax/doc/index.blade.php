@@ -1,38 +1,5 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>{{ env('APP_NAME') }} | {{ env('APP_TAG') }}</title>
-    <link rel="shortcut icon" href="{{ asset('assets/logo.png') }}" type="image/x-icon">
-</head>
-<style>
-    body {
-        font-size: 12px;
-        font-family: DejaVu Sans;
-    }
-
-    table {
-        border-collapse: collapse;
-        border-spacing: 0;
-    }
-
-    td {
-        border: 1px solid black;
-    }
-
-    .img {
-        object-fit: cover;
-        width: 50px;
-        height: 50px;
-    }
-
-    .page-break {
-        page-break-after: always;
-    }
-</style>
-
-<body>
-    
+@extends('layout.pdf')
+@section('main')    
     <table style="width: 100%; border:none">
         <tr>
             <td style="border:none"><img class="img" src="{{ gambar('kab.png') }}" /></td>
@@ -45,7 +12,6 @@
             <td style="border:none"><img class="img" src="{{ gambar('logo.png') }}" /></td>
         </tr>
     </table>
-
     @php
         $header = (array) json_decode($head->header);
     @endphp
@@ -80,7 +46,6 @@
             </td>
         </tr>
     </table>
-
     @php
         $par = json_decode($head->tax->parameter);
     @endphp
@@ -165,60 +130,56 @@
                         Ilo x SHST x LLt)</i>&nbsp;</td>
                 <td align="right">{{ number_format($par->retri, 0, ',', '.') }}</td>
             </tr>
-        </table>
-        @php
-            $pra = (array) $par->pra;
-        @endphp
-
-        <h4>D. PERHITUNGAN NILAI RETRIBUSI PRASARANA</h4>
-        <table style="width: 98%">
-            <tr align="center" style="background-color:lightgrey">
-                <td>No.</td>
-                <td>Uraian</td>
-                <td>Volume</td>
-                <td>Sat.</td>
-                <td>Harga Satuan.</td>
-                <td>Jumlah Harga</td>
-            </tr>
-            @for ($i = 1; $i < count($pra); $i++)
-                @isset($pra[$i][0])
-                    <tr>
-                        <td align="center">{{ $i }}</td>
-                        <td style="padding:0.2rem">{{ $pra[$i][0] }}</td>
-                        <td style="padding:0.2rem">{{ $pra[$i][1] }}</td>
-                        <td style="padding:0.2rem">{{ $pra[$i][2] }}</td>
-                        <td style="padding:0.2rem" align="right">
-                            {{ number_format($pra[$i][3], 0, ',', '.') }}
-                        </td>
-                        <td style="padding:0.2rem" align="right">
-                            {{ number_format($pra[$i][4], 0, ',', '.') }}
-                        </td>
-                    </tr>
-                @endif
-                @endfor
-                <tr style="background-color:ivory">
-                    <td colspan="5" style="text-align:right">NILAI RETRIBUSI PRASARANA&nbsp;</td>
-                    <td align="right">{{ number_format($par->sumPra, 0, ',', '.') }}</td>
-                </tr>
-                <tr style="background-color:ivory">
-                    <td colspan="5" style="text-align:right">
-                        <strong>TOTAL NILAI RETRIBUSI</strong><br>
-                        (NILAI RETRIBUSI BANGUNAN GEDUNG + NILAI RETRIBUSI PRASARANA)
+    </table>
+    @php
+        $pra = (array) $par->pra;
+    @endphp
+    <h4>D. PERHITUNGAN NILAI RETRIBUSI PRASARANA</h4>
+    <table style="width: 98%">
+        <tr align="center" style="background-color:lightgrey">
+            <td>No.</td>
+            <td>Uraian</td>
+            <td>Volume</td>
+            <td>Sat.</td>
+            <td>Harga Satuan.</td>
+            <td>Jumlah Harga</td>
+        </tr>
+        @for ($i = 1; $i < count($pra); $i++)
+            @isset($pra[$i][0])
+                <tr>
+                    <td align="center">{{ $i }}</td>
+                    <td style="padding:0.2rem">{{ $pra[$i][0] }}</td>
+                    <td style="padding:0.2rem">{{ $pra[$i][1] }}</td>
+                    <td style="padding:0.2rem">{{ $pra[$i][2] }}</td>
+                    <td style="padding:0.2rem" align="right">
+                        {{ number_format($pra[$i][3], 0, ',', '.') }}
                     </td>
-                    <td align="right">{{ number_format($par->totRetri, 0, ',', '.') }}</td>
+                    <td style="padding:0.2rem" align="right">
+                        {{ number_format($pra[$i][4], 0, ',', '.') }}
+                    </td>
                 </tr>
-            </table>
-
-            <div class="page-break"></div>
-            <p>Catatan :</p>
-            <ol>
-                <li>Perhitungan Retribusi ini merupakan simulasi dengan mengacu pada Perda Kab. Tegal Nomor 11 Tahun 2023 tentang Pajak Daerah dan Retribusi Daerah
-                </li>
-                <li>Dokumen ini BUKAN merupakan PBG / Bukti Penagihan / Bukti Pembayaran yang sah, proses penagihan dan pembayaran  tetap mengacu pada SKRD yang dikeluarkan oleh DPMPTSP
-                </li>
-                <li>Hasil perhitungan ini dimungkinan terdapat perbedaan dengan hasil perhitungan retribusi akhir karena faktor sistem dan hasil verifikasi akhir terhadap dokumen teknis secara menyeluruh
-                </li>
-            </ol>
-        </body>
-
-        </html>
+            @endif
+            @endfor
+            <tr style="background-color:ivory">
+                <td colspan="5" style="text-align:right">NILAI RETRIBUSI PRASARANA&nbsp;</td>
+                <td align="right">{{ number_format($par->sumPra, 0, ',', '.') }}</td>
+            </tr>
+            <tr style="background-color:ivory">
+                <td colspan="5" style="text-align:right">
+                    <strong>TOTAL NILAI RETRIBUSI</strong><br>
+                    (NILAI RETRIBUSI BANGUNAN GEDUNG + NILAI RETRIBUSI PRASARANA)
+                </td>
+                <td align="right">{{ number_format($par->totRetri, 0, ',', '.') }}</td>
+            </tr>
+    </table>
+    <div class="page-break"></div>
+    <p>Catatan :</p>
+    <ol>
+        <li>Perhitungan Retribusi ini merupakan simulasi dengan mengacu pada Perda Kab. Tegal Nomor 11 Tahun 2023 tentang Pajak Daerah dan Retribusi Daerah
+        </li>
+        <li>Dokumen ini BUKAN merupakan PBG / Bukti Penagihan / Bukti Pembayaran yang sah, proses penagihan dan pembayaran  tetap mengacu pada SKRD yang dikeluarkan oleh DPMPTSP
+        </li>
+        <li>Hasil perhitungan ini dimungkinan terdapat perbedaan dengan hasil perhitungan retribusi akhir karena faktor sistem dan hasil verifikasi akhir terhadap dokumen teknis secara menyeluruh
+        </li>
+    </ol>
+@endsection

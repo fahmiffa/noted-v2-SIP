@@ -1,32 +1,6 @@
-<!DOCTYPE html>
-<html>
+@extends('layout.pdf')
 
-<head>
-    <title>{{env('APP_NAME')}} | {{env('APP_TAG')}}</title>
-    <link rel="shortcut icon" href="{{asset('assets/logo.png')}}" type="image/x-icon">    
-</head>
-<style>
-    body {
-        font-size: 13px;
-    }
-
-    table {
-        border-collapse: collapse;
-        border-spacing: 0;
-    }
-
-    td {
-        border: 1px solid black;
-    }
-
-    .img {
-        object-fit: cover;
-        width: 50px;
-        height: 50px;
-    }
-</style>
-
-<body>
+@section('main')
     <table style="width: 100%; border:none">
         <tr>
             <td style="border:none"><img class="img" src="{{ gambar('kab.png') }}" /></td>
@@ -38,8 +12,7 @@
             </td>
             <td style="border:none"><img class="img" src="{{ gambar('logo.png') }}" /></td>
         </tr>
-    </table>
-    
+    </table>    
     @php  $header = (array) json_decode($head->header); @endphp
     <table style="width:100%; margin-top: 1rem" align="center">
         <tbody>
@@ -87,7 +60,7 @@
             <td colspan="2" style="padding: 0.5rem;font-weight:bold;text-align:center">
                 @if($head->attach->pile_map)
                     <center>
-                        <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$head->attach->pile_map))) }}"  style="width:120px;height:100px;object-fit:cover;object-position:center;margin:auto;display:block">
+                        <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$head->attach->pile_map))) }}"  style="width:100%;object-fit:cover;object-position:center;margin:auto;display:block">
                     </center>       
                 @endif
             </td>     
@@ -97,21 +70,20 @@
                 Lokasi Bangunan
                 @if($head->attach->pile_loc)
                     <center>
-                        <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$head->attach->pile_loc))) }}"  style="width:120px;height:100px;object-fit:cover;object-position:center;margin:auto;display:block">
+                        <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$head->attach->pile_loc))) }}"  style="width:100%;object-fit:cover;object-position:center;margin:auto;display:block">
                     </center>                
                 @endif
             </td>
             <td style="padding: 0.5rem;font-weight:bold;text-align:center" width="50%">Kondisi Lahan / Bangunan
                 @if($head->attach->pile_land)
                 <center>
-                    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$head->attach->pile_land))) }}"  style="width:120px;height:100px;object-fit:cover;object-position:center;margin:auto;display:block">
+                    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$head->attach->pile_land))) }}"  style="width:100%;object-fit:cover;object-position:center;margin:auto;display:block">
                 </center>                
                 @endif
             </td>
         </tr>   
         <tr>
-            <td style="padding: 1rem;font-weight:bold">Koordinat</td>
-            <td style="padding: 1rem">{{$head->attach->koordinat}}</td>  
+            <td colspan="2" style="padding: 0.5rem;font-weight:bold">Koordinat : {{$head->attach->koordinat}}</td>
         </tr>
     </table>
     <p>Catatan :</p>
@@ -123,8 +95,5 @@
         <li>Terhadap bangunan yang telah berdiri (existing) agar dilakukan pemeriksaan kelaikan fungsi sebelum bangunan dimanfaatkan.														
         </li>
     </ol>
-
     <img src="data:image/png;base64, {{ $head->qr }}" width="20%" style="float: right">
-</body>
-
-</html>
+@endsection

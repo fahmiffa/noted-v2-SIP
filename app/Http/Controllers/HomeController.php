@@ -2,97 +2,151 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Head;
 use App\Models\Links;
-use Auth;
-use App\Models\Consultation;
 use App\Models\Verifikator;
-use App\Models\Notulen;
+use Auth;
+use Carbon\Carbon;
 use DB;
+use Illuminate\Http\Request;
 use PDF;
-use App\Models\Schedule;
 use QrCode;
-use Exception;
-use Illuminate\Support\Facades\Crypt;
-use Illuminate\Contracts\Encryption\DecryptException;
 
 class HomeController extends Controller
 {
+
+    private function chart()
+    {
+        $currentYear = Carbon::now()->year;
+        $currentMonth = Carbon::now()->month;
+
+        $data = DB::table('heads')
+            ->select(DB::raw('MONTH(created_at) as month, YEAR(created_at) as year, COUNT(*) as count'))
+            ->whereYear('created_at', $currentYear)
+            ->groupBy(DB::raw('MONTH(created_at)'), DB::raw('YEAR(created_at)'))
+            ->get();
+
+        $months = [
+            'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+            'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+        ];
+
+        $counts = array_fill(0, 12, 0); // Array untuk nilai default 0 untuk setiap bulan
+
+        foreach ($data as $record) {
+            $monthIndex = $record->month - 1; // Indeks bulan (0 = Jan, 1 = Feb, dst.)
+            $counts[$monthIndex] = $record->count;
+        }
+
+        return [
+            'months' => $months,
+            'counts' => $counts,
+        ];
+    }
+
     public function index()
-    {        
+    {
 
         // admin, sekretariat
-        if(Auth::user()->ijin('master_formulir'))
-        {
-            $head  = Head::all();        
-            $verif = Head::doesnthave('kons')->get()->count();     
-            $kons  = Head::has('kons')->get()->count();     
-    
-            $bak  = Head::whereHas('bak',function($q){
-                $q->where('grant',1);
-            })->get()->count(); 
-            
-            $barp  = Head::whereHas('barp',function($q){
-                $q->where('grant',1);
-            })->get()->count(); 
-    
-            return view('home',compact('head','verif','kons','bak','barp'));
-        }  
+        if (Auth::user()->ijin('master_formulir')) {
+
+            $chart = $this->chart();
+            $head = Head::all();
+            $verif = Head::doesnthave('kons')->get()->count();
+            $kons = Head::has('kons')->get()->count();
+
+            $bak = Head::whereHas('bak', function ($q) {
+                $q->where('grant', 1);
+            })->get()->count();
+
+            $barp = Head::whereHas('barp', function ($q) {
+                $q->where('grant', 1);
+            })->get()->count();
+
+            return view('home', compact('head', 'verif', 'kons', 'bak', 'barp','chart'));
+        }
 
         // notulen (teknis)
-        if(Auth::user()->ijin('bak'))
-        {      
-            $comp  = head::where('do',1)->whereHas('notulen',function($q){
-                $q->where('users',Auth::user()->id);
-            })->count();     
+        if (Auth::user()->ijin('bak')) {
+            $comp = head::where('do', 1)->whereHas('notulen', function ($q) {
+                $q->where('users', Auth::user()->id);
+            })->count();
 
-            $task  = head::where('do',0)->whereHas('notulen',function($q){
-                $q->where('users',Auth::user()->id);
-            })->count();   
-            
-            // $comp  = head::has('tax')->count();     
-            // $task  = head::doesntHave('tax')->count();    
-            return view('main',compact('task','comp'));
-        }     
+            $task = head::where('do', 0)->whereHas('notulen', function ($q) {
+                $q->where('users', Auth::user()->id);
+            })->count();
+
+            // $comp  = head::has('tax')->count();
+            // $task  = head::doesntHave('tax')->count();
+            return view('main', compact('task', 'comp'));
+        }
 
         // verifikator
-        if(Auth::user()->ijin('doc_formulir'))
-        {      
-            $comp  = Verifikator::where('verifikator',Auth::user()->id)
-                                ->whereHas('doc',function($q){
-                                    $q->where('grant',1);    
-                                })->count();
-            $task  = Verifikator::where('verifikator',Auth::user()->id)
-                                ->whereHas('doc',function($q){
-                                    $q->where('grant',0);    
-                                })->count();
-            return view('main',compact('task','comp'));
+        if (Auth::user()->ijin('doc_formulir')) {
+            $comp = Verifikator::where('verifikator', Auth::user()->id)
+                ->whereHas('doc', function ($q) {
+                    $q->where('grant', 1);
+                })->count();
+            $task = Verifikator::where('verifikator', Auth::user()->id)
+                ->whereHas('doc', function ($q) {
+                    $q->where('grant', 0);
+                })->count();
+            return view('main', compact('task', 'comp'));
         }
 
         // kabid
-        if(Auth::user()->ijin('verifikasi_bak'))
-        {
-            $task  = head::whereHas('bak',function($q){$q->where('grant',0);})->count(); 
-            $comp  = head::whereHas('bak',function($q){$q->where('grant',1);})->count();         
-            return view('general',compact('task','comp'));
+        if (Auth::user()->ijin('verifikasi_bak')) {
+            $task = head::whereHas('bak', function ($q) {$q->where('grant', 0);})->count();
+            $comp = head::whereHas('bak', function ($q) {$q->where('grant', 1);})->count();
+            return view('general', compact('task', 'comp'));
         }
-    
+
+    }
+
+    public function req()
+    {
+        $val = Head::has('tax')->latest();
+        $da = $val->get();
+        $data = "Dokumen Permohonan";
+        $ver = true;
+        return view('req.index', compact('da', 'data', 'ver'));
+    }
+
+    public function doc($id)
+    {
+        $head = Head::where(DB::raw('md5(id)'), $id)->first();
+        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
+        $data = compact('qrCode', 'head');
+        $pdf = PDF::loadView('req.doc.index', $data)->setPaper('a4', 'potrait');
+        return $pdf->stream();
+    }
+
+    public function view($id)
+    {
+        $head = Head::where(DB::raw('md5(id)'), $id)->first();
+
+        if ($head) {
+            $single = true;
+            $public = true;
+            $title = 'Dokumen Perhononan';
+            return view('embed', compact('single', 'public', 'title', 'head'));
+        } else {
+            toastr()->error('Dokumen Invalid', ['timeOut' => 5000]);
+            return redirect()->route('home');
+        }
+
     }
 
     public function link($id)
     {
-        $link = Links::where('short',$id)->first();
+        $link = Links::where('short', $id)->first();
 
-        if($link)
-        {
+        if ($link) {
             $single = true;
             $public = true;
-            $title = strtoupper(str_replace('_',' ',$link->ket));
-            return view('embed',compact('single','link','public','title'));
-        }
-        else
-        {
+            $title = strtoupper(str_replace('_', ' ', $link->ket));
+            return view('embed', compact('single', 'link', 'public', 'title'));
+        } else {
             toastr()->error('Surat Invalid', ['timeOut' => 5000]);
             return redirect()->route('home');
         }
@@ -102,19 +156,16 @@ class HomeController extends Controller
     public function store(Request $request)
     {
         $rule = [
-            'reg' => 'required',  
-            'doc' => 'required',  
+            'reg' => 'required',
+            'doc' => 'required',
         ];
-        $message = ['required' => 'Field ini harus diisi',                  
-                    ];
+        $message = ['required' => 'Field ini harus diisi',
+        ];
         $request->validate($rule, $message);
         $head = Head::where('reg', $request->reg)->where('nomor', $request->doc)->first();
-        if($head)
-        {
-            return back()->with('res',$head)->withInput();  
-        }
-        else
-        {
+        if ($head) {
+            return back()->with('res', $head)->withInput();
+        } else {
             toastr()->error('Dokumen tidak ditemukan', ['timeOut' => 5000]);
             return back();
         }

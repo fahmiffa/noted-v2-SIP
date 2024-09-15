@@ -28,7 +28,7 @@
                         @endphp
                         <div class="row my-3">
                             <div class="col-4">
-                                <h6>No Registrsi</h6>
+                                <h6>No Registrasi</h6>
                                 {{ $head->reg}}
                             </div>
                             <div class="col-4">

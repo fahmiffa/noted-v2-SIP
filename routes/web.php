@@ -3,16 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Account\UserController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 Route::get('/manjing', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
 Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::post('/', [App\Http\Controllers\HomeController::class, 'store'])->name('store');
@@ -28,7 +18,10 @@ Route::get('/dokumene/{id}', [App\Http\Controllers\HomeController::class, 'dok']
 Route::group(['middleware' => 'auth'], function() {    
 
     Route::group(['prefix'=>'home'],function() {
-        Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('main');      
+        Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('main'); 
+        Route::get('permohonan', [App\Http\Controllers\HomeController::class, 'req'])->name('req.index');     
+        Route::get('dokumen/{id}', [App\Http\Controllers\HomeController::class, 'doc'])->name('req.doc'); 
+        Route::get('dokumen-permohonan/{id}', [App\Http\Controllers\HomeController::class, 'view'])->name('req.view');   
     });
 
     Route::group(['prefix'=>'master'],function() {   
@@ -71,6 +64,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('next-tahap/{id}', [App\Http\Controllers\VerificationController::class, 'nexts'])->name('nexts.verifikasi');  
 
         Route::resource('news', App\Http\Controllers\NewsController::class);  
+        Route::get('bak', [App\Http\Controllers\NewsController::class, 'index'])->name('news.index'); 
         Route::get('doc-bak/{id}', [App\Http\Controllers\NewsController::class, 'doc'])->name('doc.news'); 
         Route::get('konsultasi/{id}', [App\Http\Controllers\NewsController::class, 'sign'])->name('sign.news');  
         Route::post('news-sign/{id}', [App\Http\Controllers\NewsController::class, 'signed'])->name('signed.news');  
@@ -81,6 +75,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('back-news/{id}', [App\Http\Controllers\NewsController::class, 'back'])->name('back.news'); 
 
         Route::resource('meet', App\Http\Controllers\MeetController::class);  
+        Route::get('barp', [App\Http\Controllers\MeetController::class, 'index'])->name('meet.index'); 
         Route::get('rapat-pleno/{id}', [App\Http\Controllers\MeetController::class, 'doc'])->name('doc.meet'); 
         Route::get('meet-sign/{id}', [App\Http\Controllers\MeetController::class, 'sign'])->name('sign.meet');  
         Route::post('meet-sign/{id}', [App\Http\Controllers\MeetController::class, 'signed'])->name('signed.meet');  
@@ -90,6 +85,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('back-meet/{id}', [App\Http\Controllers\MeetController::class, 'back'])->name('back.meet'); 
 
         Route::resource('attach', App\Http\Controllers\AttachController::class);  
+        Route::get('lampiran', [App\Http\Controllers\AttachController::class, 'index'])->name('attach.index');
         Route::get('doc-attach/{id}', [App\Http\Controllers\AttachController::class, 'doc'])->name('doc.attach'); 
         Route::get('attach-step/{id}', [App\Http\Controllers\AttachController::class, 'step'])->name('step.attach'); 
         Route::get('retribusi-step/{id}', [App\Http\Controllers\AttachController::class, 'stepr'])->name('step.tax'); 
@@ -103,6 +99,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('bak-barp', [App\Http\Controllers\HeaderController::class, 'ba'])->name('ba.verifikasi');  
         Route::get('ba-sign/{id}', [App\Http\Controllers\HeaderController::class, 'baSign'])->name('ba.sign');
         Route::post('ba-sign/{id}', [App\Http\Controllers\HeaderController::class, 'baSigned'])->name('ba.signed');
+        Route::post('ba-ver/{id}', [App\Http\Controllers\HeaderController::class, 'baVer'])->name('ba.ver');
         Route::post('ba-reject/{id}', [App\Http\Controllers\HeaderController::class, 'baReject'])->name('ba.reject');
           
         Route::get('bak', [App\Http\Controllers\HeaderController::class, 'bak'])->name('bak.verifikasi');  
@@ -125,9 +122,7 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
     Route::resource('schedule', App\Http\Controllers\ScheduleController::class);  
-    Route::resource('verifikasi', App\Http\Controllers\HeadController::class);  
-    Route::get('permohonan', [App\Http\Controllers\OperatorController::class, 'index'])->name('req.index');
-    Route::get('permohonan-dokumen/{id}', [App\Http\Controllers\OperatorController::class, 'doc'])->name('req.doc');    
+    Route::resource('verifikasi', App\Http\Controllers\HeadController::class);      
 });
 
 

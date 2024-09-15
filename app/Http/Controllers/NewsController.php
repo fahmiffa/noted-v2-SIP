@@ -221,10 +221,9 @@ class NewsController extends Controller
 
             $base64_image = $request->sign;
 
-            if ($base64_image && $news->primary == 'TPA') {
-                if ($request->user == 'petugas') {
+            if ($base64_image) {
+                if ($request->user == 'petugas' && $news->primary == 'TPA') {
                     $news->sign = $base64_image;
-
                 } else {
                     $news->signs = $base64_image;
                 }

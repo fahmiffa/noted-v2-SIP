@@ -84,15 +84,17 @@
                                         <td>                               
                                             {{ $item->reg }}                               
                                         </td>
-                                        <td>                                 
-                                            {{ $header ? $header[2] : null }}                                
+                                        <td>                     
+                                            <h6 class="mb-0">Nama</h6>{{ $header ? $header[2] : null }}      
+                                            <h6 class="mb-0">Alamat</h6>
+                                            {{ $item->region ? $item->region->name : null }}, {{ $item->region ? $item->region->kecamatan->name : null }}, <br>{{ $header ? $header[4] : null }}                                                      
                                         </td>
                                         <td>                            
                                             {{ $header ? $header[5] : null }}
                                     
                                         </td>
                                         <td>                                    
-                                            {{ $item->region ? $item->region->name : null }}, {{ $item->region ? $item->region->kecamatan->name : null }}, <br>{{ $header ? $header[4] : null }}                            
+                                            {{ $header ? $header[7] : null }}
                                         </td>
                                         <td>                          
                                             {{$item->nomor}}
@@ -156,17 +158,9 @@
                                                 <i class="bi bi-eye"></i>
                                             </button>
 
-                                            @if($item->status != 5)                                                
-                                                @php
-                                                if($item->grant == 1)
-                                                {
-                                                    $links = $item->links->where('ket','verifikasi')->values();
-                                                    $new = asset('storage/'.$links[0]->files);
-                                                }
-                                                $old = route('doc.verifikasi', ['id' => md5($item->id)]);
-                                                @endphp
+                                            @if($item->status != 5)                                                                                  
                                                 <a target="_blank" data-toggle="tooltip" data-placement="top" title="Dokumen PDF"
-                                                                href="{{ $item->grant == 1 ? $new : $old }}"
+                                                                href="{{ route('doc.verifikasi', ['id' => md5($item->id)]) }}"
                                                                 class="btn btn-sm btn-danger mx-2"><i class="bi bi-file-pdf"></i></a>
                                             @endif
                                         </td>

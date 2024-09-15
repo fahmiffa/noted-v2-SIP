@@ -79,13 +79,14 @@
                 <span>Penugasan TPT TPA</span>
             </a>
         </li>
-        <li class="sidebar-item {{ request()->routeIs('req.index') ? 'active' : null }}">
-            <a href="{{ route('req.index') }}" class="sidebar-link">
-                <i class="bi bi-files"></i>
-                <span>Permohonan</span>
-            </a>
-        </li>
     @endif
+
+    <li class="sidebar-item {{ request()->routeIs('req.index') ? 'active' : null }}">
+        <a href="{{ route('req.index') }}" class="sidebar-link">
+            <i class="bi bi-files"></i>
+            <span>Permohonan</span>
+        </a>
+    </li>
 
     @if (auth()->user()->ijin('master'))
         <li class="sidebar-item has-sub {{ Request::segment(1) == 'master' ? 'active' : null }}">

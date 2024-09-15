@@ -84,12 +84,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.3.122/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.3.122/pdf_viewer.min.js"></script>
     <script>
-        const url = "{{ asset('storage/' . $link->files) }}";
+        @isset($head)
+        const url = "{{ route('req.doc',['id'=>md5($head->id)]) }}";
+        @else
+            const url = "{{ asset('storage/' . $link->files) }}";
+        @endif
         let pdfDoc = null,
             pageNum = 1,
             pageRendering = false,
             pageNumPending = null,
-            scale = 1,
+            scale = 1.5,
             canvas = document.getElementById('pdf-canvas'),
             ctx = canvas.getContext('2d');
 

@@ -54,9 +54,7 @@ class HeadController extends Controller
     public function doc($id)
     {
         $head = Verifikasi::where(DB::raw('md5(id)'),$id)->withTrashed()->first(); 
-
-        $docs  = Formulir::where('name',$head->type)->first(); 
-        
+        $docs  = Formulir::where('name',$head->type)->first();         
         $step = $head->step == 1 ? 0 : 1;
         
         $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
@@ -82,7 +80,7 @@ class HeadController extends Controller
         $head->grant = 1;
         $head->tang = date('Y-m-d H:i:s');
         $head->save();
-        genPDF($head->id,'verifikasi');
+        // genPDF($head->id,'verifikasi');
         toastr()->success('Verifikasi Data berhasil', ['timeOut' => 5000]);
         return back();                
     }

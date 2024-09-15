@@ -1,51 +1,6 @@
-<!DOCTYPE html>
-<html>
+@extends('layout.pdf')
 
-<head>
-    <title>{{ env('APP_NAME') }} | {{ env('APP_TAG') }}</title>
-</head>
-<style>
-    body {
-        font-size: 12px;
-    }
-
-    table {
-        border-collapse: collapse;
-        border-spacing: 0;
-    }
-
-    td {
-        border: 1px solid black;
-    }
-
-    img {
-        object-fit: cover;
-        width: 50px;
-        height: 50px;
-    }
-
-    .watermark {
-        position: fixed;
-        top: 40%;
-        /* Adjust position as needed */
-        transform: rotate(-45deg);
-        /* Adjust rotation as needed */
-        color: #0379ff;
-        /* Adjust color as needed */
-        font-size: 100px;
-        /* Adjust font size as needed */
-        opacity: 0.3;
-        /* Adjust opacity as needed */
-        z-index: -1000;
-        /* Ensure the watermark is behind everything */
-    }
-</style>
-
-<body>
-
-    {{-- @if ($head->grant == 1)
-        <div class="watermark">CONFIDENTIAL</div>
-    @endif --}}
+@section('main')
     @include('verifikator.doc.header')
 
     @if ($head->steps->count() > 0)
@@ -54,8 +9,8 @@
             $doc = $head->steps->where('kode', 'VL3')->first();
             $doc2 = $head->steps->where('kode', 'VL2')->first();
         @endphp
-        <main style="margin-top: 1rem">
-            <p style="font-weight: bold; margin-top:1rem;">{{ $docs->tag }}</p>
+        <main>
+            <p style="font-weight: bold;">{{ $docs->tag }}</p>
             <table autosize="1" style="width: 100%">
                 <tbody>
 
@@ -104,7 +59,6 @@
                             @endforeach
                         @endforeach
                     @endif
-
 
                     @if ($doc2)
                         @php
@@ -254,7 +208,6 @@
                             </tr>
                         @endfor
                         @endif
-
                 </tbody>
             </table>
         </main>
@@ -267,7 +220,7 @@
 
     @php  $header = (array) json_decode($head->header); @endphp
     <script type="text/php"> 
-    if (isset($pdf)) { 
+         if (isset($pdf)) { 
              //Shows number center-bottom of A4 page with $x,$y values
             $x = 300;  //X-axis vertical position 
             $y = 820; //Y-axis horizontal position
@@ -281,6 +234,4 @@
             $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
         }
     </script>
-</body>
-
-</html>
+@endsection

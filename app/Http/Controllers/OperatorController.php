@@ -19,24 +19,6 @@ class OperatorController extends Controller
         $this->middleware('IsPermission:master_formulir');
     }
 
-    public function index()
-    {
-        $val = Head::has('tax')->latest();
-        $da = $val->get();
-        $data = "Dokumen Permohonan";
-        $ver = true;
-        return view('req.index',compact('da','data','ver'));
-    }
-
-    public function doc($id)
-    {
-        $head = Head::where(DB::raw('md5(id)'),$id)->first();
-        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
-        $data = compact('qrCode','head');
-        $pdf = PDF::loadView('req.doc.index', $data)->setPaper('a4', 'potrait');
-        return $pdf->stream();
-    }
-
     public function bak()
     {
         $val = News::latest();

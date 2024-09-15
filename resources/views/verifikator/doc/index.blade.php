@@ -1,31 +1,6 @@
-<!DOCTYPE html>
-<html>
+@extends('layout.pdf')
 
-<head>
-    <title>{{ env('APP_NAME') }} | {{ env('APP_TAG') }}</title>
-</head>
-<style>
-    body {
-        font-size: 12px;
-    }
-
-    table {
-        border-collapse: collapse;
-        border-spacing: 0;
-    }
-
-    td {
-        border: 1px solid black;
-    }
-
-    .img {
-        object-fit: cover;
-        width: 50px;
-        height: 50px;
-    }
-</style>
-
-<body>
+@section('main')
     @include('verifikator.doc.header')
 
     <main style="margin-top: 0.2rem">
@@ -248,12 +223,13 @@
             }
         </script>
     @endif
- 
+
 
     @php  $header = (array) json_decode($head->header); @endphp
+
     <script type="text/php"> 
         if (isset($pdf)) { 
-             //Shows number center-bottom of A4 page with $x,$y values
+            //Shows number center-bottom of A4 page with $x,$y values
             $x = 280;  //X-axis vertical position 
             $y = 820; //Y-axis horizontal position
             $text = "Lembar Verifikasi Dokumen No. Registrasi {{$header[0]}} | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
@@ -266,6 +242,4 @@
             $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
         }
     </script>
-</body>
-
-</html>
+@endsection

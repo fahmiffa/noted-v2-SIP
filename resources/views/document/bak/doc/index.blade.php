@@ -1,34 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{env('APP_NAME')}} | {{env('APP_TAG')}}</title>
-    <link rel="shortcut icon" href="{{asset('assets/logo.png')}}" type="image/x-icon">    
-</head>
-<style>
-    body {
-        font-size: 12px;
-    }
-
-    .code {
-        font-family: DejaVu Sans;
-    }
-
-    table {
-        border-collapse: collapse;
-        border-spacing: 0;
-    }
-
-    td {
-        border: 1px solid black;
-    }
-
-    .img {
-        object-fit: cover;
-        width: 50px;
-        height: 50px;
-    }
-</style>
-<body>
+@extends('layout.pdf')
+@section('main')
     <header >
         <table style="width: 100%; border:none">
             <tr>
@@ -45,7 +16,7 @@
     </header>
     @php  
         $header = (array) json_decode($head->header); 
-        $item = (array) json_decode($news->item);
+        $item = (array) json_decode($head->bak->item);
         $umum = $item['informasi_umum'];
         $bangunan = $item['informasi_bangunan_gedung'];
     @endphp
@@ -84,7 +55,7 @@
     <table style="width:100%;" align="center">
         <tbody>         
             @php
-                $area = json_decode($news->header);              
+                $area = json_decode($head->bak->header);              
             @endphp
             <tr>
                 <td width="40%" style="border:none">Batas Lahan / Lokasi </td>
@@ -107,7 +78,7 @@
             <td width="40%" style="border:none">Kondisi </td>       
             <td width="60%" style="border:none">: {{ucwords(str_replace('_',' ',$area->kondisi))}} </td> 
             <td width="40%" style="border:none">Tahun Pembangunan</td>       
-            <td width="60%" style="border:none">: {{$news->plan}} </td>       
+            <td width="60%" style="border:none">: {{$head->bak->plan}} </td>       
         </tr>
         <tr>
             <td width="40%" style="border:none">Tingkat Permanen </td>       
@@ -143,8 +114,8 @@
         </tr>            
         @endfor
 
-        @if($news->ibg)     
-            @foreach(json_decode($news->ibg) as $fa)
+        @if($head->bak->ibg)     
+            @foreach(json_decode($head->bak->ibg) as $fa)
                 <tr>
                     <td></td>
                     <td></td>
@@ -170,27 +141,13 @@
             <td>&nbsp;&nbsp;{!! $item['idp'][1] !!}</td>
         </tr>
     </table> 
-    <p>Saran :<br>
-        {!! $news->note !!}
-    </p>    
-    {{-- <table style="width:100%;">
-        <tr>
-            <td style="border: none" colspan="2">Dengan ditandatanganinya Berita Acara ini, maka Pemohon bersedia untuk :</td>
-        </tr>
-        <tr>
-            <td width="3%" class="code" style="border: none;vertical-align:top">&#x2611;</td>
-            <td style="border: none;vertical-align:top">Bertanggungjawab terhadap seluruh dokumen dan sebab akibat adanya bangunan yang diajukan</td>
-        </tr>
-        <tr>
-            <td class="code" style="border: none;vertical-align:top">&#x2611;</td>
-            <td style="border: none;vertical-align:top">Pemohon bersedia mematuhi dan memenuhi persyaratan administrasi dan teknis sesuai persyaratan yang berlaku</td>
-        </tr>
-        <tr>
-            <td class="code" style="border: none;vertical-align:top">&#x2611;</td>
-            <td style="border: none;vertical-align:top">Pemohon bersedia melakukan pembayaran retribusi sesuai perhitungan nilai retribusi yang dikenakan</td>
-        </tr>
-    </table>     --}}
-
+    <br>
+    Saran :<br>    
+    @if($head->bak->note)
+    {!! $head->bak->note !!}
+    @else
+    <br>
+    @endif
     <table style="width:100%;">
         <tr>
             <td style="border: none" colspan="2">Dengan ditandatangani Berita Acara ini, maka Pemohon telah memahami bahwa :</td>
@@ -264,24 +221,23 @@
             @endforeach
         </table> 
     @endif
-
     <table style="width:100%;">
         <tr>      
             <td style="border: none" align="center">
                 <p>Mengetahui,<br>
                     Ketua TPT/TPA Kab. Tegal
                 </p>
-                    @if($news->sign)
-                    <img src="{{$news->sign}}"  width="50%"  style="margin: auto">
+                    @if($head->bak->sign)
+                    <img src="{{$head->bak->sign}}"  width="50%"  style="margin: auto">
                     <br>
                     @else
                     <br><br><br><br>
                     @endif
-                    {{$news->primary == 'TPT' ? $news->kabid : $head->kons->not->name}}
+                    {{$head->bak->primary == 'TPT' ? $head->bak->kabid : $head->kons->not->name}}
             </td>
             <td style="border: none" align="center">Setuju hasil pemeriksaan<br>Pemohon PBG<br>
-                @if($news->signs)
-                <img src="{{$news->signs}}"  width="50%"  style="margin: auto">
+                @if($head->bak->signs)
+                <img src="{{$head->bak->signs}}"  width="50%"  style="margin: auto">
                 <br>
                 @else
                 <br><br><br><br>
@@ -290,5 +246,4 @@
             </td>
         </tr>    
     </table>        
-</body>
-</html>
+@endsection

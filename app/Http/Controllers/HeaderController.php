@@ -29,8 +29,23 @@ class HeaderController extends Controller
     public function baSign($id)
     {
         $head = Head::where(DB::raw('md5(id)'),$id)->first();   
+        $bak = $head->bak;
+        $barp = $head->barp;
+
+        if($bak->status != 1)
+        {
+            toastr()->error('Dokumen BAK belum di publish', ['timeOut' => 5000]);
+            return back();
+        }
+
+        if($barp->status != 1)
+        {
+            toastr()->error('Dokumen BARP belum di publish', ['timeOut' => 5000]);
+            return back();
+        }
+  
         $single = true;   
-        $title = 'Tanda Tangan Dokumen';
+        $title = $head->bak->primary == 'TPT' ? 'Tanda Tangan Dokumen' : 'Verifikasi Dokumen';
         $sign = true;
         return view('document.sign',compact('single','title','head','sign'));
     }
@@ -50,7 +65,7 @@ class HeaderController extends Controller
         {
             if($bak && $bak->grant == 0)
             {
-                toastr()->error('Dokumen bak belum di setujui', ['timeOut' => 5000]);
+                toastr()->error('Dokumen BAK belum di setujui', ['timeOut' => 5000]);
             }
             else
             {
@@ -58,8 +73,39 @@ class HeaderController extends Controller
                 $barp->sign = $request->sign;
                 $barp->grant = 1;
                 $barp->save();
+
+                $head = Head::where(DB::raw('md5(id)'), $id)->first();
+                $head->do = 1;
+                $head->save();
+
                 toastr()->success('Tanda tangan berhasil BAK', ['timeOut' => 5000]);
             }
+        }
+
+        return back();
+    }
+
+    public function baVer(Request $request, $id)
+    {
+        $head = Head::where(DB::raw('md5(id)'), $id)->first();
+
+        if($head)
+        {   
+            $bak = $head->bak;
+            $bak->grant = 1;
+            $bak->save();  
+            
+            $barp = $head->barp;
+            $barp->grant = 1;
+            $barp->save();  
+
+            $head->do = 1;
+            $head->save();
+            toastr()->success('Verifikasi Dokumen Berhasil', ['timeOut' => 5000]);
+        }
+        else
+        {
+            toastr()->error('Dokumen verifikasi invalid', ['timeOut' => 5000]); 
         }
 
         return back();

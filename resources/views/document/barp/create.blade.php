@@ -170,28 +170,7 @@
                                         <input type="text" name="luas[]"
                                             value="{{ isset($meet) ? $da->luas[2] : null }}" class="form-control">
                                     </div>
-                                </div>
-                                <div class="form-group row mb-3">
-                                    <div class="col-md-4 mb-3">
-                                        <h6>Uraian</h6>
-                                        Prasarana (jika ada)
-                                    </div>
-                                    <div class="col-md-3">
-                                        <h6>Pengajuan</h6>
-                                        <input type="text" name="pra[]"
-                                            value="{{ isset($meet) ? $da->pra[0] : null }}" class="form-control">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <h6>Disetujui</h6>
-                                        <input type="text" name="pra[]"
-                                            value="{{ isset($meet) ? $da->pra[1] : null }}" class="form-control">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <h6>Keterangan</h6>
-                                        <input type="text" name="pra[]"
-                                            value="{{ isset($meet) ? $da->pra[2] : null }}" class="form-control">
-                                    </div>
-                                </div>
+                                </div>                            
                                 @if ($meet && $meet->other)
                                     @php $other = json_decode($meet->other) @endphp
 

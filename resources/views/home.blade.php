@@ -5,7 +5,6 @@
             <div class="row">
                 <div class="col-12 col-md-6 order-md-1 order-last">
                     <h3>Dokumen</h3>
-                    {{-- <p class="text-subtitle text-muted">Navbar will appear on the top of the page.</p> --}}
                 </div>
             </div>
         </div>
@@ -133,24 +132,11 @@
             plotOptions: {},
             series: [{
                 name: "sales",
-                data: [9, 20, 30, 20, 10, 20, 30, 20, 10, 20, 30, 20],
+                data: @json($chart['counts']),
             }, ],
             colors: "#435ebe",
             xaxis: {
-                categories: [
-                    "Jan",
-                    "Feb",
-                    "Mar",
-                    "Apr",
-                    "May",
-                    "Jun",
-                    "Jul",
-                    "Aug",
-                    "Sep",
-                    "Oct",
-                    "Nov",
-                    "Dec",
-                ],
+                categories: @json($chart['months']),
             },
         }
         var chartProfileVisit = new ApexCharts(

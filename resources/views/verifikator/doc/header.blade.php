@@ -13,7 +13,6 @@
 </header>
 <div style="margin: auto; display:block; width:600px; max-width:100%">
     @php  $header = (array) json_decode($head->header); 
-
     @endphp
     <table style="width:100%; margin-top: 1rem" align="center">
         <tbody>

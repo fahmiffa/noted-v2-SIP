@@ -62,7 +62,7 @@ class MeetController extends Controller
             'jenis' => 'required',
             'status' => 'required',
             'fungsi' => 'required',
-            'nib' => 'required',
+            // 'nib' => 'required',
             'date' => 'required',
         ];
 
