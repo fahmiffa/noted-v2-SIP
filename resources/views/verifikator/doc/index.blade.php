@@ -28,12 +28,15 @@
                         <td align="center">{{ status($value) }}</td>
                         <td>&nbsp;{{ $saranItem[$key] }}</td>
                     </tr>
+                @php
+                  $next = $loop->iteration;
+                @endphp
                 @endforeach
 
 
                 @foreach ($sub as $key => $value)
                     <tr>
-                        <td style="text-align: right; vertical-align:top">7&nbsp;</td>
+                        <td style="text-align: right; vertical-align:top">{{$next+$loop->iteration}}&nbsp;</td>
                         <td colspan="2">&nbsp;{{ named($value->title, 'item') }}</td>
                         <td></td>
                         <td></td>
@@ -84,11 +87,12 @@
 
                     {{-- dokumen pendukung --}}
                     @php
-                        $item = (array) $da->dokumen_pendukung_lainnya->item;               
+                        $item = (array) $da->dokumen_pendukung_lainnya->item;      
                         $saranItem = (array) $da->dokumen_pendukung_lainnya->saranItem;
                         $sub = (array) $da->dokumen_pendukung_lainnya->sub;
                         $view = 0;
                         $other = 0;
+                        $vdpl = [];
                     @endphp
 
                     @foreach ($item as $key => $value)
@@ -104,16 +108,39 @@
                         @endforeach
                     @endforeach
 
+                    @foreach ($item as $key => $value)                  
+                            @php
+                                array_push($vdpl,$value);
+                            @endphp
+                    @endforeach
 
-                    <tr style="font-weight: bold;">
-                        <td style="text-align: center">C.</td>
-                        <td colspan="4">&nbsp;Dokumen Pendukung Lainnya (Untuk SLF)</td>
-                    </tr>
+                    @php
+                        $vw0 = in_array(0, $vdpl);
+                        $vw1 = in_array(1, $vdpl);
+                        $noDpl = 1;
+                    @endphp
+      
+                    @if($vw0 && $vw1)
+                        <tr style="font-weight: bold;">
+                            <td style="text-align: center">C.</td>
+                            <td colspan="4">&nbsp;Dokumen Pendukung Lainnya (Untuk SLF)</td>
+                        </tr>
+                    @elseif($vw1)
+                        <tr style="font-weight: bold;">
+                            <td style="text-align: center">C.</td>
+                            <td colspan="4">&nbsp;Dokumen Pendukung Lainnya (Untuk SLF)</td>
+                        </tr>
+                    @elseif($vw0)
+                        <tr style="font-weight: bold;">
+                            <td style="text-align: center">C.</td>
+                            <td colspan="4">&nbsp;Dokumen Pendukung Lainnya (Untuk SLF)</td>
+                        </tr>
+                    @endif
 
                     @foreach ($item as $key => $value)
                         @if ($value != 2)
                             <tr>
-                                <td style="text-align: right; vertical-align:top">{{ $loop->iteration }}&nbsp;</td>
+                                <td style="text-align: right; vertical-align:top">{{ $noDpl++ }}&nbsp;</td>
                                 <td colspan="2">&nbsp;{{ named($key, 'item') }}
                                 <td align="center">{{ status($value) }}</td>
                                 <td>&nbsp;{{ $saranItem[$key] }}</td>

@@ -172,7 +172,7 @@
                 <td align="right">{{ number_format($par->totRetri, 0, ',', '.') }}</td>
             </tr>
     </table>
-    <div class="page-break"></div>
+    {{-- <div class="page-break"></div> --}}
     <p>Catatan :</p>
     <ol>
         <li>Perhitungan Retribusi ini merupakan simulasi dengan mengacu pada Perda Kab. Tegal Nomor 11 Tahun 2023 tentang Pajak Daerah dan Retribusi Daerah

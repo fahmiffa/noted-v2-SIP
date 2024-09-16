@@ -15,6 +15,12 @@
     <link rel="stylesheet" href="{{asset('assets/compiled/css/app-dark.css')}}">
     <link rel="stylesheet" href="{{asset('assets/compiled/css/iconly.css')}}">   
     @stack('css')
+
+    <style>
+        table.dataTable thead th {
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>

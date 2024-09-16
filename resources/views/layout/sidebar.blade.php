@@ -76,7 +76,7 @@
         <li class="sidebar-item {{ Request::segment(1) == 'dokumen' ? 'active' : null }}">
             <a href="{{ route('consultation.index') }}" class="sidebar-link">
                 <i class="bi bi-send"></i>                
-                <span>Penugasan TPT TPA</span>
+                <span>Penugasan TPT/TPA</span>
             </a>
         </li>
     @endif

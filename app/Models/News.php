@@ -13,6 +13,8 @@ class News extends Model
 
     protected $appends = ['primary','kabid'];
 
+
+
     public function doc()
     {         
         return $this->belongsTo(Head::class, 'head', 'id'); 
@@ -22,6 +24,12 @@ class News extends Model
     {                
         $not = $this->not->where('grade', 1);
         return $not[0]->user->roles->kode;
+    }
+
+    public function getleaderAttribute()
+    {                
+        $not = $this->not->where('grade', 1);
+        return $not[0]->user->name;
     }
 
     public function getkabidAttribute()

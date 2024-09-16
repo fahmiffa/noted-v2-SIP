@@ -27,8 +27,8 @@
                                     <th>No.</th>
                                     <th>No. Registrasi</th>
                                     <th>Pemohon</th>
-                                    <th>Bangunan</th>
-                                    <th>Lokasi</th>
+                                    <th>Nama Bangunan</th>
+                                    <th>Lokasi Bangunan</th>
                                     <th>No. Dokumen</th>
                                     <th>Tim</th>
                                     <th>Action</th>
@@ -54,16 +54,12 @@
                                             {{ $item->doc->region ? $item->doc->region->name.', ' : null }} {!! $item->doc->region ? $item->doc->region->kecamatan->name.'<br>' : null !!} {{ $header ? $header[4] : null }}                                                      
                                         </td>
                                         <td>{{ $header ? $header[5] : null }}</td>
-                                        <td>
-                                            {{ $item->region ? $item->region->name.',' : null }}
-                                            {{ $item->region ? $item->region->kecamatan->name.', ' : null }}
-                                            {!! $header ? '<br>'.$header[4] : null !!}                            
-                                        </td>
+                                        <td>{{ $header ? $header[7] : null }}</td>                                                          
                                         <td>
                                             {{ $item->doc->nomor }}
                                         </td>
                                         <td>
-                                            <h6>Notulen</h6>
+                                            <h6>Ketua/Notulen</h6>
                                             &#9632; {!! ucfirst(implode('<br>&#9632; ', $item->notulens)) !!}
                                             <h6>Anggota</h6>
                                             &#9632; {!! ucfirst(implode('<br>&#9632; ', $item->kons)) !!}

@@ -27,8 +27,9 @@
                                     <th>No. Registrasi</th>
                                     <th>Pemohon</th>
                                     <th>Bangunan</th>
-                                    <th>Lokasi</th>
+                                    <th>Lokasi Bangunan</th>
                                     <th>No. Dokumen</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -40,55 +41,66 @@
                                         @endphp
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>                                        
-                                                {{ $item->reg }}                                        
+                                            <td>
+                                                {{ $item->reg }}
                                             </td>
                                             <td>
                                                 <h6 class="mb-0">Nama</h6>
                                                 {{ $header ? $header[2] : null }}
                                                 <h6 class="mb-0">Alamat</h6>
-                                                {{ $item->region ? $item->region->name : null }}, {{ $item->region ? $item->region->kecamatan->name : null }}, <br>{{ $header ? $header[4] : null }}                                       
+                                                {{ $item->region ? $item->region->name : null }},
+                                                {{ $item->region ? $item->region->kecamatan->name : null }},
+                                                <br>{{ $header ? $header[4] : null }}
                                             </td>
-                                            <td>                                           
+                                            <td>
                                                 {{ $header ? $header[5] : null }}
                                             </td>
-                                            <td>                                           
+                                            <td>
                                                 {{ $header ? $header[7] : null }}
                                             </td>
-                                            <td>                                       
-                                                {{$item->nomor}} 
+                                            <td>
+                                                {{ $item->nomor }}
                                             </td>
-                                            <td class="d-flex jusstify-content-between align-items-center my-auto" style="height: 100px">
-                                                @if ($item->head->count() > 0)
-                                                    <button class="btn btn-warning btn-sm" data-toggle="tooltip"
-                                                        data-placement="top" title="Dokumen di tolak verifikasi" data-bs-toggle="modal" data-bs-target="#des{{ $item->id }}">
-                                                        <i class="bi bi-arrow-repeat"></i>
-                                                    </button>
-                                                @endif
-                                                
-                                                @if ($item->status == 1)
-                                                    <a target="_blank"
-                                                        href="{{ route('doc.verifikator', ['id' => md5($item->id)]) }}"
-                                                        class="btn btn-sm btn-danger mx-2"><i class="bi bi-file-pdf"></i></a>
+                                            <td>
+                                                {{ $item->dokumen }}
+                                            </td>
+                                            <td class="d-flex jusstify-content-between align-items-center my-auto"
+                                                style="height: 150px">
+
+                                                @if ($item->status == 1)                              
                                                     @if ($item->grant == 1)
                                                         <button class="btn btn-success btn-sm" data-toggle="tooltip"
-                                                        data-placement="top" title="Dokumen di terima verifikasi">
+                                                            data-placement="top" title="Dokumen di terima verifikasi">
                                                             <i class="bi bi-check-lg"></i>
                                                         </button>
                                                     @else
-                                                        
-                                                        <a href="{{ route('step.verifikasi', ['id' => md5($item->id)]) }}" data-toggle="tooltip"
-                                                        data-placement="top" title="Form Dokumen verifikasi"
-                                                            class="btn btn-sm btn-primary"><i class="bi bi-files"></i></a>
+                                                        <a href="{{ route('step.verifikasi', ['id' => md5($item->id)]) }}"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="Form Dokumen verifikasi"
+                                                            class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
                                                     @endif
+
+                                                    <a target="_blank"
+                                                        href="{{ route('doc.verifikator', ['id' => md5($item->id)]) }}"
+                                                        class="btn btn-sm btn-danger mx-2"><i
+                                                            class="bi bi-file-pdf"></i></a>
                                                 @else
                                                     @if ($item->step == 2)
                                                         <a href="{{ route('step.verifikasi', ['id' => md5($item->id)]) }}"
-                                                            class="btn btn-sm btn-primary"><i class="bi bi-files"></i></a>
+                                                            class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
                                                     @else
                                                         <a href="{{ route('step.verifikasi', ['id' => md5($item->id)]) }}"
-                                                            class="btn btn-sm btn-primary"><i class="bi bi-files"></i></a>
+                                                            class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
                                                     @endif
+                                                @endif
+
+
+                                                @if ($item->head->count() > 0)
+                                                    <button class="btn btn-warning btn-sm ms-1" data-toggle="tooltip"
+                                                        data-placement="top" title="Dokumen di tolak verifikasi"
+                                                        data-bs-toggle="modal" data-bs-target="#des{{ $item->id }}">
+                                                        Perbaikan
+                                                    </button>
                                                 @endif
                                             </td>
                                         </tr>
@@ -107,7 +119,8 @@
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="staticBackdropLabel{{ $item->id }}">Dokumen Ini di tolak
+                                    <h5 class="modal-title" id="staticBackdropLabel{{ $item->id }}">Dokumen Ini di
+                                        tolak
                                         verifikasi
                                     </h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -115,11 +128,11 @@
                                 </div>
                                 <div class="modal-body">
                                     <ul>
-                                        @if($item->parents)
-                                        <li>{{ $item->parents->note }}</li>
+                                        @if ($item->parents)
+                                            <li>{{ $item->parents->note }}</li>
                                         @endif
                                         @foreach ($item->parents->tmp->whereNotNull('deleted_at') as $val)
-                                        <li>{{ $val->note }}</li>
+                                            <li>{{ $val->note }}</li>
                                         @endforeach
                                     </ul>
                                 </div>

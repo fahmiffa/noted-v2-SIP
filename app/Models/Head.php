@@ -108,11 +108,28 @@ class Head extends Model
         }
         else if($kons)
         {
-            $val = 'KONSULTASI';
+            $val = 'Konsultasi';
         }
         else
         {
-            $val = 'VERIFIKASI';
+            if($this->parents()->count() > 0 && $this->grant == 0 && $this->status != 1)
+            {
+                $val = 'Verifikasi Ulang';
+            }
+            
+            else if($this->status == 1 && $this->grant == 0)
+            {
+                $val = 'Verifikasi Operator';
+            }
+
+            else if($this->status == 1 && $this->grant == 1)
+            {
+                $val = 'Penugasan TPT/TPA';
+            }
+            else
+            {
+                $val = 'Verifikasi';
+            }
         }
         return $val;
     }
