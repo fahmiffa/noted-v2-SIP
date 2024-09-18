@@ -23,9 +23,9 @@
                             <tr>
                                 <th>No.</th>
                                 <th>No. Registrasi</th>
-                                <th>Pemohon</th>
-                                <th>Bangunan</th>
-                                <th>Lokasi</th>
+                                <th width="17%">Pemohon</th>
+                                <th>Nama Bangunan</th>
+                                <th width="17%">Lokasi Bangunan</th>
                                 <th>No. Dokumen</th>
                                 <th>Action</th>
                             </tr>
@@ -36,22 +36,25 @@
                                     $header = (array) json_decode($item->header);
                                 @endphp
                                 <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->reg }}</td>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $item->reg }}</td>
                                     <td>
-                                        <h6 class="mb-0">Nama</h6>{{ $header ? $header[2] : null }}      
-                                        <h6 class="mb-0">Alamat</h6>
-                                        {{ $item->region ? $item->region->name.', ' : null }} {!! $item->region ? $item->region->kecamatan->name.'<br>' : null !!} {{ $header ? $header[4] : null }}    
+                                        <h6 class="mb-0">Nama :</h6>{{ $header ? $header[2] : null }}
+                                        <h6 class="mb-0">Alamat :</h6>{{ $header ? $header[4] : null }}
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         {{ $header ? $header[5] : null }}
                                     </td>
-                                    <td>
-                                        {{ $header ? $header[7] : null }}
-                                    </td>                                
-                                    <td>{{ $item->nomor }}</td>
+                                    <td class="text-center">
+                                        {{ $header ? $header[7] : null }}<br>
+                                        {{ $item->region ? 'Ds. ' . $item->region->name : null }},
+                                        {{ $item->region ? 'Kec. ' . $item->region->kecamatan->name : null }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ $item->nomor }}
+                                    </td>
                                     <td>                        
-                                      <a target="_blank" href="{{ route('req.view', ['id'=>md5($item->id)]) }}" class="btn btn-sm btn-danger"><i class="bi bi-file-pdf"></i></a>
+                                      <a target="_blank" href="{{ route('req.doc', ['id'=>md5($item->id)]) }}" class="btn btn-sm btn-danger"><i class="bi bi-file-pdf"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -77,6 +77,7 @@ class NewsController extends Controller
         ];
 
         $head = Head::where(DB::raw('md5(id)'), $request->doc)->first();
+        $old = $head->bakTemp()->whereNotNull('deleted_at')->latest()->first();
         $item = $head->bak ? $head->bak : new News;
         $item->head = $head->id;
         $item->plan = $request->build;
@@ -119,6 +120,7 @@ class NewsController extends Controller
         $item->item = json_encode($da);
         $item->note = $request->note;
         $item->status = 2;
+        $item->signs = $old ? $old->signs : null;
         $item->save();
 
         toastr()->success('Tambah Data berhasil', ['timeOut' => 5000]);

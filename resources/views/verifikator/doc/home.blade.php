@@ -3,235 +3,277 @@
 @section('main')
     @include('verifikator.doc.header')
 
-    @if ($head->steps->count() > 0)
+    <main style="margin-top: 0.2rem">
+        <p style="font-weight: bold; margin-top:1rem;">{{ $docs->tag }}</p>
         @php
-            $no = 1;
-            $doc = $head->steps->where('kode', 'VL3')->first();
-            $doc2 = $head->steps->where('kode', 'VL2')->first();
-        @endphp
-        <main>
-            <p style="font-weight: bold;">{{ $docs->tag }}</p>
-            <table autosize="1" style="width: 100%">
-                <tbody>
 
-                    {{-- dokumen_administrasi --}}
-                    @if ($doc)
+            $VL1 = $head->steps->where('kode', 'VL3')->first();
+            $da = json_decode($VL1->item);
+            $itemDa = (array) $da->dokumen_administrasi->item;
+            $saranItemDa = (array) $da->dokumen_administrasi->saranItem;
+            $sub = (array) $da->dokumen_administrasi->sub;
+
+            $VL1 = $head->steps->where('kode', 'VL2')->first();
+            $da = json_decode($VL1->item);
+            $other = $VL1->other ? json_decode($VL1->other) : null;
+
+
+            if ($head->type == 'umum') {
+                $itemDpl = (array) $da->dokumen_pendukung_lainnya->item;
+                $saranItemDpl = (array) $da->dokumen_pendukung_lainnya->saranItem;
+                $subdpl = (array) $da->dokumen_pendukung_lainnya->sub;
+
+                foreach ($subdpl as $key => $value) {
+                    $subDpl[$value->title] = ['saran' => (array) $value->saran, 'value' => (array) $value->value];
+                    foreach ($value->value as $val) {
+                        $vSubDpl[] = $val;
+                    }
+                }
+
+                $vDpl[] = in_array(1, $itemDpl);
+                $vDpl[] = in_array(0, $itemDpl);
+                $vDpl[] = in_array(1, $vSubDpl);
+                $vDpl[] = in_array(0, $vSubDpl);
+                $vDpl = in_array(true, $vDpl);
+            } else {
+                $itemPt = (array) $da->persyaratan_teknis->item;
+                $saranItemPt = (array) $da->persyaratan_teknis->saranItem;
+                $vitemDt[] = in_array(1, $itemPt);
+                $vitemDt[] = in_array(0, $itemPt);
+            }
+
+            $type = $head->type == 'umum' ? 'dokumen_teknis' : 'persyaratan_teknis';
+            $subt = (array) $da->$type->sub;
+
+            foreach ($sub as $key => $value) {
+                $subDa[$value->title] = ['saran' => (array) $value->saran, 'value' => (array) $value->value];
+                foreach ($value->value as $val) {
+                    $vSubDa[] = $val;
+                }
+            }
+
+            foreach ($subt as $key => $value) {
+                $subDt[$value->title] = ['saran' => (array) $value->saran, 'value' => (array) $value->value];
+                foreach ($value->value as $val) {
+                    $vsubDt[] = $val;
+                }
+            }
+
+            $vitemDa[] = in_array(1, $itemDa);
+            $vitemDa[] = in_array(0, $itemDa);
+            $vitemDa[] = in_array(1, $vSubDa);
+            $vitemDa[] = in_array(0, $vSubDa);
+            $vitemDa = in_array(true, $vitemDa);
+
+            $vitemDt[] = in_array(1, $vsubDt);
+            $vitemDt[] = in_array(0, $vsubDt);
+            $vitemDt = in_array(true, $vitemDt);
+
+        @endphp
+
+        <table autosize="1" style="width: 100%">
+            <tbody>
+                @foreach ($docs->title as $row)
+                    @php $no = 1; @endphp
+                    @if ($row->name == doc(5, $head->type) && $vitemDa)
                         <tr style="font-weight: bold;">
-                            <td width="5%" align="center">A.</td>
-                            <td colspan="2" width="50%">Dokumen Administrasi</td>
+                            <td width="5%" align="center">{{ strtoupper(Abjad($loop->index)) }}.</td>
+                            <td colspan="2" width="50%">&nbsp;{{ $row->name }}</td>
                             <td width="10%" align="center">Status</td>
                             <td width="35%" align="center">Catatan / Saran</td>
                         </tr>
-                        @php
-                            $da = json_decode($doc->item);
-                            $item = (array) $da->dokumen_administrasi->item;
-                            $saranItem = (array) $da->dokumen_administrasi->saranItem;
-                            $sub = (array) $da->dokumen_administrasi->sub;
-                        @endphp
-
-                        @foreach ($item as $key => $value)
-                            <tr>
-                                <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
-                                <td colspan="2">{{ named($key, 'item') }}
-                                <td align="center">{{ status($value) }}</td>
-                                <td align="center">&nbsp;{{ $saranItem[$key] }}</td>
-                            </tr>
-                        @endforeach
-
-
-                        @foreach ($sub as $key => $value)
-                            <tr>
-                                <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
-                                <td colspan="2">{{ named($value->title, 'item') }}</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            @php $saran = (array) $value->saran @endphp
-                            @foreach ($value->value as $key => $value)
-                                <tr>
-                                    <td></td>
-                                    <td width="1%" style="vertical-align:top;border-right:0px">
-                                        &nbsp;{{ abjad($loop->index) }}. </td>
-                                    <td style="border-left:0px">{{ named($key, 'sub') }}</td>
-                                    <td align="center">{{ status($value) }}</td>
-                                    <td align="center">{{ $saran[$key] }}</td>
-                                </tr>
-                            @endforeach
-                        @endforeach
-                    @endif
-
-                    @if ($doc2)
-                        @php
-                            $other = $doc2->other ? json_decode($doc2->other) : null;
-                            $da = json_decode($doc2->item);
-                            if ($head->type == 'umum') {
-                                $sub = (array) $da->dokumen_teknis->sub;
-                            } else {
-                                $item = (array) $da->persyaratan_teknis->item;
-                                $saranItem = (array) $da->persyaratan_teknis->saranItem;
-                                $sub = (array) $da->persyaratan_teknis->sub;
-                            }
-                        @endphp
-                        <tr style="font-weight: bold;">
-                            <td width="5%" style="text-align: center">B.</td>
-                            @if ($head->type == 'umum')
-                                <td width="5%" colspan="4">Dokumen Teknis</td>
-                            @else
-                                <td colspan="4">Persyaratan Teknis</td>
-                            @endif
-                        </tr>
-                        @foreach ($sub as $key => $value)
-                            <tr>
-                                <td style="text-align: right; vertical-align:top">{{ $loop->iteration }}&nbsp;</td>
-                                <td colspan="2">{{ named($value->title, 'item') }}</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            @php $saran = (array) $value->saran @endphp
-                            @foreach ($value->value as $key => $value)
-                                <tr>
-                                    <td></td>
-                                    <td width="1%" style="vertical-align:top;border-right:0px">
-                                        &nbsp;{{ abjad($loop->index) }}. </td>
-                                    <td style="border-left:0px">{{ named($key, 'sub') }}</td>
-                                    <td align="center">{{ status($value) }}</td>
-                                    <td align="center">{{ $saran[$key] }}</td>
-                                </tr>
-                            @endforeach
-                        @endforeach
-
-                        @if ($head->type == 'menara')
-                            @foreach ($item as $key => $value)
-                                @if ($value != 2)
-                                    <tr>
-                                        <td style="text-align: right; vertical-align:top">
-                                            {{ $loop->iteration + 1 }}&nbsp;</td>
-                                        <td colspan="2">&nbsp;{{ named($key, 'item') }}
-                                        <td align="center">{{ status($value) }}</td>
-                                        <td>&nbsp;{{ $saranItem[$key] }}</td>
-                                    </tr>
-                                @endif
-                            @endforeach
-                        @endif
-
-
-                    @endif
-
-                    @if ($head->type == 'umum')
-                        {{-- dokumen pendukung --}}
-                        @php
-                            $item = (array) $da->dokumen_pendukung_lainnya->item;
-                            $saranItem = (array) $da->dokumen_pendukung_lainnya->saranItem;
-                            $sub = (array) $da->dokumen_pendukung_lainnya->sub;
-                            $view = 0;
-                            $other = 0;
-                        @endphp
-
-                        @foreach ($item as $key => $value)
-                            @php
-                                $other += $value;
-                            @endphp
-                        @endforeach
-                        @foreach ($sub as $key => $value)
-                            @foreach ($value->value as $key => $var)
+                        @foreach ($row->items as $item)
+                            @if (count($item->sub) > 0)
                                 @php
-                                    $view += $var;
+                                    $valsubDa = $subDa[$item->id]['value'];
+                                    $vw0 = in_array(0, $valsubDa);
+                                    $vw1 = in_array(1, $valsubDa);
                                 @endphp
-                            @endforeach
-                        @endforeach
-
-
-                        <tr style="font-weight: bold;">
-                            <td style="text-align: center">C.</td>
-                            <td colspan="4">&nbsp;Dokumen Pendukung Lainnya (Untuk SLF)</td>
-                        </tr>
-
-                        @foreach ($item as $key => $value)
-                            @if ($value != 2)
-                                <tr>
-                                    <td style="text-align: right; vertical-align:top">{{ $loop->iteration }}&nbsp;</td>
-                                    <td colspan="2">&nbsp;{{ named($key, 'item') }}
-                                    <td align="center">{{ status($value) }}</td>
-                                    <td>&nbsp;{{ $saranItem[$key] }}</td>
-                                </tr>
-
-                                @php $next = $loop->iteration; @endphp
-                            @else
-                                @php $next = 0; @endphp
-                            @endif
-                        @endforeach
-
-                        @foreach ($sub as $key => $value)
-                            @if ($view != 30)
-                                <tr>
-                                    <td style="text-align: right; vertical-align:top">
-                                        {{ $loop->iteration + $next }}&nbsp;</td>
-                                    <td colspan="2">&nbsp;{{ named($value->title, 'item') }}</td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            @endif
-                            @php $saran = (array) $value->saran @endphp
-                            @foreach ($value->value as $key => $value)
-                                @if ($value != 2)
+                                @if ($vw0 || $vw1)
                                     <tr>
-                                        <td></td>
-                                        <td width="1%" style="vertical-align:top;border-right:0px">
-                                            &nbsp;{{ abjad($loop->index) }}. </td>
-                                        <td style="border-left:0px">&nbsp;{{ named($key, 'sub') }}</td>
-                                        <td align="center">{{ status($value) }}</td>
-                                        <td align="center">{{ $saran[$key] }}</td>
+                                        <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
+                                        <td colspan="4">&nbsp;{{ $item->name }}</td>
                                     </tr>
                                 @endif
-                            @endforeach
+                                @foreach ($item->sub as $sub)
+                                    @if ($subDa[$item->id]['value'][$sub->id] != 2)
+                                        <tr>
+                                            <td></td>
+                                            <td width="1%" style="vertical-align:top;border-right:0px">
+                                                &nbsp;{{ abjad($loop->index) }}. </td>
+                                            <td style="border-left:0px">&nbsp;{{ $sub->name }}</td>
+                                            <td align="center">{{ status($subDa[$item->id]['value'][$sub->id]) }}</td>
+                                            <td align="center">{{ $subDa[$item->id]['saran'][$sub->id] }}</td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            @else
+                                @if ($itemDa[$item->id] != 2)
+                                    <tr>
+                                        <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
+                                        <td colspan="2">&nbsp;{{ $item->name }}
+                                        <td align="center">{{ status($itemDa[$item->id]) }}</td>
+                                        <td>&nbsp;{{ $saranItemDa[$item->id] }}</td>
+                                    </tr>
+                                @endif
+                            @endif
                         @endforeach
                     @endif
 
-                       @if($doc2->other)
-                         @php
-                            $other = $doc2->other ? json_decode($doc2->other) : null;             
-                         @endphp
-                         
+                    @if ($row->name == doc(4, $head->type) && $vitemDt)
                         <tr style="font-weight: bold;">
-                            <td style="text-align: center">D.</td>
-                            <td colspan="4">&nbsp;Lain-lain</td>
+                            <td width="5%" align="center">{{ strtoupper(Abjad($loop->index)) }}.</td>
+                            <td colspan="2" width="50%">&nbsp;{{ $row->name }} {{ doc(4, $head->type) }}</td>
+                            <td width="10%" align="center">Status</td>
+                            <td width="35%" align="center">Catatan / Saran</td>
                         </tr>
+                        @foreach ($row->items as $item)
+                            @if (count($item->sub) > 0)
+                                @php
+                                    $valsubDt = $subDt[$item->id]['value'];
+                                    $vw0 = in_array(0, $valsubDt);
+                                    $vw1 = in_array(1, $valsubDt);
+                                @endphp
+                                @if ($vw0 || $vw1)
+                                    <tr>
+                                        <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
+                                        <td colspan="4">&nbsp;{{ $item->name }}</td>
+                                    </tr>
+                                @endif
+                                @foreach ($item->sub as $sub)
+                                    @if ($subDt[$item->id]['value'][$sub->id] != 2)
+                                        <tr>
+                                            <td></td>
+                                            <td width="1%" style="vertical-align:top;border-right:0px">
+                                                &nbsp;{{ abjad($loop->index) }}. </td>
+                                            <td style="border-left:0px">&nbsp;{{ $sub->name }}</td>
+                                            <td align="center">{{ status($subDt[$item->id]['value'][$sub->id]) }}</td>
+                                            <td align="center">{{ $subDt[$item->id]['saran'][$sub->id] }}</td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            @else
+                                @if ($itemPt[$item->id] != 2)
+                                    <tr>
+                                        <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
+                                        <td colspan="2">&nbsp;{{ $item->name }}
+                                        <td align="center">{{ status($itemPt[$item->id]) }}</td>
+                                        <td>&nbsp;{{ $saranItemPt[$item->id] }}</td>
+                                    </tr>
+                                @endif
+                            @endif
+                        @endforeach
+                    @endif
 
-                        @for($i=0;$i < count($other); $i++)
-                            <tr>
-                                <td></td>
-                                <td width="1%" style="vertical-align:top;border-right:0px">
-                                    &nbsp;{{ abjad($i) }}. </td>
-                                <td style="border-left:0px">&nbsp;{{ $other[$i]->name }}</td>
-                                <td align="center">{{ status($other[$i]->value) }}</td>
-                                <td align="center">{{ $other[$i]->saran }}</td>
-                            </tr>
-                        @endfor
-                        @endif
-                </tbody>
-            </table>
-        </main>
+                    @if ($row->name == doc(3, $head->type) && $vDpl)
+                        <tr style="font-weight: bold;" id="dpl">
+                            <td width="5%" align="center">{{ strtoupper(Abjad($loop->index)) }}.</td>
+                            <td colspan="2" width="50%">&nbsp;{{ $row->name }}</td>
+                            <td width="10%" align="center">Status</td>
+                            <td width="35%" align="center">Catatan / Saran</td>
+                        </tr>
+                        @foreach ($row->items as $item)
+                            @if (count($item->sub) > 0)
+                                @php
+                                    $valSubDpl = $subDpl[$item->id]['value'];
+                                    $vw0 = in_array(0, $valSubDpl);
+                                    $vw1 = in_array(1, $valSubDpl);
+                                @endphp
+                                @if ($vw0 || $vw1)
+                                    <tr>
+                                        <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
+                                        <td colspan="4">&nbsp;{{ $item->name }}</td>
+                                    </tr>
+                                    @foreach ($item->sub as $sub)
+                                        @if ($subDpl[$item->id]['value'][$sub->id] != 2)
+                                            <tr>
+                                                <td></td>
+                                                <td width="1%" style="vertical-align:top;border-right:0px">
+                                                    &nbsp;{{ abjad($loop->index) }}. </td>
+                                                <td style="border-left:0px">&nbsp;{{ $sub->name }}</td>
+                                                <td align="center">{{ status($subDpl[$item->id]['value'][$sub->id]) }}</td>
+                                                <td align="center">{{ $subDpl[$item->id]['saran'][$sub->id] }}</td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                @endif
+                            @else
+                                @if ($itemDpl[$item->id] != 2)
+                                    <tr>
+                                        <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
+                                        <td colspan="2">&nbsp;{{ $item->name }}
+                                        <td align="center">{{ status($itemDpl[$item->id]) }}</td>
+                                        <td>&nbsp;{{ $saranItemDpl[$item->id] }}</td>
+                                    </tr>
+                                @endif
+                            @endif
+                        @endforeach
+                    @endif
+                @endforeach
 
-        @if ($head->status == 1)
-            @include('verifikator.doc.footer')
-        @endif
+                @if ($other)
+                    <tr style="font-weight: bold;">
+                        <td style="text-align: center">D.</td>
+                        <td colspan="4">&nbsp;Lain-lain</td>
+                    </tr>
 
+                    @for ($i = 0; $i < count($other); $i++)
+                       @if($other[$i]->value != 2)
+                        <tr>
+                            <td></td>
+                            <td width="1%" style="vertical-align:top;border-right:0px">
+                                &nbsp;{{ abjad($i) }}. </td>
+                            <td style="border-left:0px">&nbsp;{{ $other[$i]->name }}</td>
+                            <td align="center">{{ status($other[$i]->value) }}</td>
+                            <td align="center">{{ $other[$i]->saran }}</td>
+                        </tr>
+                       @endif
+                    @endfor
+                @endif
+            </tbody>
+        </table>
+    </main>
+
+    @if ($head->status == 1)
+        @include('verifikator.doc.footer')
     @endif
 
-    @php  $header = (array) json_decode($head->header); @endphp
-    <script type="text/php"> 
-         if (isset($pdf)) { 
-             //Shows number center-bottom of A4 page with $x,$y values
-            $x = 300;  //X-axis vertical position 
-            $y = 820; //Y-axis horizontal position
-            $text = "Lembar Verifikasi Dokumen No. Registrasi {{$header[0]}} | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
-            $font =  $fontMetrics->get_font("helvetica", "bold");
-            $size = 7;
-            $color = array(0,0,0);
-            $word_space = 0.0;  //  default
-            $char_space = 0.0;  //  default
-            $angle = 0.0;   //  default
-            $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
-        }
-    </script>
+
+    @if ($head->deleted_at)
+        <script type="text/php"> 
+            if (isset($pdf)) { 
+                //Shows number center-bottom of A4 page with $x,$y values
+                $x = 35;  //X-axis i.e. vertical position 
+                $y = 820; //Y-axis horizontal position
+                $text = "Dokumen Perbaikain ke {{$num}}";             
+                $font =  $fontMetrics->get_font("helvetica", "bold");
+                $size = 7;
+                $color = array(255,0,0);
+                $word_space = 0.0;  //  default
+                $char_space = 0.0;  //  default
+                $angle = 0.0;   //  default
+                $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+            }
+        </script>
+    @endif
+
+
+
+    @if ($head->grant == 1)
+        <script type="text/php"> 
+            if (isset($pdf)) { 
+                //Shows number center-bottom of A4 page with $x,$y values
+                $x = 280;  //X-axis vertical position 
+                $y = 820; //Y-axis horizontal position
+                $text = "Lembar Verifikasi Dokumen No. Registrasi {{$header[0]}} | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
+                $font =  $fontMetrics->get_font("helvetica", "bold");
+                $size = 7;
+                $color = array(0,0,0);
+                $word_space = 0.0;  //  default
+                $char_space = 0.0;  //  default
+                $angle = 0.0;   //  default
+                $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+            }
+        </script>
+    @endif
 @endsection

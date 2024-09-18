@@ -22,9 +22,9 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>No. Registrasi</th>
-                                    <th>Pemohon</th>
-                                    <th>Bangunan</th>
+                                    <th width="17%">Pemohon</th>
+                                    <th>Nama Bangunan</th>
+                                    <th width="17%">Lokasi Bangunan</th>
                                     <th>Lokasi</th>
                                     <th>No. Dokumen</th>
                                     <th>Action</th>
@@ -36,8 +36,8 @@
                                         $header = (array) json_decode($item->header);
                                     @endphp                               
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td class="text-center">
                                             {{ $item->reg }}
                                         </td>
                                         <td>
@@ -56,10 +56,13 @@
                                             {{ $item->nomor }}
                                         </td>
                                         <td>
+                                            @php
+                                                $color = $item->barp && $item->barp->status == 1 ? 'btn-success' : 'btn-secondary';
+                                            @endphp
                                             <a target="_blank"
                                                 href="{{ route('ba.sign', ['id' => md5($item->id)]) }}"
                                                 data-toggle="tooltip" data-placement="top" title="Dokumen PDF"
-                                                class="btn btn-sm {{$item->do == 0 ? 'btn-secondary' : 'btn-danger'}} mb-1"><i class="bi bi-file-pdf"></i> </a>                               
+                                                class="btn btn-sm {{$item->do == 0 ? $color : 'btn-danger'}} mb-1"><i class="bi bi-file-pdf"></i> </a>                               
                                         </td>                            
                                     </tr>
                                 @endforeach

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User; 
 use App\Models\Role;
+use App\Models\Setting;
 
 
 class UserController extends Controller
@@ -13,6 +14,24 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('IsPermission:master');
+    }
+
+    public function shst()
+    {
+        $val = Setting::first();
+        $data = "SHST";
+        return view('master.shst.create',compact('data','val'));
+    }
+
+
+    public function shsts(Request $request)
+    {
+        $val = Setting::first();
+        $val->shst = $request->value;
+        $val->save();
+
+        toastr()->success('Setting Data berhasil', ['timeOut' => 5000]);
+        return back();
     }
     /**
      * Display a listing of the resource.

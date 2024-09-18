@@ -87,6 +87,13 @@
             <span>Permohonan</span>
         </a>
     </li>
+    
+    <li class="sidebar-item {{ request()->routeIs('monitoring') ? 'active' : null }}">
+        <a href="{{ route('monitoring') }}" class="sidebar-link">
+            <i class="bi bi-tv"></i>
+            <span>Monitoring</span>
+        </a>
+    </li>
 
     @if (auth()->user()->ijin('master'))
         <li class="sidebar-item has-sub {{ Request::segment(1) == 'master' ? 'active' : null }}">
@@ -154,6 +161,9 @@
 
                 <li class="submenu-item {{ request()->routeIs('desa.index') ? 'active' : null }}">
                     <a href="{{ route('desa.index') }}" class="submenu-link">Desa</a>
+                </li>
+                <li class="submenu-item {{ request()->routeIs('shst') ? 'active' : null }}">
+                    <a href="{{ route('shst') }}" class="submenu-link">SHST</a>
                 </li>
 
             </ul>

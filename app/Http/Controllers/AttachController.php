@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use PDF;
 use QrCode;
+use App\Models\Setting;
 
 class AttachController extends Controller
 {
@@ -40,6 +41,7 @@ class AttachController extends Controller
         $data = compact('qrCode', 'head');
 
         $pdf = PDF::loadView('document.attach.doc.index', $data)->setPaper('a4', 'potrait');
+        // return view('document.attach.doc.index', $data);
         return $pdf->stream();
     }
 
@@ -49,7 +51,7 @@ class AttachController extends Controller
         $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
         $data = compact('qrCode', 'head');
 
-        $pdf = PDF::loadView('document.tax.doc.index', $data)->setPaper('a4', 'potrait');
+        $pdf = PDF::loadView('document.tax.doc.index', $data)->setPaper('a4', 'potrait');        
         return $pdf->stream();
     }
 
@@ -65,6 +67,7 @@ class AttachController extends Controller
 
     public function tax()
     {
+        $val = Setting::first();
         $val = Head::has('attach')->latest();
         $da = $val->get();
 
@@ -76,10 +79,11 @@ class AttachController extends Controller
 
     public function stepr($id)
     {
+        $val = Setting::first();
         $tax = Tax::where(DB::raw('md5(head)'), $id)->first();
         $head = Head::where(DB::raw('md5(id)'), $id)->first();
         $data = "Dokumen " . $head->number;
-        return view('document.tax.step', compact('data', 'head', 'tax'));
+        return view('document.tax.step', compact('data', 'head', 'tax','val'));
 
     }
 

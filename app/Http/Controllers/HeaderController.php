@@ -32,13 +32,13 @@ class HeaderController extends Controller
         $bak = $head->bak;
         $barp = $head->barp;
 
-        if($bak->status != 1)
+        if(!$bak || $bak->status != 1)
         {
             toastr()->error('Dokumen BAK belum di publish', ['timeOut' => 5000]);
             return back();
         }
 
-        if($barp->status != 1)
+        if(!$barp || $barp->status != 1)
         {
             toastr()->error('Dokumen BARP belum di publish', ['timeOut' => 5000]);
             return back();
@@ -113,7 +113,8 @@ class HeaderController extends Controller
 
     public function baReject(Request $request, $id)
     {
-        if($request->typer == 0)
+        // dd($request->input());
+        if($request->type == 0)
         {
             $bak = News::where(DB::raw('md5(head)'), $id)->first();
             $bak->reason = $request->noted;

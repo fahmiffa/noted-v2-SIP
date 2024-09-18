@@ -75,28 +75,119 @@ class VerificationController extends Controller
         return view('document.umum.edit', compact('head', 'doc', 'data', 'head', 'dis'));
     }
 
-    public function doc($id)
+    public function next(Request $request, $id)
     {
+
         $head = Head::where(DB::raw('md5(id)'), $id)->first();
-        $docs = Formulir::where('name', $head->type)->first();
+        $step = Step::where(DB::raw('md5(head)'), $id)->first();
 
-        $step = $head->step == 1 ? 0 : 1;
+        $level = Auth::user()->roles->kode;
 
-        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
-        $data = compact('qrCode', 'docs', 'head', 'step');
+        try {
 
-        if ($head->step == 1) {
-            $pdf = PDF::loadView('verifikator.doc.index', $data)->setPaper('a4', 'potrait');
-            return $pdf->stream();
-            return view('verifikator.doc.index', $data);
-        } else {
-            $pdf = PDF::loadView('verifikator.doc.home', $data)->setPaper('a4', 'potrait');
-            return $pdf->stream();
-            return view('verifikator.doc.home', $data);
+            DB::beginTransaction();
+
+            if ($request->itemDa) {
+                $da['item'] = $request->itemDa;
+                $da['saranItem'] = $request->saranItemDa;
+            }
+
+            if ($request->subDa) {
+                $subda = $request->subDa;
+
+                foreach ($subda as $key => $value) {
+                    $subDa[] = [
+                        'title' => $key,
+                        'value' => $value,
+                        'saran' => $request->saranSubDa,
+                    ];
+                }
+                $da['sub'] = $subDa;
+                $item['dokumen_administrasi'] = $da;
+            }
+
+            if ($request->itemDt) {
+                $dt['item'] = $request->itemDt;
+            }
+
+            if ($request->saranItemDt) {
+                $dt['saranItem'] = $request->saranItemDt;
+            }
+
+            if ($request->subDt) {
+                $subdt = $request->subDt;
+
+                foreach ($subdt as $key => $value) {
+                    $subDt[] = [
+                        'title' => $key,
+                        'value' => $value,
+                        'saran' => $request->saranSubDt,
+                    ];
+                }
+                $dt['sub'] = $subDt;
+                $type = ($head->type == 'umum') ? 'dokumen_teknis' : 'persyaratan_teknis';
+                $item['' . $type . ''] = $dt;
+            }
+
+            if ($request->itemDpl) {
+                $dpl['item'] = $request->itemDpl;
+            }
+
+            if ($request->saranItemDpl) {
+                $dpl['saranItem'] = $request->saranItemDpl;
+            }
+
+            if ($request->subDpl) {
+                $subdpl = $request->subDpl;
+
+                foreach ($subdpl as $key => $value) {
+                    $subDpl[] = [
+                        'title' => $key,
+                        'value' => $value,
+                        'saran' => $request->saranSubDpl,
+                    ];
+                }
+                $dpl['sub'] = $subDpl;
+
+                $item['dokumen_pendukung_lainnya'] = $dpl;
+            }
+
+            $head->saran = $request->content;
+            $head->status = 2;
+            if (!$head->save()) {
+                DB::rollback();
+            }
+
+            if(!$step)
+            {
+                $step = new Step;
+            }
+            $step->kode = $level;
+            $step->head = $head->id;
+            $step->item = json_encode($item);
+            if (!$step->save()) {
+                DB::rollback();
+            }
+
+            DB::commit();           
+            toastr()->success('Input Complete', ['timeOut' => 5000]);
+            return redirect()->route('verification.index');
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+            DB::rollback();
+            dd($e);
+            return back()->with('status', 'Terjadi kesalahan di modular');
+        } catch (\Illuminate\Database\QueryException $e) {
+            DB::rollback();
+            dd($e);
+            return back()->with('status', 'Terjadi kesalahan dalam melanjutkan transaksi');
+        } catch (\ErrorException $e) {
+            dd($e);
+            DB::rollback();
+            return back()->with('status', 'Terjadi kesalahan dalam melakukan proses transaksi');
         }
     }
 
-    public function next(Request $request, $id)
+    public function pub(Request $request, $id)
     {
 
         $head = Head::where(DB::raw('md5(id)'), $id)->first();
@@ -363,13 +454,20 @@ class VerificationController extends Controller
                     $other = $request->nameOther;
 
                     foreach ($other as $key => $value) {
-                        $others[] = [
-                            'name' => $value,
-                            'value' => $request->item[$key],
-                            'saran' => $request->saranOther[$key],
-                        ];
+                        if($value)
+                        {
+                            $others[] = [
+                                'name' => $value,
+                                'value' => $request->item[$key],
+                                'saran' => $request->saranOther[$key],
+                            ];
+                        }
+                        else
+                        {
+                            $others = null;
+                        }
                     }
-                    $step->other = json_encode($others);
+                    $step->other = $others ? json_encode($others) : null;
                 }
             }
 
@@ -440,7 +538,163 @@ class VerificationController extends Controller
 
         $vl2 = Step::where(DB::raw('md5(head)'), $id)->where('kode', 'VL2')->first();
         $vl3 = Step::where(DB::raw('md5(head)'), $id)->where('kode', 'VL3')->first();
-        $head->status = ($vl2 && $vl3) ? 1 : 3;
+        $head->status = ($vl2 && $vl3) ? 3 : 3;
+        $head->save();
+
+        toastr()->success('Input Complete', ['timeOut' => 5000]);
+        return redirect()->route('verification.index');
+
+    }
+
+    public function pubs(Request $request, $id)
+    {
+        $head = Head::where(DB::raw('md5(id)'), $id)->first();
+        $step = Step::where(DB::raw('md5(head)'), $id)->first();
+        $level = Auth::user()->roles->kode;
+        $vl3 = Step::where(DB::raw('md5(head)'), $id)->where('kode', 'VL3')->first();
+        $vl2 = Step::where(DB::raw('md5(head)'), $id)->where('kode', 'VL2')->first();
+
+        if ($level == 'VL2') {
+
+            $step = ($vl2) ? $vl2 : new Step;
+
+            if ($head->type == 'umum') {
+                if ($request->itemdt) {
+                    $da['item'] = $request->itemdt;
+                }
+
+                if ($request->saranItemdt) {
+                    $da['saranItem'] = $request->saranItemdt;
+                }
+
+                if ($request->subdt) {
+                    $subdt = $request->subdt;
+
+                    foreach ($subdt as $key => $value) {
+                        $subDt[] = [
+                            'title' => $key,
+                            'value' => $value,
+                            'saran' => $request->saranSubdt,
+                        ];
+                    }
+                    $da['sub'] = $subDt;
+                }
+
+                $item['dokumen_teknis'] = $da;
+
+                if ($request->itemdl) {
+                    $da['item'] = $request->itemdl;
+                }
+
+                if ($request->saranItemdl) {
+                    $da['saranItem'] = $request->saranItemdl;
+                }
+
+                if ($request->subdl) {
+                    $subdl = $request->subdl;
+
+                    foreach ($subdl as $key => $value) {
+                        $subDl[] = [
+                            'title' => $key,
+                            'value' => $value,
+                            'saran' => $request->saranSubdl,
+                        ];
+                    }
+                    $da['sub'] = $subDl;
+                }
+
+                $item['dokumen_pendukung_lainnya'] = $da;
+                
+                if ($request->nameOther) {
+                    $other = $request->nameOther;
+
+                    foreach ($other as $key => $value) {
+                        if($value)
+                        {
+                            $others[] = [
+                                'name' => $value,
+                                'value' => $request->item[$key],
+                                'saran' => $request->saranOther[$key],
+                            ];
+                        }
+                        else
+                        {
+                            $others = null;
+                        }
+                    }
+                    $step->other = $others ? json_encode($others) : null;
+                }
+            }
+
+            if ($head->type == 'menara') {
+
+                if ($request->itemDt) {
+                    $dt['item'] = $request->itemDt;
+                }
+
+                if ($request->saranItemDt) {
+                    $dt['saranItem'] = $request->saranItemDt;
+                }
+
+                if ($request->subDt) {
+                    $subdt = $request->subDt;
+
+                    foreach ($subdt as $key => $value) {
+                        $subDt[] = [
+                            'title' => $key,
+                            'value' => $value,
+                            'saran' => $request->saranSubDt,
+                        ];
+                    }
+                    $dt['sub'] = $subDt;               
+                }            
+
+                $item['persyaratan_teknis'] = $dt;
+            }
+
+
+
+            $step->kode = $level;
+            $step->head = $head->id;
+            $step->item = json_encode($item);
+            $step->save();
+
+            $head->saran = $request->content;
+        }
+
+        if ($level == 'VL3') {
+
+            $step = ($vl3) ? $vl3 : new Step;   
+
+            if ($request->itemDa) {
+                $da['item'] = $request->itemDa;
+                $da['saranItem'] = $request->saranItemDa;
+            }
+
+            if ($request->subDa) {
+                $subda = $request->subDa;
+
+                foreach ($subda as $key => $value) {
+                    $subDa[] = [
+                        'title' => $key,
+                        'value' => $value,
+                        'saran' => $request->saranSubDa,
+                    ];
+                }
+                $da['sub'] = $subDa;
+            }
+            $item['dokumen_administrasi'] = $da;
+
+            $step->head = $head->id;
+            $step->item = json_encode($item);
+            $step->kode = $level;
+            $step->save();
+        }
+
+        $vl2 = Step::where(DB::raw('md5(head)'), $id)->where('kode', 'VL2')->first();
+        $vl3 = Step::where(DB::raw('md5(head)'), $id)->where('kode', 'VL3')->first();
+        // $head->status = ($vl2 && $vl3) ? 1 : 3;
+        $head->status = 1;
         $head->save();
 
         toastr()->success('Input Complete', ['timeOut' => 5000]);

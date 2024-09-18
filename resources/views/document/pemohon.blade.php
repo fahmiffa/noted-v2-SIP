@@ -12,7 +12,7 @@
     </div>
     <div class="col-4 mb-3">
         <h6>Alamat Pemohon</h6>
-        {{ $head->region ? $head->region->name : null }},{{ $head->region ? $head->region->kecamatan->name : null }},{{ $header ? $header[4] : null }}
+        {{ $header ? $header[4] : null }}
     </div>
     <div class="col-4">        
         <h6>Fungsi</h6>            
@@ -20,11 +20,13 @@
     </div>
     <div class="col-4">
         <h6>Nama Bangunan</h6>
-        {{ $header ? $header[5] : null }}
+        {{ $header ? $header[5] : null }}        
     </div>
     <div class="col-4">
         <h6>Lokasi Bangunan</h6>
-        {{ $header ? $header[7] : null }}
+        {{ $header ? $header[7] : null }}<br>
+        {{ $head->region ? $head->region->name : null }},{{ $head->region ? $head->region->kecamatan->name : null }}
+
     </div>
     <div class="col-4">                    
     </div>

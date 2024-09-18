@@ -1,5 +1,4 @@
 @php
-    $no = 1;
     if($head->status == 5 && $head->parent == null)
     {
         $remain = false;       
@@ -13,15 +12,22 @@
         $itemDa = (array) $da->dokumen_administrasi->item;
         $saranItemDa = (array) $da->dokumen_administrasi->saranItem;
         $sub = (array) $da->dokumen_administrasi->sub;
-        
-        $itemDpl = (array) $da->dokumen_pendukung_lainnya->item;
-        $saranItemDpl = (array) $da->dokumen_pendukung_lainnya->saranItem;
-        $subdpl = (array) $da->dokumen_pendukung_lainnya->sub;
-
-        foreach ($subdpl as $key => $value)
+           
+        if($head->type == 'umum')
         {
-            $subDpl[$value->title] = ['saran' => (array) $value->saran, 'value'=> (array) $value->value];
-        }        
+            $itemDpl = (array) $da->dokumen_pendukung_lainnya->item;
+            $saranItemDpl = (array) $da->dokumen_pendukung_lainnya->saranItem;
+            $subdpl = (array) $da->dokumen_pendukung_lainnya->sub;
+    
+            foreach ($subdpl as $key => $value)
+            {
+                $subDpl[$value->title] = ['saran' => (array) $value->saran, 'value'=> (array) $value->value];
+            }        
+        }
+        else {            
+            $itemPt = (array) $da->persyaratan_teknis->item;
+            $saranItemPt = (array) $da->persyaratan_teknis->saranItem;
+        }
 
 
         $type = ($head->type == 'umum') ? 'dokumen_teknis' : 'persyaratan_teknis';
@@ -47,6 +53,7 @@
     @if ($row->name == doc(5, $head->type))
         <div class="col-md-12">
             <h6>{{ $row->name }}</h6>
+            @php $no = 1; @endphp
             @foreach ($row->items as $item)
                 @if (count($item->sub) > 0)
                     <p> {{ $no++ }}. {{ $item->name }}</p>
@@ -130,6 +137,7 @@
     @if ($row->name == doc(4, $head->type))
         <div class="col-md-12">
             <h6>{{ $row->name }}</h6>
+            @php $no = 1; @endphp
             @foreach ($row->items as $item)
                 @if (count($item->sub) > 0)
                     <p> {{ $no++ }}. {{ $item->name }}</p>
@@ -182,7 +190,9 @@
                             <div class="form-group d-flex justify-content-center">
                                 <div class="form-check d-inline-block">
                                     <input class="form-check-input" type="radio" name="itemDt[{{ $item->id }}]"
-                                        value="1" {{ old('itemDt[' . $item->id . ']') == '1' ? 'checked' : null }}>
+                                        value="1" {{ old('itemDt[' . $item->id . ']') == '1' ? 'checked' : null }}
+                                        {{ $remain && $itemPt[$item->id] == 1 ? 'checked' : null }}
+                                        >
                                     <label class="form-check-label">Ada</label>
                                 </div>
                                 <div class="form-check d-inline-block mx-3">
@@ -192,15 +202,15 @@
                                             {{ old('itemDt[' . $item->id . ']') == '0' ? 'checked' : null }}>
                                     @else
                                         <input class="form-check-input" type="radio"
-                                            name="itemDt[{{ $item->id }}]" value="0"
-                                            {{ $head->status == 3 ? null : 'checked' }}>
+                                            name="itemDt[{{ $item->id }}]" value="0"                                            
+                                            {{ $remain && $itemPt[$item->id] == 0 ? 'checked' : null }} checked>
                                     @endif
                                     <label class="form-check-label">Tidak Ada</label>
                                 </div>
                                 <div class="form-check d-inline-block">
                                     <input class="form-check-input" type="radio" name="itemDt[{{ $item->id }}]"
                                         value="2" {{ old('itemDt[' . $item->id . ']') == '2' ? 'checked' : null }}
-                                        {{ $head->status == 3 ? 'checked' : null }}>
+                                        {{ $remain && $itemPt[$item->id] == 2 ? 'checked' : null }}>
                                     <label class="form-check-label">Tidak Perlu</label>
                                 </div>
                             </div>
@@ -216,6 +226,7 @@
     @if ($row->name == doc(3, $head->type))
         <div class="col-md-12">
             <h6>{{ $row->name }} </h6>
+            @php $no = 1; @endphp
             @foreach ($row->items as $item)
                 @if (count($item->sub) > 0)
                     <p> {{ $no++ }}. {{ $item->name }}</p>

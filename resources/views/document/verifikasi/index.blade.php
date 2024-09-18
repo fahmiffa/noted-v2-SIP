@@ -22,27 +22,33 @@
                     <div class="card-header">
                         <h6 class="card-title text-center">{{ $doc->titles }}</h6>
                         <p class="text-center">{{ $head->nomor }}</p>
-                        @include('document.pemohon')                   
+                        @include('document.pemohon')
                     </div>
 
                     <div class="card-body px-3">
 
                         @if ($head->step == 1)
-                            <form action="{{ route('next.verifikasi', ['id' => md5($head->id)]) }}" method="post">
+                            <form action="{{ route('next.verifikasi', ['id' => md5($head->id)]) }}" method="post"
+                                id="pub">
                                 @csrf
                                 @include('document.verifikasi.step')
-                                <div class="col-12 my-3 px-3">
-                                    <button class="btn btn-primary rounded-pill">Save</button>
+
+                                <div class="d-flex justify-content-between" id="button">
+                                    <button class="btn btn-primary rounded-pill">Draft</button>
+                                    <button type="button" onclick="pub()" class="btn btn-success rounded-pill">Save &
+                                        Publish</button>
                                 </div>
                             </form>
                         @else
-                            <form action="{{ route('nexts.verifikasi', ['id' => md5($head->id)]) }}" method="post">
+                            <form action="{{ route('nexts.verifikasi', ['id' => md5($head->id)]) }}" method="post" id="pub">
                                 @csrf
                                 @include('document.verifikasi.steps')
-                                <div class="col-md-12 my-3">
-                                    <div class="d-flex justify-content-between">
-                                        <button class="btn btn-primary rounded-pill">Save</button>
-                                    </div>
+                                <div class="d-flex justify-content-between" id="button">
+                                    <button class="btn btn-primary rounded-pill">Draft</button>
+                                    @if($head->status < 5 && $head->steps->count() > 0)
+                                    <button type="button" onclick="pub()" class="btn btn-success rounded-pill">Save &
+                                        Publish</button>
+                                    @endif
                                 </div>
                             </form>
                         @endif
@@ -60,15 +66,33 @@
     <script src="{{ asset('assets/extensions/quill/quill.min.js') }}"></script>
     <script>
         const toolbarOptions = [
-            ['bold', 'italic', 'underline', 'strike'],       
+            ['bold', 'italic', 'underline', 'strike'],
 
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-            [{ 'script': 'sub'}, { 'script': 'super' }],    
-            [{ 'size': ['small', false, 'large', 'huge'] }],  
-            [{ 'color': [] }, { 'background': [] }],          
-            [{ 'align': [] }],
-            ['clean']                                        
-            ];
+            [{
+                'list': 'ordered'
+            }, {
+                'list': 'bullet'
+            }, {
+                'list': 'check'
+            }],
+            [{
+                'script': 'sub'
+            }, {
+                'script': 'super'
+            }],
+            [{
+                'size': ['small', false, 'large', 'huge']
+            }],
+            [{
+                'color': []
+            }, {
+                'background': []
+            }],
+            [{
+                'align': []
+            }],
+            ['clean']
+        ];
 
         var quill = new Quill('#snow', {
             modules: {
@@ -88,31 +112,45 @@
         $('#add-item').on('click', function() {
             var n = $(':radio').length / 3 + 1;
             var clonedDiv = '<div class="row mb-3">\
-                                                 <div class="col-md-3">\
-                                                    <input type="text" class="form-control" name="nameOther[' + n + ']" placeholder="item name"></div>\
-                                                 <div class="col-md-5">\
-                                                    <div class="d-flex justify-content-center">\
-                                                        <div class="form-check d-inline-block">\
-                                                            <input class="form-check-input" type="radio" name="item[' + n + ']" value="1">\
-                                                            <label class="form-check-label">Ada</label>\
+                                                     <div class="col-md-3">\
+                                                        <input type="text" class="form-control" name="nameOther[' + n + ']" placeholder="item name"></div>\
+                                                     <div class="col-md-5">\
+                                                        <div class="d-flex justify-content-center">\
+                                                            <div class="form-check d-inline-block">\
+                                                                <input class="form-check-input" type="radio" name="item[' +
+                n + ']" value="1">\
+                                                                <label class="form-check-label">Ada</label>\
+                                                            </div>\
+                                                            <div class="form-check d-inline-block mx-3">             \
+                                                                <input class="form-check-input" type="radio" name="item[' +
+                n + ']" value="0" checked>\
+                                                                <label class="form-check-label">Tidak Ada</label>\
+                                                            </div>\
+                                                            <div class="form-check d-inline-block">\
+                                                                <input class="form-check-input" type="radio" name="item[' +
+                n + ']" value="2">\
+                                                                <label class="form-check-label">Tidak Perlu</label>\
+                                                            </div>\
                                                         </div>\
-                                                        <div class="form-check d-inline-block mx-3">             \
-                                                            <input class="form-check-input" type="radio" name="item[' + n + ']" value="0" checked>\
-                                                            <label class="form-check-label">Tidak Ada</label>\
-                                                        </div>\
-                                                        <div class="form-check d-inline-block">\
-                                                            <input class="form-check-input" type="radio" name="item[' + n + ']" value="2">\
-                                                            <label class="form-check-label">Tidak Perlu</label>\
-                                                        </div>\
-                                                    </div>\
-                                                 </div>\
-                                                 <div class="col-md-3">\
-                                                    <textarea class="form-control" name="saranOther[' + n + ']" rows="2"></textarea>\
-                                                 </div>\
-                                                 <button class="btn btn-danger btn-sm my-auto" style="width:fit-content;height:fit-content" onclick="remove(this)"  type="button"><i class="bi bi-trash"></i></button>\
-                                                 </div>\
-                                                ';
+                                                     </div>\
+                                                     <div class="col-md-3">\
+                                                        <textarea class="form-control" name="saranOther[' + n + ']" rows="2"></textarea>\
+                                                     </div>\
+                                                     <button class="btn btn-danger btn-sm my-auto" style="width:fit-content;height:fit-content" onclick="remove(this)"  type="button"><i class="bi bi-trash"></i></button>\
+                                                     </div>\
+                                                    ';
             $('#input').append(clonedDiv);
         });
+
+        function pub() {
+            let uri = $('#pub').attr('action');
+            @if($head->step ==  2)
+                uri = uri.replace('/next-', '/pubs-');
+            @else
+                uri = uri.replace('/next-', '/pub-');
+            @endif
+            $('#pub').attr('action', uri)
+            $('#pub').submit();
+        }
     </script>
 @endpush

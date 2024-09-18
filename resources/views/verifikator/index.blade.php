@@ -25,9 +25,9 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>No. Registrasi</th>
-                                    <th>Pemohon</th>
-                                    <th>Bangunan</th>
-                                    <th>Lokasi Bangunan</th>
+                                    <th width="17%">Pemohon</th>
+                                    <th>Nama Bangunan</th>
+                                    <th width="17%">Lokasi Bangunan</th>
                                     <th>No. Dokumen</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -40,25 +40,23 @@
                                             $header = (array) json_decode($item->header);
                                         @endphp
                                         <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>
+                                            <td class="text-center">{{ $loop->iteration }}</td>
+                                            <td class="text-center">
                                                 {{ $item->reg }}
                                             </td>
                                             <td>
-                                                <h6 class="mb-0">Nama</h6>
-                                                {{ $header ? $header[2] : null }}
-                                                <h6 class="mb-0">Alamat</h6>
-                                                {{ $item->region ? $item->region->name : null }},
-                                                {{ $item->region ? $item->region->kecamatan->name : null }},
-                                                <br>{{ $header ? $header[4] : null }}
+                                                <h6 class="mb-0">Nama :</h6>{{ $header ? $header[2] : null }}
+                                                <h6 class="mb-0">Alamat :</h6>{{ $header ? $header[7] : null }}
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 {{ $header ? $header[5] : null }}
                                             </td>
-                                            <td>
-                                                {{ $header ? $header[7] : null }}
+                                            <td class="text-center">
+                                                {{ $header ? $header[4] : null }}<br>
+                                                {{ $item->region ? 'Ds. ' . $item->region->name : null }},
+                                                {{ $item->region ? 'Kec. ' . $item->region->kecamatan->name : null }}
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 {{ $item->nomor }}
                                             </td>
                                             <td>
@@ -67,31 +65,16 @@
                                             <td class="d-flex jusstify-content-between align-items-center my-auto"
                                                 style="height: 150px">
 
-                                                @if ($item->status == 1)                              
-                                                    @if ($item->grant == 1)
-                                                        <button class="btn btn-success btn-sm" data-toggle="tooltip"
-                                                            data-placement="top" title="Dokumen di terima verifikasi">
-                                                            <i class="bi bi-check-lg"></i>
-                                                        </button>
-                                                    @else
-                                                        <a href="{{ route('step.verifikasi', ['id' => md5($item->id)]) }}"
-                                                            data-toggle="tooltip" data-placement="top"
-                                                            title="Form Dokumen verifikasi"
-                                                            class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
-                                                    @endif
-
+                                                @if ($item->status == 1)
                                                     <a target="_blank"
-                                                        href="{{ route('doc.verifikator', ['id' => md5($item->id)]) }}"
+                                                        href="{{ route('monitoring.doc', ['id' => md5($item->id)]) }}"
                                                         class="btn btn-sm btn-danger mx-2"><i
                                                             class="bi bi-file-pdf"></i></a>
                                                 @else
-                                                    @if ($item->step == 2)
-                                                        <a href="{{ route('step.verifikasi', ['id' => md5($item->id)]) }}"
-                                                            class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
-                                                    @else
-                                                        <a href="{{ route('step.verifikasi', ['id' => md5($item->id)]) }}"
-                                                            class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
-                                                    @endif
+                                                    <a href="{{ route('step.verifikasi', ['id' => md5($item->id)]) }}"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        title="Form Dokumen verifikasi" class="btn btn-sm btn-primary"><i
+                                                            class="bi bi-pencil"></i></a>
                                                 @endif
 
 
@@ -129,10 +112,19 @@
                                 <div class="modal-body">
                                     <ul>
                                         @if ($item->parents)
-                                            <li>{{ $item->parents->note }}</li>
+                                            <li>{{ $item->parents->reg }} ({{ $item->parents->nomor }})
+                                                <a target="_blank"
+                                                    href="{{ route('monitoring.doc', ['id' => md5($item->parents->id)]) }}"
+                                                    class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>
+                                                {{ $item->parents->note }}
+                                            </li>
                                         @endif
                                         @foreach ($item->parents->tmp->whereNotNull('deleted_at') as $val)
-                                            <li>{{ $val->note }}</li>
+                                            <li>{{ $val->reg }} ({{ $val->nomor }}) <a target="_blank"
+                                                    href="{{ route('monitoring.doc', ['id' => md5($val->id)]) }}"
+                                                    class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>
+                                                ({{ $val->note }})
+                                            </li>
                                         @endforeach
                                     </ul>
                                 </div>

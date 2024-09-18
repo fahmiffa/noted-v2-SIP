@@ -15,37 +15,15 @@
                     </div>
                 </div>
                 <div class="card-body">
-
-                    <p>
-                        <span class="badge bg-success"><i class="bi bi-file-pdf"></i></span>
-                        &nbsp;
-                        Dokumen diisetujui atau diterima
-                    </p>
-                    <p>
-                        <span class="badge bg-primary"><i class="bi bi-vector-pen text-white"></i></span>
-                        &nbsp;
-                        Tanda Tangan Dokumen
-                    </p>
-                    <p>
-                        <span class="badge bg-dark"><i class="bi bi-archive"></i></span>
-                        &nbsp;
-                        Dokumen Draft
-                    </p>
-                    <p>
-                        <span class="badge bg-primary"><i class="bi bi-send text-white"></i></span>
-                        &nbsp;
-                        Submit Dokumen
-                    </p>
-
                     <div class="table-responsive">
                         <table class="table table-bordered" id="table1">
                             <thead>
                                 <tr>
                                     <th>No.</th>
                                     <th>No. Registrasi</th>
-                                    <th>Pemohon</th>
-                                    <th>Bangunan</th>
-                                    <th>Lokasi</th>
+                                    <th width="17%" >Pemohon</th>
+                                    <th>Nama Bangunan</th>
+                                    <th width="17%">Lokasi Bangunan</th>
                                     <th>No. Dokumen</th>
                                     <th>Action</th>
                                 </tr>
@@ -56,22 +34,23 @@
                                         $header = (array) json_decode($item->doc->header);
                                     @endphp
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td class="text-center">
                                             {{ $item->doc->reg }}
                                         </td>
                                         <td>
-                                            <h6 class="mb-0">Nama</h6>{{ $header ? $header[2] : null }}      
-                                            <h6 class="mb-0">Alamat</h6>
-                                            {{ $item->doc->region ? $item->doc->region->name.', ' : null }} {!! $item->doc->region ? $item->doc->region->kecamatan->name.'<br>' : null !!} {{ $header ? $header[4] : null }}                                                                                
+                                            <h6 class="mb-0">Nama</h6>{{ $header ? $header[2] : null }}
+                                            <h6 class="mb-0">Alamat</h6>{{ $header ? $header[4] : null }}
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             {{ $header ? $header[5] : null }}
                                         </td>
                                         <td>
-                                            {{ $header ? $header[7] : null }}
+                                            {{ $header ? $header[7] : null }}<br>
+                                            {{ $item->doc->region ? 'Ds. ' . $item->doc->region->name : null }},
+                                            {{ $item->doc->region ? 'Kec. ' . $item->doc->region->kecamatan->name : null }}
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             {{ $item->doc->nomor }}
                                         </td>
                                         <td>
@@ -116,12 +95,12 @@
                                                             <i class="bi bi-send"></i>
                                                         </a>
                                                         @if ($item->doc->barpTemp && $item->doc->barpTemp->count() > 0)
-                                                            <button class="btn btn-warning btn-sm" data-toggle="tooltip"
+                                                            {{-- <button class="btn btn-warning btn-sm ms-1" data-toggle="tooltip"
                                                                 data-placement="top" title="Dokumen di tolak verifikasi"
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#des{{ $item->id }}">
-                                                                <i class="bi bi-arrow-repeat"></i>
-                                                            </button>
+                                                                Perbaikan
+                                                            </button> --}}
                                                         @endif
                                                     @endif
                                                 @endif

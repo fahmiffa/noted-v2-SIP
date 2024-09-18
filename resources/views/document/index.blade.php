@@ -18,47 +18,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body p-5">
-
-                    <p>
-                        <span class="badge bg-success"><i class="bi bi-check"></i></span>
-                        &nbsp;
-                        Dokumen diisetujui atau diterima
-                    </p>
-                    <p>
-                        <span class="badge bg-warning"><i class="bi bi-eye text-dark"></i></span>
-                        &nbsp;
-                        Riwayat & Detail Dokumen Pemohon
-                    </p>
-                    <p>
-                        <span class="badge bg-dark"><i class="bi bi-eye"></i></span>
-                        &nbsp;
-                        Detail Dokumen Pemohon
-                    </p>
-                    <p>
-                        <span class="badge bg-primary"><i class="bi bi-pencil"></i></span>
-                        &nbsp;
-                        Edit Dokumen
-                    </p>
-                    <p>
-                        <span class="badge bg-danger"><i class="bi bi-trash"></i></span>
-                        &nbsp;
-                        Hapus Dokumen
-                    </p>
-                    <p>
-                        <span class="badge bg-warning">
-                            <i class="bi bi-exclamation-triangle-fill text-dark"></i>
-                        </span>
-                        &nbsp;
-                        Dokumen Sedang di proses (Verifikasi 2 Tahap)
-                    </p>
-                    <p>
-                        <span class="badge bg-info">
-                            <i class="bi bi-info text-dark"></i>
-                        </span>
-                        &nbsp;
-                        Verifikasi Dokumen
-                    </p>
+                <div class="card-body p-5">              
                     <div class="table-responsive">
                         <table class="table table-bordered" id="table1" style="width:100%">
                             <thead>
@@ -87,14 +47,13 @@
                                         </td>
                                         <td>
                                             <h6 class="mb-0">Nama :</h6>{{ $header ? $header[2] : null }}
-                                            <h6 class="mb-0">Alamat :</h6>{{ $header ? $header[7] : null }}
+                                            <h6 class="mb-0">Alamat :</h6>{{ $header ? $header[4] : null }}
                                         </td>
                                         <td class="text-center">
                                             {{ $header ? $header[5] : null }}
-
                                         </td>
                                         <td class="text-center">                                                                                        
-                                            {{ $header ? $header[4] : null }}<br>
+                                            {{ $header ? $header[7] : null }}<br>
                                             {{ $item->region ? 'Ds. '.$item->region->name : null }},
                                             {{ $item->region ? 'Kec. '.$item->region->kecamatan->name : null }}
                                         </td>
@@ -107,10 +66,10 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            {{ $item->dokumen }}
+                                            {{ $item->dokumen }} 
                                         </td>
 
-                                        <td class="d-flex jusstify-content-between align-items-center my-auto"
+                                        <td class="d-flex justify-content-center align-items-center my-auto"
                                             style="height: 150px">
 
                                             @if ($item->status == 5)
@@ -119,7 +78,7 @@
                                                     class="btn btn-sm btn-primary me-1">Edit</a>                                 
                                             @endif
 
-                                            @if ($item->status > 1 && $item->status != 5)
+                                            @if ($item->status == 3)
                                                 <button type="button" class="btn btn-warning btn-sm" data-toggle="tooltip"
                                                     data-placement="top" title="Dokumen Process">
                                                     <i class="bi bi-exclamation-triangle-fill"></i>
@@ -157,10 +116,10 @@
                                                 </form>
                                             @endif
 
-                                            @if ($item->status != 5)
+                                            @if ($item->status == 1)
                                                 <a target="_blank" data-toggle="tooltip" data-placement="top"
                                                     title="Dokumen PDF"
-                                                    href="{{ route('doc.verifikasi', ['id' => md5($item->id)]) }}"
+                                                    href="{{ route('monitoring.doc', ['id' => md5($item->id)]) }}"
                                                     class="btn btn-sm btn-danger mx-2"><i class="bi bi-file-pdf"></i></a>
                                             @endif
                                         </td>
@@ -201,34 +160,21 @@
                                         <h6>Tipe</h6>
                                         {{ ucfirst($item->type) }}
                                     </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-3 col-6 fw-bold">Nama Pemohon</div>
-                                    <div class="col-md-8 col-6">{{ $header ? $header[2] : null }}</div>
-                                    <div class="col-md-3 col-6 fw-bold">Alamat Pemohon</div>
-                                    <div class="col-md-8 col-6">{{ $item->region ? $item->region->name : null }},
-                                        {{ $item->region ? $item->region->kecamatan->name : null }},
-                                        {{ $header ? $header[4] : null }}
-                                    </div>
-                                    <div class="col-md-3 col-6 fw-bold">Nama Bangunan</div>
-                                    <div class="col-md-8 col-6">{{ $header ? $header[5] : null }}</div>
-                                    <div class="col-md-3 col-6 fw-bold">Lokasi Bangunan</div>
-                                    <div class="col-md-8 col-6">{{ $header ? $header[7] : null }}</div>
-                                </div>
+                                </div>         
                                 @if ($item->head->count() > 0)
                                     <h6>Dokumen Perbaikan</h6>
                                     <ul>
                                         @if ($item->parents)
                                             <li>{{ $item->parents->reg }} ({{ $item->parents->nomor }}) <a
                                                     target="_blank"
-                                                    href="{{ route('doc.verifikasi', ['id' => md5($item->parents->id)]) }}"
+                                                    href="{{ route('monitoring.doc', ['id' => md5($item->parents->id)]) }}"
                                                     class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>
                                                 ({{ $item->parents->note }})
                                             </li>
                                         @endif
                                         @foreach ($item->parents->tmp->whereNotNull('deleted_at') as $val)
                                             <li>{{ $val->reg }} ({{ $val->nomor }}) <a target="_blank"
-                                                    href="{{ route('doc.verifikasi', ['id' => md5($val->id)]) }}"
+                                                    href="{{ route('monitoring.doc', ['id' => md5($val->id)]) }}"
                                                     class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>
                                                 ({{ $val->note }})
                                             </li>

@@ -112,24 +112,55 @@ class Head extends Model
         }
         else
         {
-            if($this->parents()->count() > 0 && $this->grant == 0 && $this->status != 1)
+            if($this->step == 2)
             {
-                $val = 'Verifikasi Ulang';
-            }
-            
-            else if($this->status == 1 && $this->grant == 0)
-            {
-                $val = 'Verifikasi Operator';
-            }
+                if($this->parents()->count() > 0 && $this->grant == 0 && $this->status == 5)
+                {
+                    $val = 'Verifikasi Ulang';
+                }
 
-            else if($this->status == 1 && $this->grant == 1)
-            {
-                $val = 'Penugasan TPT/TPA';
+                else if($this->status == 3)
+                {
+                    $val = 'Proses Verifikasi';
+                }
+                
+                else if($this->status == 1 && $this->grant == 0)
+                {
+                    $val = 'Verifikasi Operator';
+                }
+    
+                else if($this->status == 1 && $this->grant == 1)
+                {
+                    $val = 'Penugasan TPT/TPA';
+                }
+                else
+                {
+                    $val = 'Verifikasi';
+                }
             }
             else
             {
-                $val = 'Verifikasi';
+                if($this->parents()->count() > 0 && $this->grant == 0 && $this->status != 1)
+                {
+                    $val = 'Verifikasi Ulang';
+                }
+                
+                else if($this->status == 1 && $this->grant == 0)
+                {
+                    $val = 'Verifikasi Operator';
+                }
+    
+                else if($this->status == 1 && $this->grant == 1)
+                {
+                    $val = 'Penugasan TPT/TPA';
+                }
+                else
+                {
+                    $val = 'Verifikasi';
+                }
+
             }
+
         }
         return $val;
     }

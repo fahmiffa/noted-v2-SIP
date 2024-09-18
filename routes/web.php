@@ -21,15 +21,19 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('main'); 
         Route::get('permohonan', [App\Http\Controllers\HomeController::class, 'req'])->name('req.index');     
         Route::get('dokumen/{id}', [App\Http\Controllers\HomeController::class, 'doc'])->name('req.doc'); 
-        Route::get('dokumen-permohonan/{id}', [App\Http\Controllers\HomeController::class, 'view'])->name('req.view');   
+        // Route::get('dokumen-permohonan/{id}', [App\Http\Controllers\HomeController::class, 'view'])->name('req.view');   
+        Route::get('monitoring', [App\Http\Controllers\HomeController::class, 'monitoring'])->name('monitoring');         
     });
 
     Route::group(['prefix'=>'master'],function() {   
-
+        
+        Route::get('shst', [App\Http\Controllers\Account\UserController::class, 'shst'])->name('shst');   
+        Route::post('shst', [App\Http\Controllers\Account\UserController::class, 'shsts'])->name('shsts');   
+        
         Route::group(['prefix'=>'account'],function() {   
             Route::resource('role', App\Http\Controllers\Account\RoleController::class);  
             Route::resource('permission', App\Http\Controllers\Account\PermissionController::class);  
-            Route::resource('user', App\Http\Controllers\Account\UserController::class);            
+            Route::resource('user', App\Http\Controllers\Account\UserController::class);  
         });
 
         // master 
@@ -56,12 +60,14 @@ Route::group(['middleware' => 'auth'], function() {
     Route::group(['prefix'=>'task'],function() {  
         
         Route::resource('verification', App\Http\Controllers\VerificationController::class);  
-        Route::get('doc-verifikator/{id}', [App\Http\Controllers\VerificationController::class, 'doc'])->name('doc.verifikator');  
+        Route::get('verifikasi', [App\Http\Controllers\VerificationController::class, 'index'])->name('verification.index'); 
         Route::get('verifikasi-step/{id}', [App\Http\Controllers\VerificationController::class, 'step'])->name('step.verifikasi');  
         Route::get('edit-step/{id}', [App\Http\Controllers\VerificationController::class, 'modif'])->name('edit.verifikasi');  
-        Route::post('next-step/{id}', [App\Http\Controllers\VerificationController::class, 'next'])->name('next.verifikasi');    
+        Route::post('next-step/{id}', [App\Http\Controllers\VerificationController::class, 'next'])->name('next.verifikasi'); 
+        Route::post('pub-step/{id}', [App\Http\Controllers\VerificationController::class, 'pub'])->name('pub.verifikasi');    
         Route::post('back-step/{id}', [App\Http\Controllers\VerificationController::class, 'back'])->name('back.verifikasi'); 
-        Route::post('next-tahap/{id}', [App\Http\Controllers\VerificationController::class, 'nexts'])->name('nexts.verifikasi');  
+        Route::post('next-tahap/{id}', [App\Http\Controllers\VerificationController::class, 'nexts'])->name('nexts.verifikasi'); 
+        Route::post('pubs-tahap/{id}', [App\Http\Controllers\VerificationController::class, 'pubs'])->name('pubs.verifikasi');  
 
         Route::resource('news', App\Http\Controllers\NewsController::class);  
         Route::get('bak', [App\Http\Controllers\NewsController::class, 'index'])->name('news.index'); 
@@ -116,7 +122,8 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('send-schedule/{id}', [App\Http\Controllers\ScheduleController::class, 'send'])->name('schedule.send'); 
         Route::post('village', [App\Http\Controllers\HeadController::class, 'village'])->name('village');    
         Route::post('task', [App\Http\Controllers\HeadController::class, 'task'])->name('task');    
-        Route::get('doc-verifikasi/{id}', [App\Http\Controllers\HeadController::class, 'doc'])->name('doc.verifikasi');  
+
+        Route::get('verifikasi/{id}', [App\Http\Controllers\HomeController::class, 'docs'])->name('monitoring.doc');  
         Route::post('doc-apporove/{id}', [App\Http\Controllers\HeadController::class, 'approve'])->name('doc.approve');  
         Route::post('doc-reject/{id}', [App\Http\Controllers\HeadController::class, 'reject'])->name('doc.reject');            
     });

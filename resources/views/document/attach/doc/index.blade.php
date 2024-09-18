@@ -56,7 +56,7 @@
         <tr>
             <td colspan="2" style="padding: 0.5rem;font-weight:bold;text-align:center">Gambar Denah / Situasi</td>     
         </tr>
-        <tr>
+        <tr class="page-break">
             <td colspan="2" style="padding: 0.5rem;font-weight:bold;text-align:center">
                 @if($head->attach->pile_map)
                     <center>
@@ -67,14 +67,21 @@
         </tr>
         <tr>
             <td style="padding: 0.5rem;font-weight:bold;text-align:center" width="50%">
-                Lokasi Bangunan
-                @if($head->attach->pile_loc)
-                    <center>
-                        <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$head->attach->pile_loc))) }}"  style="width:100%;object-fit:cover;object-position:center;margin:auto;display:block">
-                    </center>                
+                Lokasi Bangunan         
+            </td>
+            <td style="padding: 0.5rem;font-weight:bold;text-align:center" width="50%">
+                Kondisi Lahan / Bangunan        
+            </td>    
+        </tr>   
+        <tr>
+            <td style="padding: 0.5rem;font-weight:bold;text-align:center" width="50%">
+                @if($head->attach->pile_land)
+                <center>
+                    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$head->attach->pile_land))) }}"  style="width:100%;object-fit:cover;object-position:center;margin:auto;display:block">
+                </center>                
                 @endif
             </td>
-            <td style="padding: 0.5rem;font-weight:bold;text-align:center" width="50%">Kondisi Lahan / Bangunan
+            <td style="padding: 0.5rem;font-weight:bold;text-align:center" width="50%">
                 @if($head->attach->pile_land)
                 <center>
                     <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$head->attach->pile_land))) }}"  style="width:100%;object-fit:cover;object-position:center;margin:auto;display:block">

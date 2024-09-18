@@ -26,9 +26,9 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>No. Registrasi</th>
-                                    <th>Pemohon</th>
+                                    <th width="17%">Pemohon</th>
                                     <th>Nama Bangunan</th>
-                                    <th>Lokasi Bangunan</th>
+                                    <th width="17%">Lokasi Bangunan</th>
                                     <th>No. Dokumen</th>
                                     <th>Tim</th>
                                     <th>Action</th>
@@ -44,17 +44,20 @@
                                         $reg = $item->doc->reg;
                                     @endphp
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td class="text-center">
                                             {{ $item->doc->reg }}
                                         </td>
                                         <td>
-                                            <h6 class="mb-0">Nama</h6>{{ $header ? $header[2] : null }}      
+                                            <h6 class="mb-0">Nama</h6>{{ $header ? $header[2] : null }}
                                             <h6 class="mb-0">Alamat</h6>
-                                            {{ $item->doc->region ? $item->doc->region->name.', ' : null }} {!! $item->doc->region ? $item->doc->region->kecamatan->name.'<br>' : null !!} {{ $header ? $header[4] : null }}                                                      
+                                            {{ $header ? $header[4] : null }}
                                         </td>
                                         <td>{{ $header ? $header[5] : null }}</td>
-                                        <td>{{ $header ? $header[7] : null }}</td>                                                          
+                                        <td>
+                                            {{ $item->doc->region ? $item->doc->region->name . ', ' : null }}
+                                            {!! $item->doc->region ? $item->doc->region->kecamatan->name . '<br>' : null !!} {{ $header ? $header[7] : null }}
+                                        </td>
                                         <td>
                                             {{ $item->doc->nomor }}
                                         </td>

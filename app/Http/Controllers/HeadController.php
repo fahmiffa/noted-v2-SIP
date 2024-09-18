@@ -51,29 +51,6 @@ class HeadController extends Controller
         return view('document.create',compact('data','user','dis'));
     }
 
-    public function doc($id)
-    {
-        $head = Verifikasi::where(DB::raw('md5(id)'),$id)->withTrashed()->first(); 
-        $docs  = Formulir::where('name',$head->type)->first();         
-        $step = $head->step == 1 ? 0 : 1;
-        
-        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
-        $data = compact('qrCode','docs','head','step');
-
-        if($head->step == 1)
-        {
-            $pdf = PDF::loadView('verifikator.doc.index', $data)->setPaper('a4', 'potrait');    
-            return $pdf->stream();
-            return view('verifikator.doc.index',$data);    
-        }
-        else
-        {
-            $pdf = PDF::loadView('verifikator.doc.home', $data)->setPaper('a4', 'potrait');    
-            return $pdf->stream();
-            return view('verifikator.doc.home',$data);    
-        }
-    }
-
     public function approve(Request $request, $id)
     {
         $head = Verifikasi::where(DB::raw('md5(id)'),$id)->first();   
