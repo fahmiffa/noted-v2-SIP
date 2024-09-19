@@ -259,20 +259,20 @@ class ConsultationController extends Controller
             'date'      => 'required',   
             'jenis'      => 'required',   
             'place'     => 'required',                                           
-            'place_des' => 'required',                                          
+            'place_des' => 'required',        
+            'pile' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',                                       
             ];
 
-        $message = ['required'=>'Field ini harus diisi'];
-        $request->validate($rule,$message);
-
-        if(count($request->notulen) > 2)
-        {
-            toastr()->error('Notulen maksimal 2', ['timeOut' => 5000]);
-            return back();
-        }
+            $message = [
+                'required'=>'Field ini harus diisi',
+                'mimes' => 'Extension File invalid',
+                'max' => 'File size max 2Mb',
+                ];
+            $request->validate($rule,$message);
 
         $kons = $consultation;
         $pile = $request->file('pile'); 
+        
         if($pile)
         {
             $ext = $pile->getClientOriginalExtension();
