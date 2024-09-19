@@ -313,7 +313,7 @@
 <div class="form-group">
     <h6>Lain-lain</h6>
     <div class="row mb-3" id="master">
-        @if($old && $old->other)
+        @if(count($other) > 0)
             @for($i=0;$i < count($other); $i++)
             <div class="col-md-3">
                 <input type="text" class="form-control" name="nameOther[{{$i}}]" value="{{$other[$i]->name}}" placeholder="item name">
