@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\District;
 use App\Models\Formulir;
 use App\Models\Head;
 use App\Models\Links;
@@ -19,7 +18,18 @@ class HomeController extends Controller
     public function profile()
     {
         $data = "Data Profil";
-        return view('profile',compact('data'));
+        return view('profile', compact('data'));
+    }
+
+    public function profiled(Request $request)
+    {
+        $rule = [
+            'reg' => 'required',
+            'doc' => 'required',
+        ];
+        $message = [
+            'required' => 'Field ini harus diisi',
+        ];
     }
 
     private function chart()
@@ -70,7 +80,7 @@ class HomeController extends Controller
                 $q->where('grant', 1);
             })->get()->count();
 
-            return view('home', compact('head', 'verif', 'kons', 'bak', 'barp','chart'));
+            return view('home', compact('head', 'verif', 'kons', 'bak', 'barp', 'chart'));
         }
 
         // notulen (teknis)
@@ -129,44 +139,37 @@ class HomeController extends Controller
     }
 
     private function LogFix($head)
-    {    
-        if($head->head_id)
-        {
+    {
+        if ($head->head_id) {
             $indexs = $head->parents->tmp->whereNotNull('deleted_at')->pluck('id')->toArray();
             $filter = $head->id;
-            $val = array_filter($indexs, function($value) use ($filter) {
-                return $value == $filter;      
+            $val = array_filter($indexs, function ($value) use ($filter) {
+                return $value == $filter;
             });
 
-            if(count($val) > 0)
-            {
-                $keys = array_keys($val)[0];            
+            if (count($val) > 0) {
+                $keys = array_keys($val)[0];
                 $no = $keys + 2;
-            }
-            else
-            {
+            } else {
                 $no = 0;
-            }        
-        }
-        else
-        {
+            }
+        } else {
             $no = 1;
         }
 
         return $no;
     }
 
-
     public function docs($id)
     {
         $head = Head::where(DB::raw('md5(id)'), $id)->withTrashed()->first();
-        $num = $this->LogFix($head);   
+        $num = $this->LogFix($head);
         $docs = Formulir::where('name', $head->type)->first();
 
         $step = $head->step == 1 ? 0 : 1;
 
         $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
-        $data = compact('qrCode', 'docs', 'head', 'step','num');
+        $data = compact('qrCode', 'docs', 'head', 'step', 'num');
 
         if ($head->step == 1) {
             $pdf = PDF::loadView('verifikator.doc.index', $data)->setPaper('a4', 'potrait');

@@ -54,7 +54,7 @@
                                         </td>
                                         <td class="text-center">                                                                                        
                                             {{ $header ? $header[7] : null }}<br>
-                                            {{ $item->region ? 'Ds. '.$item->region->name : null }},
+                                            {{ $item->region ? 'Desa/Kel. '.$item->region->name : null }},
                                             {{ $item->region ? 'Kec. '.$item->region->kecamatan->name : null }}
                                         </td>
                                         <td class="text-center">

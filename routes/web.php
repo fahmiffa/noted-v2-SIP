@@ -6,7 +6,6 @@ use App\Http\Controllers\Account\UserController;
 Route::get('/manjing', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
 Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::post('/', [App\Http\Controllers\HomeController::class, 'store'])->name('store');
-Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'log'])->name('sign');
 Route::get('/forgot', [App\Http\Controllers\AuthController::class, 'forgot'])->name('forgot');
 Route::post('/forgot', [App\Http\Controllers\AuthController::class, 'forget'])->name('forget');
@@ -17,12 +16,13 @@ Route::get('link/{id}', [App\Http\Controllers\HomeController::class, 'link'])->n
 Route::get('/dokumene/{id}', [App\Http\Controllers\HomeController::class, 'dok'])->name('dok');
 
 Route::group(['middleware' => 'auth'], function() {    
-
+    
     Route::group(['prefix'=>'home'],function() {
+        Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
+        Route::post('/profile', [App\Http\Controllers\HomeController::class, 'profiled'])->name('profiled');
         Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('main'); 
         Route::get('permohonan', [App\Http\Controllers\HomeController::class, 'req'])->name('req.index');     
         Route::get('dokumen/{id}', [App\Http\Controllers\HomeController::class, 'doc'])->name('req.doc'); 
-        // Route::get('dokumen-permohonan/{id}', [App\Http\Controllers\HomeController::class, 'view'])->name('req.view');   
         Route::get('monitoring', [App\Http\Controllers\HomeController::class, 'monitoring'])->name('monitoring');         
     });
 
@@ -129,7 +129,6 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('doc-reject/{id}', [App\Http\Controllers\HeadController::class, 'reject'])->name('doc.reject');            
     });
 
-    Route::resource('schedule', App\Http\Controllers\ScheduleController::class);  
     Route::resource('verifikasi', App\Http\Controllers\HeadController::class);      
 });
 
