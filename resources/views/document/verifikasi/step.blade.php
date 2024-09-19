@@ -8,8 +8,9 @@
         $remain = true;
 
         $head = $head->parent ? $head->head[0] : $head;
-        $da = json_decode($head->steps[0]->item);
-        $other = json_decode($head->steps[0]->other);        
+        $old = $head->steps->where('kode', 'VL1')->first();
+        $da = json_decode($old->item);
+        $other = json_decode($old->other);        
         $itemDa = (array) $da->dokumen_administrasi->item;
         $saranItemDa = (array) $da->dokumen_administrasi->saranItem;
         $sub = (array) $da->dokumen_administrasi->sub;
@@ -313,7 +314,7 @@
 <div class="form-group">
     <h6>Lain-lain</h6>
     <div class="row mb-3" id="master">
-        @if(count($other) > 0)
+        @if($old && $old->other)
             @for($i=0;$i < count($other); $i++)
             <div class="col-md-3">
                 <input type="text" class="form-control" name="nameOther[{{$i}}]" value="{{$other[$i]->name}}" placeholder="item name">
