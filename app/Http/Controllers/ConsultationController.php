@@ -65,7 +65,7 @@ class ConsultationController extends Controller
             'jenis'      => 'required',   
             'place'     => 'required',                                           
             'place_des' => 'required',     
-            'pile' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',                          
+            'pile' => 'nullable|file|mimes:pdf|max:2048',                          
             ];
         
         $message = [
@@ -260,7 +260,7 @@ class ConsultationController extends Controller
             'jenis'      => 'required',   
             'place'     => 'required',                                           
             'place_des' => 'required',        
-            'pile' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',                                       
+            'pile' => 'nullable|file|mimes:pdf|max:2048',                                       
             ];
 
             $message = [
