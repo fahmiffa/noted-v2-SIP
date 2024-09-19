@@ -9,6 +9,7 @@
 
         $head = $head->parent ? $head->head[0] : $head;
         $da = json_decode($head->steps[0]->item);
+        $other = json_decode($head->steps[0]->other);        
         $itemDa = (array) $da->dokumen_administrasi->item;
         $saranItemDa = (array) $da->dokumen_administrasi->saranItem;
         $sub = (array) $da->dokumen_administrasi->sub;
@@ -309,6 +310,62 @@
         </div>
     @endif
 @endforeach
+<div class="form-group">
+    <h6>Lain-lain</h6>
+    <div class="row mb-3" id="master">
+        @if($old && $old->other)
+            @for($i=0;$i < count($other); $i++)
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="nameOther[{{$i}}]" value="{{$other[$i]->name}}" placeholder="item name">
+            </div>
+            <div class="col-md-5">
+                <div class="d-flex justify-content-center">
+                    <div class="form-check d-inline-block">
+                        <input class="form-check-input" type="radio" name="item[{{$i}}]" value="1" {{ $other[$i]->value == '1' ? 'checked' : null  }}>
+                        <label class="form-check-label">Ada</label>
+                    </div>
+                    <div class="form-check d-inline-block mx-3">
+                        <input class="form-check-input" type="radio" name="item[{{$i}}]" value="0" {{ $other[$i]->value == '0' ? 'checked' : null  }}>
+                        <label class="form-check-label">Tidak Ada</label>
+                    </div>
+                    <div class="form-check d-inline-block">
+                        <input class="form-check-input" type="radio" name="item[{{$i}}]" value="2" {{ $other[$i]->value == '2' ? 'checked' : null  }}>
+                        <label class="form-check-label">Tidak Perlu</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <textarea class="form-control" name="saranOther[{{$i}}]" rows="2">{{$other[$i]->saran}}</textarea>
+            </div>
+            @endfor
+        @else
+            <div class="col-md-3">
+                <input type="text" class="form-control" name="nameOther[0]" placeholder="item name">
+            </div>
+            <div class="col-md-5">
+                <div class="d-flex justify-content-center">
+                    <div class="form-check d-inline-block">
+                        <input class="form-check-input" type="radio" name="item[0]" value="1">
+                        <label class="form-check-label">Ada</label>
+                    </div>
+                    <div class="form-check d-inline-block mx-3">
+                        <input class="form-check-input" type="radio" name="item[0]" value="0" checked>
+                        <label class="form-check-label">Tidak Ada</label>
+                    </div>
+                    <div class="form-check d-inline-block">
+                        <input class="form-check-input" type="radio" name="item[0]" value="2">
+                        <label class="form-check-label">Tidak Perlu</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <textarea class="form-control" name="saranOther[0]" rows="2"></textarea>
+            </div>
+        @endif
+    </div>
+    <div id="input"></div>
+    <button class="btn btn-success btn-sm rounded-pill" type="button" id="add-item">Tambah</button>
+</div>
 <label>Saran :</label>
 <input type="hidden" name="content" value="{{ ($remain) ? $head->saran : null}}">
 <div id="snow" style="height: 100px">
