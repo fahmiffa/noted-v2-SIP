@@ -45,7 +45,7 @@
             <div id="sidebar">
                 <div class="sidebar-wrapper active">
                     <div class="sidebar-header position-relative">
-                        <a href="{{route('home')}}">
+                        <a href="{{route('main')}}">
                             <div class="d-inline-flex">
                                 <img style="height: 1.4rem" class="my-auto" src="{{asset('assets/logo.png')}}" alt="Logo" srcset="">                                
                                 <h4 class="ms-2 my-auto">{{env('APP_NAME')}}</h4>                      
@@ -119,12 +119,8 @@
                                         <li>
                                             <h6 class="dropdown-header">Hello, {{ucwords(auth()->user()->name)}}</h6>
                                         </li>
-                                        {{-- <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i> My
-                                                Profile</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-gear me-2"></i>
-                                                Settings</a></li>
-                                        <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-wallet me-2"></i>
-                                                Wallet</a></li> --}}
+                                        <li><a class="dropdown-item" href="{{route('profile')}}"><i class="icon-mid bi bi-person me-2"></i> 
+                                                Profile</a></li>                           
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>

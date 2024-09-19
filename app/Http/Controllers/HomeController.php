@@ -16,6 +16,11 @@ use QrCode;
 
 class HomeController extends Controller
 {
+    public function profile()
+    {
+        $data = "Data Profil";
+        return view('profile',compact('data'));
+    }
 
     private function chart()
     {

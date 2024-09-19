@@ -6,6 +6,7 @@ use App\Http\Controllers\Account\UserController;
 Route::get('/manjing', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
 Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::post('/', [App\Http\Controllers\HomeController::class, 'store'])->name('store');
+Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'log'])->name('sign');
 Route::get('/forgot', [App\Http\Controllers\AuthController::class, 'forgot'])->name('forgot');
 Route::post('/forgot', [App\Http\Controllers\AuthController::class, 'forget'])->name('forget');

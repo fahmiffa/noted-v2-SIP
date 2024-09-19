@@ -64,10 +64,15 @@ class ConsultationController extends Controller
             'date'      => 'required',   
             'jenis'      => 'required',   
             'place'     => 'required',                                           
-            'place_des' => 'required',                               
+            'place_des' => 'required',     
+            'pile' => 'nullable|file|mimes:jpg,jpeg,png|max:2048',                          
             ];
         
-        $message = ['required'=>'Field ini harus diisi'];
+        $message = [
+            'required'=>'Field ini harus diisi',
+            'mimes' => 'Extension File invalid',
+            'max' => 'File size max 2Mb',
+            ];
         $request->validate($rule,$message);
 
         if(count($request->notulen) > 2)
