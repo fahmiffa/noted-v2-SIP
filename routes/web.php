@@ -20,6 +20,7 @@ Route::group(['middleware' => 'auth'], function() {
     Route::group(['prefix'=>'home'],function() {
         Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
         Route::post('/profile', [App\Http\Controllers\HomeController::class, 'profiled'])->name('profiled');
+        Route::post('/image', [App\Http\Controllers\HomeController::class, 'image'])->name('image');
         Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('main'); 
         Route::get('permohonan', [App\Http\Controllers\HomeController::class, 'req'])->name('req.index');     
         Route::get('dokumen/{id}', [App\Http\Controllers\HomeController::class, 'doc'])->name('req.doc'); 
@@ -130,6 +131,7 @@ Route::group(['middleware' => 'auth'], function() {
     });
 
     Route::resource('verifikasi', App\Http\Controllers\HeadController::class);      
+    Route::resource('schedule', App\Http\Controllers\ScheduleController::class);  
 });
 
 

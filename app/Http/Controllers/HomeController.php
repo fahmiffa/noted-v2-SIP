@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Formulir;
 use App\Models\Head;
+use App\Models\User;
 use App\Models\Links;
 use App\Models\Verifikator;
+use App\Rules\MatchOldPassword;
 use Auth;
 use Carbon\Carbon;
 use DB;
@@ -24,12 +26,23 @@ class HomeController extends Controller
     public function profiled(Request $request)
     {
         $rule = [
-            'reg' => 'required',
-            'doc' => 'required',
+            'oldpassword' => ['required', new MatchOldPassword],
+            'password' => 'required|confirmed|regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/',
+            'password_confirmation' => 'required',
         ];
         $message = [
-            'required' => 'Field ini harus diisi',
+            'required'  => 'Field ini harus diisi',
+            'confirmed' => 'Field :attribute Konfirm tidak valid',
+            'regex'     =>  'Password harus kombinasi Huruf dan Angka'     
         ];
+        $request->validate($rule, $message);
+
+        $user = User::where('id',Auth::user()->id)->first();
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        toastr()->success('Update Berhasil', ['timeOut' => 5000]);
+        return back();
     }
 
     private function chart()
@@ -168,24 +181,46 @@ class HomeController extends Controller
 
         $step = $head->step == 1 ? 0 : 1;
 
-        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
+        if($head->grant == 1)
+        {
+            $link = $head->links->where('ket','verifikasi')->first(); 
+            $res = route('link',['id'=>$link->short]);
+        }
+        else
+        {
+            $res = $head->reg;
+        }
+        
+        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($res));
+
         $data = compact('qrCode', 'docs', 'head', 'step', 'num');
+
 
         if ($head->step == 1) {
             $pdf = PDF::loadView('verifikator.doc.index', $data)->setPaper('a4', 'potrait');
             return $pdf->stream();
-            // return view('verifikator.doc.index', $data);
+            return view('verifikator.doc.index', $data);
         } else {
             $pdf = PDF::loadView('verifikator.doc.home', $data)->setPaper('a4', 'potrait');
             return $pdf->stream();
-            // return view('verifikator.doc.home', $data);
+            return view('verifikator.doc.home', $data);
         }
     }
 
     public function doc($id)
     {
         $head = Head::where(DB::raw('md5(id)'), $id)->first();
-        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
+        if($head->grant == 1)
+        {
+            $link = $head->links->where('ket','verifikasi')->first(); 
+            $res = route('link',['id'=>$link->short]);
+        }
+        else
+        {
+            $res = $head->reg;
+        }
+        
+        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($res));
         $data = compact('qrCode', 'head');
         $pdf = PDF::loadView('req.doc.index', $data)->setPaper('a4', 'potrait');
         return $pdf->stream();

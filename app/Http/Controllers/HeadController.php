@@ -57,7 +57,7 @@ class HeadController extends Controller
         $head->grant = 1;
         $head->tang = date('Y-m-d H:i:s');
         $head->save();
-        // genPDF($head->id,'verifikasi');
+        genPDF($head->id,'verifikasi');
         toastr()->success('Verifikasi Data berhasil', ['timeOut' => 5000]);
         return back();                
     }

@@ -23,5 +23,10 @@ return array(
     | ],
     */
 
-    'options' => array(),
+    'options' => [
+        'closeButton' => true,
+        'debug' => false,
+        'newestOnTop' => false,
+        'progressBar' => true,
+    ],
 );

@@ -6,6 +6,18 @@
         href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+    <style>
+        .image-preview {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .image-preview img {
+            width: 100px;
+            margin: 10px;
+        }
+    </style>
 @endpush
 @section('main')
     <div class="page-heading">
@@ -49,15 +61,33 @@
                                     </div>
                                 </div>
                                 <div class="col-md-8">
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
                                     <label>Gambar Denah Lokasi</label>
                                     <div class="form-group mb-3">
-                                        @isset($attach)
-                                            <img src="{{ asset('storage/' . $attach->pile_map) }}" class="w-50 my-3">
-                                        @endisset
-                                        <input class="form-control" type="file" name="pile_map"
-                                            accept=".jpg, .jpeg, .png">
 
-                                        @error('pile_map')
+                                        @isset($attach->pile_map)
+                                            <div class="d-flex justify-content-center mb-3">
+                                                @php
+                                                    $var = json_decode($head->attach->pile_map);
+                                                @endphp
+                                                @foreach ($var as $key)
+                                                    <img src="{{ asset('storage/' . $key) }}" class="w-25 ms-1">
+                                                @endforeach
+                                            </div>
+                                        @endisset
+                                        <small class="text-danger fw-bold">Format ekstensi upload JPG, JPEG, PNG</small>
+                                        <input class="form-control" type="file" id="imageInput"
+                                            accept=".jpg, .jpeg, .png" name="pile_map[]" multiple>
+
+                                        @error('pile_map[]')
                                             <div class='small text-danger text-left'>{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -65,9 +95,12 @@
                                 <div class="col-md-6 mt-3">
                                     <label>Lokasi Bangunan</label>
                                     <div class="form-group mb-3">
-                                        @isset($attach)
-                                            <img src="{{ asset('storage/' . $attach->pile_loc) }}" class="w-50 my-3">
+                                        @isset($attach->pile_loc)
+                                            <div class="d-flex justify-content-center mb-3">
+                                                <img src="{{ asset('storage/' . $attach->pile_loc) }}" class="w-50">
+                                            </div>
                                         @endisset
+                                        <small class="text-danger fw-bold">Format ekstensi upload JPG, JPEG, PNG</small>
                                         <input class="form-control" type="file" name="pile_loc"
                                             accept=".jpg, .jpeg, .png">
 
@@ -79,9 +112,12 @@
                                 <div class="col-md-6 mt-3">
                                     <label>Kondisi Lahan / Bangunan</label>
                                     <div class="form-group mb-3">
-                                        @isset($attach)
-                                            <img src="{{ asset('storage/' . $attach->pile_land) }}" class="w-50 my-3">
+                                        @isset($attach->pile_land)
+                                            <div class="d-flex justify-content-center mb-3">
+                                                <img src="{{ asset('storage/' . $attach->pile_land) }}" class="w-50">
+                                            </div>
                                         @endisset
+                                        <small class="text-danger fw-bold">Format ekstensi upload JPG, JPEG, PNG</small>
                                         <input class="form-control" type="file" name="pile_land"
                                             accept=".jpg, .jpeg, .png">
 
@@ -119,43 +155,5 @@
 
 @push('js')
     <script src="{{ asset('assets/extensions/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
-    <script src="{{ asset('assets/static/js/pages/form-element-select.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
-    <script>
-        $('#type').on('change', function() {
-            var tipe = $(this).val();
-
-            if (tipe == 'umum') {
-                $('#con').html('Fungsi');
-            } else {
-                $('#con').html('Koordinat');
-            }
-        });
-
-        $('.select-field').select2({
-            theme: 'bootstrap-5'
-        });
-
-        $('#dis').on('change', function(e) {
-            e.preventDefault();
-            $('#des').empty();
-            $.ajax({
-                type: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: "{{ route('village') }}",
-                data: {
-                    id: $(this).val()
-                },
-                success: function(data) {
-                    $.each(data, function(key, value) {
-                        $('#des').append('<option value="' + key + '">' + value + '</option>');
-                    });
-                }
-            });
-        });
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
 @endpush

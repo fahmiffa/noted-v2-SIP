@@ -30,12 +30,13 @@
             <div class="container d-block">
                 @isset($public)
                 @else
-                    @isset($sign)
+                    @isset($kabid)
+                        <a href="{{ route('ba.verifikasi') }}"><i class="bi bi-chevron-left"></i></a>
                     @else
                         <a href="{{ $doc == 'bak' ? route('news.index') : route('meet.index') }}"><i class="bi bi-chevron-left"></i></a>
                     @endisset                
                 @endisset
-                <a class="navbar-brand ms-4 d-inline fw-bold" href="{{route('home')}}">
+                <a class="navbar-brand ms-4 d-inline fw-bold" href="{{route('main')}}">
                     {{$title}}          
                 </a>
             </div>

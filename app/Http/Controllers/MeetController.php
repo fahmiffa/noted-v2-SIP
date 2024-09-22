@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Head;
 use App\Models\Meet;
-use App\Models\News;
 use App\Models\Notulen;
 use App\Models\Signed;
 use Auth;
@@ -24,9 +23,9 @@ class MeetController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {        
-        
-        $val = Notulen::has('bak')->where('users', Auth::user()->id);
+    {
+
+        $val = Signed::where('user', Auth::user()->id);
         $da = $val->latest()->get();
 
         $data = "Berita Acara Rapat Pleno";
@@ -70,15 +69,15 @@ class MeetController extends Controller
         $request->validate($rule, $message);
 
         $input = $request->input();
-        $filter = ['jenis', '_token', 'fungsi', 'status', 'nib', 'doc', 'date','val0','val1','val2','val3','uraian','pengajuan','disetujui','keterangan'];        
+        $filter = ['jenis', '_token', 'fungsi', 'status', 'nib', 'doc', 'date', 'val0', 'val1', 'val2', 'val3', 'uraian', 'pengajuan', 'disetujui', 'keterangan'];
         $input = Arr::except($input, $filter);
 
         $da[] = $request->has('val0') ? 1 : 0;
         $da[] = $request->has('val1') ? 1 : 0;
         $da[] = $request->has('val2') ? 1 : 0;
         $da[] = $request->has('val3') ? 1 : 0;
-    
-        $input = array_merge($input, ['val'=> $da]);
+
+        $input = array_merge($input, ['val' => $da]);
         $header = [
             'nib' => $request->nib,
             'jenis' => $request->jenis,
@@ -91,14 +90,13 @@ class MeetController extends Controller
         $appr = $request->disetujui;
         $ket = $request->keterangan;
         $other = [];
-        if($ur)
-        {
-            for ($i=0; $i < count($ur) ; $i++) { 
+        if ($ur) {
+            for ($i = 0; $i < count($ur); $i++) {
                 $other[] = [
-                    'uraian'=>$ur[$i],
-                    'pengajuan'=>$peng[$i],
-                    'disetujui'=>$appr[$i],
-                    'keterangan'=>$ket[$i],
+                    'uraian' => $ur[$i],
+                    'pengajuan' => $peng[$i],
+                    'disetujui' => $appr[$i],
+                    'keterangan' => $ket[$i],
                 ];
             }
         }
@@ -112,7 +110,7 @@ class MeetController extends Controller
         $item->other = json_encode($other);
         $item->type = 'pleno';
         $item->status = 2;
-        $item->save();       
+        $item->save();
 
         toastr()->success('Tambah Data berhasil', ['timeOut' => 5000]);
         return redirect()->route('meet.index');
@@ -139,19 +137,17 @@ class MeetController extends Controller
     public function step($id)
     {
         $meet = Meet::where(DB::raw('md5(head)'), $id)->first();
-        $head = Head::where(DB::raw('md5(id)'), $id)->first();  
+        $head = Head::where(DB::raw('md5(id)'), $id)->first();
 
-        if(!$meet)
-        {
+        if (!$meet) {
             $his = $head->barpTemp->whereNotNull('deleted_at');
-            if($his->count() > 0)
-            {
+            if ($his->count() > 0) {
                 $meet = ($meet) ? $meet : $his[0];
             }
         }
 
         $data = "Dokumen " . $head->number;
-        return view('document.barp.create', compact('data', 'head','meet'));
+        return view('document.barp.create', compact('data', 'head', 'meet'));
 
     }
 
@@ -170,27 +166,26 @@ class MeetController extends Controller
     public function sign($id)
     {
         $news = Meet::where(DB::raw('md5(id)'), $id)->first();
-        if($news->status == 1)
-        {
+        if ($news->status == 1) {
             toastr()->error('Dokumen Sudah di publish', ['timeOut' => 5000]);
             return back();
         }
-        $val  = Notulen::where('users',Auth::user()->id)->where('head',$news->head)->first();   
-        $lead = $val->grade == 1 ? true : false;
+
+        $sign = $news->doc->sign->where('user', Auth::user()->id)->first();
+        $val = Notulen::where('users', Auth::user()->id)->where('head', $news->head)->first();
+        $lead = $sign->type == 'lead' ? true : false;
         $single = true;
         $title = 'Tanda Tangan Dokumen BARP';
         $doc = 'barp';
-        return view('document.barp.sign', compact('news', 'single','title','lead','doc'));
+        return view('document.barp.sign', compact('news', 'single', 'title', 'lead', 'doc', 'sign'));
     }
 
     public function signed(Request $request, $id)
     {
-        $meet = Meet::where(DB::raw('md5(id)'),$id)->first(); 
-        if($request->user == 'pemohon' || $request->user == 'petugas')
-        {
+        $meet = Meet::where(DB::raw('md5(id)'), $id)->first();
+        if ($request->user == 'pemohon' || $request->user == 'petugas') {
             $base64_image = $request->sign;
-            if ($base64_image && $meet->primary == 'TPA') 
-            {
+            if ($base64_image && $meet->primary == 'TPA') {
                 if ($request->user == 'petugas') {
                     $meet->sign = $base64_image;
                 } else {
@@ -199,16 +194,12 @@ class MeetController extends Controller
 
                 $meet->sign = $base64_image;
                 $meet->save();
-                toastr()->success('Tanda tangan berhasil, Complete', ['timeOut' => 5000]);            
-            }
-            else
-            {
+                toastr()->success('Tanda tangan berhasil, Complete', ['timeOut' => 5000]);
+            } else {
                 toastr()->error('Invalid Data', ['timeOut' => 5000]);
             }
 
-        }
-        else
-        {
+        } else {
             $sign = Signed::where(DB::raw('md5(user)'), $request->user)->where('head', $meet->head)->first();
             if ($sign) {
                 $base64_image = $request->sign;
@@ -226,37 +217,32 @@ class MeetController extends Controller
             }
 
         }
-        
+
         return back();
 
     }
 
     public function pub(Request $request, $id)
     {
-        $meet = Meet::where(DB::raw('md5(id)'),$id)->first();        
-        if($meet)
-        {
+        $meet = Meet::where(DB::raw('md5(id)'), $id)->first();
+        if ($meet) {
+            $sign = $meet->doc->sign->whereNull('barp')->first();
+            $val = Notulen::where('users', Auth::user()->id)->where('head', $meet->head)->first();
 
-            $val  = Notulen::where('users',Auth::user()->id)->where('head',$meet->head)->first();  
-
-            if($meet->sign == null && $val->user->roles->kode == 'TPA')
-            {
-                toastr()->error('Petugas belum tanda tangan', ['timeOut' => 5000]);
-            }    
-            else
-            {
-                $meet->status = 1; 
+            if ($sign) {
+                toastr()->error('Petugas ' . $sign->users->name . ' belum tanda tangan', ['timeOut' => 5000]);
+                return back();
+            } else {
+                $meet->status = 1;
                 $meet->save();
-                toastr()->success('Publish  berhasil, Complete', ['timeOut' => 5000]);   
-                return redirect()->route('meet.index');             
+                toastr()->success('Publish  berhasil, Complete', ['timeOut' => 5000]);
+                return redirect()->route('meet.index');
             }
-        }
-        else
-        {
+        } else {
             toastr()->error('Invalid Data', ['timeOut' => 5000]);
         }
         return back();
-        
+
     }
 
     public function next(Request $request, $id)

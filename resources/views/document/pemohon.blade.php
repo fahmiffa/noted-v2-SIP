@@ -15,7 +15,7 @@
         {{ $header ? $header[4] : null }}
     </div>
     <div class="col-4">        
-        <h6>Fungsi</h6>            
+        <h6>{{$head->type == 'umum' ? 'Fungsi' : 'Koordinat'}}</h6>            
         {{ $header ? $header[6] : null }}
     </div>
     <div class="col-4">
@@ -25,7 +25,7 @@
     <div class="col-4">
         <h6>Lokasi Bangunan</h6>
         {{ $header ? $header[7] : null }}<br>
-        {{ $head->region ? $head->region->name : null }},{{ $head->region ? $head->region->kecamatan->name : null }}
+        {{ $head->region ? 'Desa/Kel. '.$head->region->name : null }} {{ $head->region ? ' Kec. '.$head->region->kecamatan->name : null }}
 
     </div>
     <div class="col-4">                    

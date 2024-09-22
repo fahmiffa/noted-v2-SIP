@@ -21,7 +21,7 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>No. Registrasi</th>
-                                    <th width="17%" >Pemohon</th>
+                                    <th width="17%">Pemohon</th>
                                     <th>Nama Bangunan</th>
                                     <th width="17%">Lokasi Bangunan</th>
                                     <th>No. Dokumen</th>
@@ -47,7 +47,7 @@
                                         </td>
                                         <td>
                                             {{ $header ? $header[7] : null }}<br>
-                                            {{ $item->doc->region ? 'Desa/Kel. '.$item->doc->region->name . ', ' : null }}
+                                            {{ $item->doc->region ? 'Desa/Kel. ' . $item->doc->region->name . ', ' : null }}
                                             {{ $item->doc->region ? 'Kec. ' . $item->doc->region->kecamatan->name : null }}
                                         </td>
                                         <td class="text-center">
@@ -55,53 +55,51 @@
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-between">
-                                                @if ($item->barp)
-                                                    @if ($item->barp->status == 2)
-                                                        <a class="btn btn-{{ $item->barp->status == 2 ? 'dark' : 'success' }} btn-sm"
-                                                            href="{{ route('step.meet', ['id' => md5($item->head)]) }}"
-                                                            data-toggle="tooltip" data-placement="top"
-                                                            title="Dokumen Draft">
-                                                            <i class="bi bi-archive"></i>
+                                                @if ($item->type == 'lead')
+                                                    @if ($item->doc->barp)
+                                                        @if ($item->doc->barp->status == 2)
+                                                            <a class="btn btn-{{ $item->doc->barp->status == 2 ? 'dark' : 'success' }} btn-sm"
+                                                                href="{{ route('step.meet', ['id' => md5($item->head)]) }}"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Dokumen Draft">
+                                                                <i class="bi bi-archive"></i>
+                                                            </a>
+                                                            <button data-toggle="tooltip" data-placement="top"
+                                                                title="Tanda Tangan Dokumen"
+                                                                onclick="location.href='{{ route('sign.meet', ['id' => md5($item->doc->barp->id)]) }}'"
+                                                                class="btn btn-primary btn-sm mx-2"><i
+                                                                    class="bi bi-vector-pen"></i></button>
+                                                        @endif
+                                                        <a class="btn {{ $item->doc->barp->grant == 1 ? 'btn-success' : 'btn-danger' }} btn-sm"
+                                                            target="_blank"
+                                                            href="{{ route('doc.meet', ['id' => md5($item->doc->barp->id)]) }}"
+                                                            data-toggle="tooltip" data-placement="top" title="PDF Dokumen">
+                                                            <i class="bi bi-file-pdf"></i>
                                                         </a>
+                                                    @else
+                                                        @if ($item->barp && $item->barp->grant == 1)                                                      
+                                                            <a class="btn btn-danger btn-sm" target="_blank"
+                                                                href="{{ route('doc.news', ['id' => md5($item->doc->bak->id)]) }}"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="PDF Dokumen">
+                                                                <i class="bi bi-file-pdf"></i>
+                                                            </a>
+                                                        @else
+                                                            <a class="btn btn-primary btn-sm"
+                                                                href="{{ route('step.meet', ['id' => md5($item->head)]) }}"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Submit Dokumen">
+                                                                <i class="bi bi-send"></i>
+                                                            </a>
+                                                        @endif
+                                                    @endif
+                                                @else
+                                                    @if ($item->doc->barp)
                                                         <button data-toggle="tooltip" data-placement="top"
                                                             title="Tanda Tangan Dokumen"
                                                             onclick="location.href='{{ route('sign.meet', ['id' => md5($item->doc->barp->id)]) }}'"
                                                             class="btn btn-primary btn-sm mx-2"><i
                                                                 class="bi bi-vector-pen"></i></button>
-                                                    @endif
-
-                                                    <a class="btn {{ $item->barp->grant == 1 ? 'btn-success' : 'btn-danger' }} btn-sm"
-                                                        target="_blank"
-                                                        href="{{ route('doc.meet', ['id' => md5($item->barp->id)]) }}"
-                                                        data-toggle="tooltip" data-placement="top" title="PDF Dokumen">
-                                                        <i class="bi bi-file-pdf"></i>
-                                                    </a>
-                                                @else
-                                                    @if ($item->barp && $item->barp->grant == 1)
-                                                        <button data-toggle="tooltip" data-placement="top"
-                                                            title="Dokumen terlah diverifikasi"
-                                                            class="btn btn-success btn-sm"><i
-                                                                class="bi bi-check"></i></button>
-                                                        <a class="btn btn-danger btn-sm" target="_blank"
-                                                            href="{{ route('doc.news', ['id' => md5($item->doc->bak->id)]) }}"
-                                                            data-toggle="tooltip" data-placement="top" title="PDF Dokumen">
-                                                            <i class="bi bi-file-pdf"></i>
-                                                        </a>
-                                                    @else
-                                                        <a class="btn btn-primary btn-sm"
-                                                            href="{{ route('step.meet', ['id' => md5($item->head)]) }}"
-                                                            data-toggle="tooltip" data-placement="top"
-                                                            title="Submit Dokumen">
-                                                            <i class="bi bi-send"></i>
-                                                        </a>
-                                                        @if ($item->doc->barpTemp && $item->doc->barpTemp->count() > 0)
-                                                            {{-- <button class="btn btn-warning btn-sm ms-1" data-toggle="tooltip"
-                                                                data-placement="top" title="Dokumen di tolak verifikasi"
-                                                                data-bs-toggle="modal"
-                                                                data-bs-target="#des{{ $item->id }}">
-                                                                Perbaikan
-                                                            </button> --}}
-                                                        @endif
                                                     @endif
                                                 @endif
                                             </div>

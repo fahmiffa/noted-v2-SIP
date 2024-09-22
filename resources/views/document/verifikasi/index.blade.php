@@ -40,12 +40,17 @@
                                 </div>
                             </form>
                         @else
+
+                            @php
+                                $no = 1;
+                                $level = auth()->user()->roles->kode;
+                            @endphp
                             <form action="{{ route('nexts.verifikasi', ['id' => md5($head->id)]) }}" method="post" id="pub">
                                 @csrf
                                 @include('document.verifikasi.steps')
                                 <div class="d-flex justify-content-between" id="button">
                                     <button class="btn btn-primary rounded-pill">Draft</button>
-                                    @if($head->status < 5 && $head->steps->count() > 0)
+                                    @if($head->steps->where('kode', 'VL3')->first() && $level == 'VL2')
                                     <button type="button" onclick="pub()" class="btn btn-success rounded-pill">Save &
                                         Publish</button>
                                     @endif

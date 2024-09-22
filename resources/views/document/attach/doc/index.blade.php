@@ -56,12 +56,17 @@
         <tr>
             <td colspan="2" style="padding: 0.5rem;font-weight:bold;text-align:center">Gambar Denah / Situasi</td>     
         </tr>
-        <tr class="page-break">
+        <tr>
             <td colspan="2" style="padding: 0.5rem;font-weight:bold;text-align:center">
                 @if($head->attach->pile_map)
-                    <center>
-                        <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$head->attach->pile_map))) }}"  style="width:100%;object-fit:cover;object-position:center;margin:auto;display:block">
-                    </center>       
+                    @php
+                      $var = json_decode($head->attach->pile_map);
+                    @endphp
+                    @foreach($var as $key)
+                        <center>
+                            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$key))) }}"  style="width:95%;object-fit:cover;object-position:center;margin:auto;display:block;padding:0.1rem">
+                        </center>       
+                    @endforeach
                 @endif
             </td>     
         </tr>
@@ -77,7 +82,7 @@
             <td style="padding: 0.5rem;font-weight:bold;text-align:center" width="50%">
                 @if($head->attach->pile_land)
                 <center>
-                    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$head->attach->pile_land))) }}"  style="width:100%;object-fit:cover;object-position:center;margin:auto;display:block">
+                    <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$head->attach->pile_loc))) }}"  style="width:100%;object-fit:cover;object-position:center;margin:auto;display:block">
                 </center>                
                 @endif
             </td>

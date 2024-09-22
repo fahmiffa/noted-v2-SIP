@@ -53,7 +53,7 @@
                                             </td>
                                             <td class="text-center">
                                                 {{ $header ? $header[4] : null }}<br>
-                                                {{ $item->region ? 'Desa/Kel. '.$item->region->name : null }},
+                                                {{ $item->region ? 'Desa/Kel. ' . $item->region->name : null }},
                                                 {{ $item->region ? 'Kec. ' . $item->region->kecamatan->name : null }}
                                             </td>
                                             <td class="text-center">
@@ -70,11 +70,18 @@
                                                         href="{{ route('monitoring.doc', ['id' => md5($item->id)]) }}"
                                                         class="btn btn-sm btn-danger mx-2"><i
                                                             class="bi bi-file-pdf"></i></a>
-                                                @else
+                                                @else                                      
                                                     <a href="{{ route('step.verifikasi', ['id' => md5($item->id)]) }}"
                                                         data-toggle="tooltip" data-placement="top"
                                                         title="Form Dokumen verifikasi" class="btn btn-sm btn-primary"><i
                                                             class="bi bi-pencil"></i></a>
+
+                                                    @if ($item->steps->count() > 0)
+                                                        <a target="_blank"
+                                                            href="{{ route('monitoring.doc', ['id' => md5($item->id)]) }}"
+                                                            class="btn btn-sm btn-danger mx-2"><i
+                                                                class="bi bi-file-pdf"></i></a>
+                                                    @endif
                                                 @endif
 
 

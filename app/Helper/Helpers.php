@@ -20,7 +20,9 @@ function genPDF($id,$par)
         $shortUrl = Str::random(6);
     }
 
-    $link = new Links;
+    $link = Links::where('ket','verifikasi')->where('head',$id)->first();
+
+    $link = $link ? $link : new Links;
     $link->head  = $id;
     $link->ket   = $par;
     $link->short = $shortUrl;
@@ -33,22 +35,7 @@ function genPDF($id,$par)
         $docs  = Formulir::where('name',$head->type)->first();         
         $step = $head->step == 1 ? 0 : 1;
         $data = compact('qrCode','docs','head','step');
-        $view = 'verifikator.doc.index';
-    }
-
-    if($par == 'bak')
-    {
-        $news = $head->bak;
-        $data = compact('news','head');
-        $view = 'document.bak.doc.index';
-    }
-
-    if($par == 'barp')
-    {
-        $news = $head->bak;
-        $news = $head->barp;
-        $meet = compact('news','head','meet');
-        $view = 'document.barp.doc.index';
+        $view = $head->step == 1 ? 'verifikator.doc.index' : 'verifikator.doc.home';
     }
 
     $name = $par.'_'.$id.'.pdf';

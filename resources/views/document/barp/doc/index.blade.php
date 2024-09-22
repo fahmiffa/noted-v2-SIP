@@ -99,7 +99,7 @@
     Memutuskan untuk :   
     <table style="width:100%;">   
         <tr>
-            <td width="3%" style="border: none;vertical-align:top;font-family:DejaVu Sans">{!! $items->val[0] == 1 ? '&#x2611;' : '&#9746;' !!}</td>
+            <td width="3%" style="border: none;vertical-align:top;font-family:DejaVu Sans">{!! $items->val[0] == 1 ? '&#x2611;' : '&#9744;' !!}</td>
             <td style="border: none;vertical-align:top">Merekomendasikan penerbitan Surat Pernyataan Pemenuhan Standar Teknis PBG dan/atau SLF dengan :													
             </td>
         </tr>       
@@ -130,18 +130,18 @@
     </table>
     <table style="width:100%;">   
         <tr>
-            <td width="3%" style="border: none;vertical-align:top;font-family:DejaVu Sans">{!! $items->val[1] == 1 ? '&#x2611;' : '&#9746;' !!}</td>
+            <td width="3%" style="border: none;vertical-align:top;font-family:DejaVu Sans">{!! $items->val[1] == 1 ? '&#x2611;' : '&#9744;' !!}</td>
             <td style="border: none;vertical-align:top">Merekomendasikan pemohon untuk memperbaiki
                 dokumen / informasi yang diunggah melalui SIMBG</td>
         </tr>
         <tr>
-            <td style="border: none;vertical-align:top;font-family:DejaVu Sans">{!! $items->val[2] == 1 ? '&#x2611;' : '&#9746;' !!}</td>
+            <td style="border: none;vertical-align:top;font-family:DejaVu Sans">{!! $items->val[2] == 1 ? '&#x2611;' : '&#9744;' !!}</td>
             <td style="border: none;vertical-align:top">
                 Merekomendasikan pemohon untuk melakukan
                 pendaftaran ulang PBG dan/atau SLF melalui SIMBG</td>
         </tr>
         <tr>
-            <td style="border: none;vertical-align:top;font-family:DejaVu Sans">{!! $items->val[3] == 1 ? '&#x2611;' : '&#9746;' !!}</td>
+            <td style="border: none;vertical-align:top;font-family:DejaVu Sans">{!! $items->val[3] == 1 ? '&#x2611;' : '&#9744;' !!}</td>
             <td style="border: none;vertical-align:top">
                 Proses PBG dan/atau SLF tidak dapat dilanjutkan
                 / ditolak</td>

@@ -95,6 +95,10 @@
         </a>
     </li>
 
+    <li class="sidebar-item {{ request()->routeIs('profile') ? 'active' : null }} d-none">      
+        <span>All</span>
+    </li>
+
     @if (auth()->user()->ijin('master'))
         <li class="sidebar-item has-sub {{ Request::segment(1) == 'master' ? 'active' : null }}">
             <a href="#" class="sidebar-link">

@@ -11,8 +11,6 @@ use Auth;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use PDF;
-use QrCode;
 
 class VerificationController extends Controller
 {
@@ -158,9 +156,25 @@ class VerificationController extends Controller
                 DB::rollback();
             }
 
-            if(!$step)
-            {
+            if (!$step) {
                 $step = new Step;
+            }
+
+            if ($request->nameOther) {
+                $other = $request->nameOther;
+
+                foreach ($other as $key => $value) {
+                    if ($value) {
+                        $others[] = [
+                            'name' => $value,
+                            'value' => $request->item[$key],
+                            'saran' => $request->saranOther[$key],
+                        ];
+                    } else {
+                        $others = null;
+                    }
+                }
+                $step->other = $others ? json_encode($others) : null;
             }
             $step->kode = $level;
             $step->head = $head->id;
@@ -169,7 +183,7 @@ class VerificationController extends Controller
                 DB::rollback();
             }
 
-            DB::commit();           
+            DB::commit();
             toastr()->success('Input Complete', ['timeOut' => 5000]);
             return redirect()->route('verification.index');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
@@ -270,9 +284,25 @@ class VerificationController extends Controller
                 DB::rollback();
             }
 
-            if(!$step)
-            {
+            if (!$step) {
                 $step = new Step;
+            }
+
+            if ($request->nameOther) {
+                $other = $request->nameOther;
+
+                foreach ($other as $key => $value) {
+                    if ($value) {
+                        $others[] = [
+                            'name' => $value,
+                            'value' => $request->item[$key],
+                            'saran' => $request->saranOther[$key],
+                        ];
+                    } else {
+                        $others = null;
+                    }
+                }
+                $step->other = $others ? json_encode($others) : null;
             }
             $step->kode = $level;
             $step->head = $head->id;
@@ -281,7 +311,7 @@ class VerificationController extends Controller
                 DB::rollback();
             }
 
-            DB::commit();           
+            DB::commit();
             toastr()->success('Input Complete', ['timeOut' => 5000]);
             return redirect()->route('verification.index');
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
@@ -449,21 +479,18 @@ class VerificationController extends Controller
                 }
 
                 $item['dokumen_pendukung_lainnya'] = $da;
-                
+
                 if ($request->nameOther) {
                     $other = $request->nameOther;
 
                     foreach ($other as $key => $value) {
-                        if($value)
-                        {
+                        if ($value) {
                             $others[] = [
                                 'name' => $value,
                                 'value' => $request->item[$key],
                                 'saran' => $request->saranOther[$key],
                             ];
-                        }
-                        else
-                        {
+                        } else {
                             $others = null;
                         }
                     }
@@ -491,13 +518,11 @@ class VerificationController extends Controller
                             'saran' => $request->saranSubDt,
                         ];
                     }
-                    $dt['sub'] = $subDt;               
-                }            
+                    $dt['sub'] = $subDt;
+                }
 
                 $item['persyaratan_teknis'] = $dt;
             }
-
-
 
             $step->kode = $level;
             $step->head = $head->id;
@@ -509,7 +534,7 @@ class VerificationController extends Controller
 
         if ($level == 'VL3') {
 
-            $step = ($vl3) ? $vl3 : new Step;   
+            $step = ($vl3) ? $vl3 : new Step;
 
             if ($request->itemDa) {
                 $da['item'] = $request->itemDa;
@@ -604,21 +629,18 @@ class VerificationController extends Controller
                 }
 
                 $item['dokumen_pendukung_lainnya'] = $da;
-                
+
                 if ($request->nameOther) {
                     $other = $request->nameOther;
 
                     foreach ($other as $key => $value) {
-                        if($value)
-                        {
+                        if ($value) {
                             $others[] = [
                                 'name' => $value,
                                 'value' => $request->item[$key],
                                 'saran' => $request->saranOther[$key],
                             ];
-                        }
-                        else
-                        {
+                        } else {
                             $others = null;
                         }
                     }
@@ -646,13 +668,11 @@ class VerificationController extends Controller
                             'saran' => $request->saranSubDt,
                         ];
                     }
-                    $dt['sub'] = $subDt;               
-                }            
+                    $dt['sub'] = $subDt;
+                }
 
                 $item['persyaratan_teknis'] = $dt;
             }
-
-
 
             $step->kode = $level;
             $step->head = $head->id;
@@ -664,7 +684,7 @@ class VerificationController extends Controller
 
         if ($level == 'VL3') {
 
-            $step = ($vl3) ? $vl3 : new Step;   
+            $step = ($vl3) ? $vl3 : new Step;
 
             if ($request->itemDa) {
                 $da['item'] = $request->itemDa;

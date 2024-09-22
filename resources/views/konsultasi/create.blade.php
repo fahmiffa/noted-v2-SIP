@@ -239,7 +239,8 @@
 
                                     <div class="form-group row mb-3">
                                         <div class="col-md-8">
-                                            <label>Lampiran</label>
+                                            <label>Lampiran</label><br>
+                                            <small class="text-danger fw-bold">Format ekstensi upload PDF</small>
                                             <input class="form-control" name="pile" type="file" accept=".pdf">
                                             @error('pile')
                                                 <div class='small text-danger text-left'>{{ $message }}</div>

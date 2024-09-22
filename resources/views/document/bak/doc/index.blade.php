@@ -1,17 +1,16 @@
 @extends('layout.pdf')
 @section('main')
-
-    @if($head->do == 1)
+    @if ($head->do == 1 && $head->bak->primary == 'TPA')
         <table style="width:30%;" class="footer">
             <tr>
-                <td style="padding:0.2rem;">
+                <td style="padding:0.2rem;font-size:7;font-weight:bold">
                     Mengetahui Kepala Bidang
                 </td>
-                <td style="padding:0.2rem;">
+                <td style="padding:0.2rem;font-size:7;font-weight:bold">
                     OK
                 </td>
             </tr>
-        </table>     
+        </table>
     @endif
     <header>
         <table style="width: 100%; border:none">
@@ -155,12 +154,6 @@
             </tr>
         </table>
         <br>
-        Saran :<br>
-        @if ($head->bak->note)
-            {!! $head->bak->note !!}
-        @else
-            <br>
-        @endif
         <table style="width:100%;">
             <tr>
                 <td style="border: none" colspan="2">Dengan ditandatangani Berita Acara ini, maka Pemohon telah memahami
@@ -222,10 +215,17 @@
                 </td>
             </tr>
         </table>
+        <br>
+        Saran :<br>
+        @if ($head->bak->note)
+            {!! $head->bak->note !!}
+        @else
+            <br>
+        @endif
         <p>Demikian hasil konsultasi TPT/TPA yang dihadiri oleh:</p>
         @if ($head->sign)
             <table style="width:35%;">
-                @foreach ($head->sign->where('type', 'member') as $val)
+                @foreach ($head->sign as $val)
                     <tr>
                         <td width="2%" style="border: none">
                             {{ $loop->iteration }}.
@@ -235,7 +235,7 @@
                         </td>
                         <td style="border: none">
                             @if ($val->bak)
-                                <img src="{{ $val->bak }}" width="80%" style="margin: auto">
+                                <img src="{{ $val->bak }}" width="60%" style="margin: auto">
                             @endif
                         </td>
                     </tr>
@@ -248,8 +248,17 @@
                     <p>Mengetahui,<br>
                         Ketua TPT/TPA Kab. Tegal
                     </p>
-                    @if ($head->bak->sign)
-                        <img src="{{ $head->bak->sign }}" width="50%" style="margin: auto">
+                    @if ($head->bak)
+                        @if ($head->bak->primary == 'TPT')
+                            <img src="{{ $head->bak->sign }}" width="50%" style="margin: auto">
+                        @endif
+
+                        @if ($head->bak->primary == 'TPA')
+                            @php
+                             $sign = $head->sign->where('type','lead')->first();
+                            @endphp
+                            <img src="{{ $sign->bak }}" width="50%" style="margin: auto">
+                        @endif
                         <br>
                     @else
                         <br><br><br><br>
@@ -266,5 +275,24 @@
                     {{ $header[2] }}
                 </td>
             </tr>
-        </table>  
+        </table>
+
+        @if ($head->grant == 1)
+            @php  $header = (array) json_decode($head->header); @endphp
+            <script type="text/php"> 
+            if (isset($pdf)) { 
+                //Shows number center-bottom of A4 page with $x,$y values
+                $x = 270;  //X-axis vertical position 
+                $y = 828; //Y-axis horizontal position
+                $text = "Lembar BAK Dokumen No. {{ str_replace('SPm', 'BAK', str_replace('600.1.15', '600.1.15/PBLT', $head->nomor)) }} | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
+                $font =  $fontMetrics->get_font("helvetica", "bold");
+                $size = 7;
+                $color = array(0,0,0);
+                $word_space = 0.0;  //  default
+                $char_space = 0.0;  //  default
+                $angle = 0.0;   //  default
+                $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+            }
+        </script>
+        @endif
     @endsection

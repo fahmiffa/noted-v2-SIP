@@ -9,6 +9,17 @@
 
             $VL1 = $head->steps->where('kode', 'VL1')->first();
             $da = json_decode($VL1->item);
+
+            $other = $VL1->other ? json_decode($VL1->other) : null;
+            if ($other) {
+                foreach ($other as $side) {
+                    $oth[] = $side->value;
+                }
+                $vother[] = in_array(0, $oth);
+                $vother[] = in_array(1, $oth);
+                $vother = in_array(true, $vother);
+            }
+
             $itemDa = (array) $da->dokumen_administrasi->item;
             $saranItemDa = (array) $da->dokumen_administrasi->saranItem;
             $sub = (array) $da->dokumen_administrasi->sub;
@@ -68,8 +79,14 @@
 
         <table autosize="1" style="width: 100%">
             <tbody>
+                @php
+                    $last = 0;
+                @endphp
                 @foreach ($docs->title as $row)
-                    @php $no = 1; @endphp
+                    @php
+                        $no = 1;
+                        $last++;
+                    @endphp
                     @if ($row->name == doc(5, $head->type) && $vitemDa)
                         <tr style="font-weight: bold;">
                             <td width="5%" align="center">{{ strtoupper(Abjad($loop->index)) }}.</td>
@@ -83,10 +100,11 @@
                                     $valsubDa = $subDa[$item->id]['value'];
                                     $vw0 = in_array(0, $valsubDa);
                                     $vw1 = in_array(1, $valsubDa);
+                                    $indeks = 0;
                                 @endphp
                                 @if ($vw0 || $vw1)
                                     <tr>
-                                        <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
+                                        <td style="text-align: right;">{{ $no++ }}&nbsp;</td>
                                         <td colspan="4">&nbsp;{{ $item->name }}</td>
                                     </tr>
                                 @endif
@@ -94,12 +112,14 @@
                                     @if ($subDa[$item->id]['value'][$sub->id] != 2)
                                         <tr>
                                             <td></td>
-                                            <td width="1%" style="vertical-align:top;border-right:0px">
-                                                &nbsp;{{ abjad($loop->index) }}. </td>
+                                            <td width="1%" style="border-right:0px">
+                                                &nbsp;{{ abjad($indeks++) }}. </td>
                                             <td style="border-left:0px">&nbsp;{{ $sub->name }}</td>
                                             <td align="center">{{ status($subDa[$item->id]['value'][$sub->id]) }}</td>
                                             <td align="center">{{ $subDa[$item->id]['saran'][$sub->id] }}</td>
                                         </tr>
+                                    @else
+                                        @php $indeks -= $indeks; @endphp
                                     @endif
                                 @endforeach
                             @else
@@ -128,6 +148,7 @@
                                     $valsubDt = $subDt[$item->id]['value'];
                                     $vw0 = in_array(0, $valsubDt);
                                     $vw1 = in_array(1, $valsubDt);
+                                    $indeks = 0;
                                 @endphp
                                 @if ($vw0 || $vw1)
                                     <tr>
@@ -140,11 +161,13 @@
                                         <tr>
                                             <td></td>
                                             <td width="1%" style="vertical-align:top;border-right:0px">
-                                                &nbsp;{{ abjad($loop->index) }}. </td>
+                                                &nbsp;{{ abjad($indeks++) }}. </td>
                                             <td style="border-left:0px">&nbsp;{{ $sub->name }}</td>
                                             <td align="center">{{ status($subDt[$item->id]['value'][$sub->id]) }}</td>
                                             <td align="center">{{ $subDt[$item->id]['saran'][$sub->id] }}</td>
                                         </tr>
+                                    @else
+                                        @php $indeks -= $indeks; @endphp
                                     @endif
                                 @endforeach
                             @else
@@ -173,6 +196,7 @@
                                     $valSubDpl = $subDpl[$item->id]['value'];
                                     $vw0 = in_array(0, $valSubDpl);
                                     $vw1 = in_array(1, $valSubDpl);
+                                    $indeks = 0;
                                 @endphp
                                 @if ($vw0 || $vw1)
                                     <tr>
@@ -184,11 +208,13 @@
                                             <tr>
                                                 <td></td>
                                                 <td width="1%" style="vertical-align:top;border-right:0px">
-                                                    &nbsp;{{ abjad($loop->index) }}. </td>
+                                                    &nbsp;{{ abjad($indeks++) }}. </td>
                                                 <td style="border-left:0px">&nbsp;{{ $sub->name }}</td>
                                                 <td align="center">{{ status($subDpl[$item->id]['value'][$sub->id]) }}</td>
                                                 <td align="center">{{ $subDpl[$item->id]['saran'][$sub->id] }}</td>
                                             </tr>
+                                        @else
+                                            @php $indeks -= $indeks; @endphp
                                         @endif
                                     @endforeach
                                 @endif
@@ -205,13 +231,31 @@
                         @endforeach
                     @endif
                 @endforeach
+                @if ($head->type == 'umum' && $other && $vother)
+                    <tr style="font-weight: bold;">
+                        <td align="center">{{ strtoupper(Abjad($last)) }}. {{ $last }}</td>
+                        <td colspan="4">&nbsp;Lain-lain</td>
+                    </tr>
+
+                    @for ($i = 0; $i < count($other); $i++)
+                        @if ($other[$i]->value != 2)
+                            <tr>
+                                <td></td>
+                                <td width="1%" style="vertical-align:top;border-right:0px">
+                                    &nbsp;{{ abjad($i) }}. </td>
+                                <td style="border-left:0px">&nbsp;{{ $other[$i]->name }}</td>
+                                <td align="center">{{ status($other[$i]->value) }}</td>
+                                <td align="center">{{ $other[$i]->saran }}</td>
+                            </tr>
+                        @endif
+                    @endfor
+                @endif
+
             </tbody>
         </table>
     </main>
 
-    @if ($head->status == 1)
-        @include('verifikator.doc.footer')
-    @endif
+    @include('verifikator.doc.footer')
 
 
     @if ($head->deleted_at)

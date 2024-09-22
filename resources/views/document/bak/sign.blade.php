@@ -14,7 +14,7 @@
             <div class="col-12">
 
                 <div class="row">
-                    @if ($doc == 'bak')
+                    @if ($doc == 'bak' && $lead)
                         <div class="col-6 col-sm-6 mx-auto">
                             <div class="card text-center border border-dark fw-bold">
                                 <div class="card-header">Pemohon</div>
@@ -29,53 +29,27 @@
                                 </div>
                             </div>
                         </div>
-                    @endif   
+                    @endif
                 </div>
 
-                @if ($news->doc->sign)
-                    <div class="divider">
-                        <div class="divider-text">Anggota</div>
-                    </div>
-                    <div class="row">
-                        @foreach ($news->doc->sign->where('type', 'member') as $member)
-                            <div class="col-6 col-sm-6 mx-auto">
-                                <div class="card text-center border border-dark fw-bold">
-                                    <div class="card-header">{{ $member->users->name }}</div>
-                                    <div class="card-body">
-                                        @if ($member->bak)
-                                            <img src="{{ $member->bak }}" class="mx-auto d-block img-fluid">
-                                        @endif
-                                    </div>
-                                    <div class="card-footer">
-                                        <button class="btn btn-primary btn-sm rounded-pill mx-auto d-block signs"
-                                            data-id="{{ md5($member->user) }}" type="button">Tanda Tangan</button>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                @endif
-
+                <div class="divider">
+                    <div class="divider-text">{{ $lead ? 'Ketua' : 'Anggota' }}</div>
+                </div>
                 <div class="row">
-                    @if ($news->primary == 'TPA' && $lead)
-                    <div class="divider">
-                        <div class="divider-text">Ketua</div>
-                    </div>
-                        <div class="col-6 col-sm-6 mx-auto">
-                            <div class="card text-center border border-dark fw-bold">
-                                <div class="card-header">{{ $news->leader }}</div>
-                                <div class="card-body">
-                                    @if ($news->sign)
-                                        <img src="{{ $news->sign }}" class="mx-auto d-block img-fluid">
-                                    @endif
-                                </div>
-                                <div class="card-footer">
-                                    <button class="btn btn-primary btn-sm rounded-pill mx-auto d-block signs"
-                                        data-id="petugas" type="button">Tanda Tangan</button>
-                                </div>
+                    <div class="col-6 col-sm-6 mx-auto">
+                        <div class="card text-center border border-dark fw-bold">
+                            <div class="card-header">{{ $sign->users->name }}</div>
+                            <div class="card-body">
+                                @if ($sign->bak)
+                                    <img src="{{ $sign->bak }}" class="mx-auto d-block img-fluid">
+                                @endif
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary btn-sm rounded-pill mx-auto d-block signs"
+                                    data-id="{{ md5($sign->user) }}" type="button">Tanda Tangan</button>
                             </div>
                         </div>
-                    @endif
+                    </div>
                 </div>
 
                 @if ($lead)

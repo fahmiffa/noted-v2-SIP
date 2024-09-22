@@ -16,6 +16,14 @@
 
     td {
         border: 1px solid black;
+        vertical-align: top;
+    }
+
+    .warp {
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-all;
+        white-space: normal;
     }
 
     .img {
@@ -28,13 +36,18 @@
         page-break-after: always;
     }
 
+    p {
+        overflow-wrap: break-word;
+        white-space: normal;
+    }
+
     .footer {
         position: fixed;
         bottom: -40px;
         left: 0px;
         right: 0px;
         height: 20px;
-               
+
         color: black;
         /* text-align: center; */
         /* line-height: 35px; */

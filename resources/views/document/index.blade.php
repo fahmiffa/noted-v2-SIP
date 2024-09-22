@@ -72,18 +72,10 @@
                                         <td class="d-flex justify-content-center align-items-center my-auto"
                                             style="height: 150px">
 
-                                            @if ($item->status == 5)
+                                            @if ($item->status == 5 && $item->parent == null)
                                                 <a href="{{ route('verifikasi.edit', $item->id) }}" data-toggle="tooltip"
                                                     data-placement="top" title="Edit Dokumen"
                                                     class="btn btn-sm btn-primary me-1">Edit</a>                                 
-                                            @endif
-
-                                            @if ($item->status == 3)
-                                                <button type="button" class="btn btn-warning btn-sm" data-toggle="tooltip"
-                                                    data-placement="top" title="Dokumen Process">
-                                                    <i class="bi bi-exclamation-triangle-fill"></i>
-                                                </button>
-                                                &nbsp;
                                             @endif
 
                                             @if ($item->status == 1)

@@ -11,6 +11,12 @@ class Signed extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'signed';
 
+
+    public function doc()
+    {         
+        return $this->belongsTo(Head::class, 'head', 'id'); 
+    }
+
     public function users()
     {   
         return $this->HasOne(User::class, 'id', 'user'); 

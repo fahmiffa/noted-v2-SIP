@@ -144,6 +144,11 @@ class Head extends Model
                 {
                     $val = 'Verifikasi Ulang';
                 }
+
+                else if($this->status == 2)
+                {
+                    $val = 'Proses Verifikasi';
+                }
                 
                 else if($this->status == 1 && $this->grant == 0)
                 {
@@ -206,6 +211,11 @@ class Head extends Model
     public function head()
     {        
         return $this->HasMany(Head::class, 'id', 'parent')->withTrashed();
+    }
+
+    public function old()
+    {        
+        return $this->HasOne(Head::class, 'id', 'parent')->withTrashed();
     }
 
     public function sign()

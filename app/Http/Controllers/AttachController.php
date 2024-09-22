@@ -127,7 +127,7 @@ class AttachController extends Controller
             'koordinat' => 'required',
             'pile_loc' => 'nullable|mimes:jpeg,png,jpg,|max:2048',
             'pile_land' => 'nullable|mimes:jpeg,png,jpg|max:2048',
-            'pile_map' => 'nullable|mimes:jpeg,png,jpg|max:2048',
+            'pile_map.*' => 'nullable|mimes:jpeg,png,jpg|max:2048',
         ];
         $message = ['required' => 'Field ini harus diisi',
                      'mimes' => 'Ektensi file harus jpeg, jpg atau png',
@@ -150,13 +150,16 @@ class AttachController extends Controller
         }
 
         $pile_map = $request->file('pile_map');
-        if ($pile_map) {
-            $ext = $pile_map->getClientOriginalExtension();
-            $path = $pile_map->storeAs(
-                'assets/data/pile_map.' . $ext, ['disk' => 'public']
+        $filePaths = [];
+        foreach ($pile_map as $key => $value) {
+            
+            $ext = $value->getClientOriginalExtension();
+            $path = $value->storeAs(
+                'assets/data/pile_map'.$key.'.' . $ext, ['disk' => 'public']
             );
-            $item->pile_map = $path;
+            $filePaths[] = $path;
         }
+        $item->pile_map = json_encode($filePaths);
 
         $pile_land = $request->file('pile_land');
         if ($pile_land) {

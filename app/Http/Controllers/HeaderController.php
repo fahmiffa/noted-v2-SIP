@@ -46,8 +46,8 @@ class HeaderController extends Controller
   
         $single = true;   
         $title = $head->bak->primary == 'TPT' ? 'Tanda Tangan Dokumen' : 'Verifikasi Dokumen';
-        $sign = true;
-        return view('document.sign',compact('single','title','head','sign'));
+        $kabid = true;
+        return view('document.sign',compact('single','title','head','kabid'));
     }
 
     public function baSigned(Request $request, $id)
@@ -113,7 +113,6 @@ class HeaderController extends Controller
 
     public function baReject(Request $request, $id)
     {
-        // dd($request->input());
         if($request->type == 0)
         {
             $bak = News::where(DB::raw('md5(head)'), $id)->first();

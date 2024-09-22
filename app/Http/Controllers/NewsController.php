@@ -25,7 +25,8 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $val = Notulen::where('users', Auth::user()->id);
+        // $val = Notulen::where('users', Auth::user()->id);
+        $val = Signed::where('user', Auth::user()->id);
         $da = $val->latest()->get();
 
         $data = "Berita Acara Konsultasi";
@@ -91,7 +92,6 @@ class NewsController extends Controller
                 $pars[] = [$par, $pard[$key], $parc[$key]];
             }
 
-
             $item->ibg = json_encode($pars);
         }
         $item->type = 'konsultasi';
@@ -104,7 +104,7 @@ class NewsController extends Controller
         $da['informasi_umum'] = $iu;
 
         $input = $request->input();
-        $filter = ['note', '_token', 'idb', 'idp', 'doc', 'north', 'east', 'west', 'south', 'val', 'width', 'kondisi', 'build', 'permanensi', 'files','par','par_d','par_c'];
+        $filter = ['note', '_token', 'idb', 'idp', 'doc', 'north', 'east', 'west', 'south', 'val', 'width', 'kondisi', 'build', 'permanensi', 'files', 'par', 'par_d', 'par_c'];
         if ($state) {
             $filter = array_merge(['state'], $filter);
         }
@@ -194,12 +194,14 @@ class NewsController extends Controller
             toastr()->error('Dokumen Sudah di publish', ['timeOut' => 5000]);
             return back();
         }
+
+        $sign = $news->doc->sign->where('user', Auth::user()->id)->first();
         $val = Notulen::where('users', Auth::user()->id)->where('head', $news->head)->first();
-        $lead = $val->grade == 1 ? true : false;
+        $lead = $sign->type == 'lead' ? true : false;
         $single = true;
         $title = 'Tanda Tangan Dokumen BAK';
         $doc = 'bak';
-        return view('document.bak.sign', compact('news', 'single', 'title', 'lead', 'doc'));
+        return view('document.bak.sign', compact('news', 'single', 'title', 'lead', 'doc', 'sign'));
     }
 
     public function signed(Request $request, $id)
@@ -207,8 +209,7 @@ class NewsController extends Controller
         $news = News::where(DB::raw('md5(id)'), $id)->first();
 
         // if ($request->user == 'pemohon')
-        if($request->user == 'pemohon' || $request->user == 'petugas')
-        {
+        if ($request->user == 'pemohon' || $request->user == 'petugas') {
             if ($request->user == null) {
                 toastr()->error('User belum di pilih', ['timeOut' => 5000]);
             }
@@ -263,13 +264,14 @@ class NewsController extends Controller
     {
         $news = News::where(DB::raw('md5(id)'), $id)->first();
         if ($news) {
+            $sign = $news->doc->sign->whereNull('bak')->first();
             $val = Notulen::where('users', Auth::user()->id)->where('head', $news->head)->first();
 
             if ($news->signs == null) {
                 toastr()->error('Pemohon belum tanda tangan', ['timeOut' => 5000]);
                 return back();
-            } else if ($news->sign == null && $val->user->roles->kode == 'TPA') {
-                toastr()->error('Petugas belum tanda tangan', ['timeOut' => 5000]);
+            } else if ($sign) {
+                toastr()->error('Petugas '.$sign->users->name.' belum tanda tangan', ['timeOut' => 5000]);
                 return back();
             } else {
                 $news->status = 1;
@@ -277,7 +279,6 @@ class NewsController extends Controller
                     $news->grant = 1;
                 }
                 $news->save();
-                // $this->genPDF($news);
                 toastr()->success('Publish  berhasil, Complete', ['timeOut' => 5000]);
                 return redirect()->route('news.index');
             }
