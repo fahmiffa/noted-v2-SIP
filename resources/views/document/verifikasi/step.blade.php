@@ -2,6 +2,7 @@
     if($head->status == 5 && $head->parent == null)
     {
         $remain = false;      
+        $old = false;
     }
     else
     {

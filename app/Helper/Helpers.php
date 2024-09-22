@@ -5,7 +5,7 @@ use App\Models\Sub;
 use Carbon\Carbon;
 use Intervention\Image\Facades\Image as Image;
 use App\Models\Links;
-use PDF;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Illuminate\Support\Facades\Storage;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Str;
