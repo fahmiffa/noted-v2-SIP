@@ -218,7 +218,9 @@
         <br>
         Saran :<br>
         @if ($head->bak->note)
+        <div class="warp">
             {!! $head->bak->note !!}
+        </div>
         @else
             <br>
         @endif
