@@ -1,5 +1,7 @@
 Saran dan Masukkan Lain :
-{!! $head->saran !!} 
+<div class="warp">
+    {!! $head->saran !!} 
+</div>
   <table style="width:100%">
       <tr>
           <td width="40%" style="border:none">
