@@ -5,7 +5,7 @@
         <section class="section">
 
             <div class="row">
-                <div class="col-3">
+                <div class="col-md-3 d-none d-md-block">
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex justify-content-center align-items-center flex-column">
@@ -16,7 +16,7 @@
                                 <p class="text-small text-capitalize mb-3">{{ ucfirst(auth()->user()->roles->name) }}</p>
                             </div>
 
-                            <div class="modal fade" id="myModal">
+                            <div class="modal fade" id="myModals">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
 
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-9">
+                <div class="col-md-9 col-sm-12">
                     <div class="card">
                         <div class="card-body">
                             <form action="" method="post">

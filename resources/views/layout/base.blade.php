@@ -106,8 +106,7 @@
                                     <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
                                         <div class="user-menu d-flex align-items-center">
                                             <div class="user-name me-3">
-                                                <div class="text-gray-600 text-nowrap my-auto">{{ucwords(auth()->user()->name)}}</div>
-                                                {{-- <p class="mb-0 text-sm text-gray-600">{{auth()->user()->roles->name}}</p> --}}
+                                                <div class="text-gray-600 text-nowrap my-auto fw-bold">{{ucwords(auth()->user()->name)}}</div>
                                             </div>
                                             <div class="user-img d-flex align-items-center">
                                                 <div class="avatar avatar-md">
