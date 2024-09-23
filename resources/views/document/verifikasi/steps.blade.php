@@ -177,7 +177,7 @@
                                             <label class="form-check-label">Ada</label>
                                         </div>
                                         <div class="form-check d-inline-block mx-3">
-                                            @if (old('itemdt[' . $item->id . ']'))
+                                            @if ($remain)
                                                 <input class="form-check-input" type="radio"
                                                     name="itemdt[{{ $item->id }}]" value="0"
                                                     {{ old('itemdt[' . $item->id . ']') == '0' ? 'checked' : null }}>
