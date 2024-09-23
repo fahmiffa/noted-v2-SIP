@@ -259,7 +259,7 @@ class ConsultationController extends Controller
             'date'      => 'required',   
             'jenis'      => 'required',   
             'place'     => 'required',                                           
-            'place_des' => 'required',        
+            // 'place_des' => 'required',        
             'pile' => 'nullable|file|mimes:pdf|max:2048',                                       
             ];
 
