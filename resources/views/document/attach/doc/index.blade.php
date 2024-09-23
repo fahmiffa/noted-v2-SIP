@@ -100,7 +100,7 @@
             <td colspan="2" style="padding: 0.5rem;font-weight:bold">Koordinat : {{ $head->attach->koordinat }}</td>
         </tr>
     </table>
-    <p>Catatan :</p>
+    <p>Catatan :</p> 
     <ol>
         <li>Lampiran ini merupakan bagian yang tidak terpisahkan dari Berita Acara Rapat Pleno (BARP) <br> No.
             {{ $head->number }}
