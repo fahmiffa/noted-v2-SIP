@@ -11,6 +11,7 @@ use QrCode;
 use Exception;
 use DB;
 use Illuminate\Support\Facades\Crypt;
+use App\Models\Links;
 
 class ScheduleController extends Controller
 {
@@ -87,7 +88,8 @@ class ScheduleController extends Controller
      */
     public function show(Schedule $schedule)
     {
-        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate('l-'.$schedule->head));
+        $link = Links::where('head', $schedule->head)->where('ket','surat_undangan')->first();
+        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate(route('link',['id'=>$link->short])));
         $data = compact('schedule','qrCode');
         $pdf = PDF::loadView('schedule.letter', $data)->setPaper('a4', 'potrait');    
         return $pdf->stream();
