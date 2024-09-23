@@ -157,7 +157,7 @@
                                     <h6>Dokumen Perbaikan</h6>
                                     <ul>
                                         @if ($item->parents)
-                                            <li class="text-wrap">{{ $item->parents->reg }} ({{ $item->parents->nomor }}) <a
+                                            <li class="text-wrap text-break">{{ $item->parents->reg }} ({{ $item->parents->nomor }}) <a
                                                     target="_blank"
                                                     href="{{ route('monitoring.doc', ['id' => md5($item->parents->id)]) }}"
                                                     class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>
@@ -165,7 +165,7 @@
                                             </li>
                                         @endif
                                         @foreach ($item->parents->tmp->whereNotNull('deleted_at') as $val)
-                                            <li class="text-wrap">{{ $val->reg }} ({{ $val->nomor }}) <a target="_blank"
+                                            <li class="text-wrap text-break">{{ $val->reg }} ({{ $val->nomor }}) <a target="_blank"
                                                     href="{{ route('monitoring.doc', ['id' => md5($val->id)]) }}"
                                                     class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>
                                                 ({{ $val->note }})
