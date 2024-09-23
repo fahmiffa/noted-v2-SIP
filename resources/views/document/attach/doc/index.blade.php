@@ -61,7 +61,7 @@
                 $var = json_decode($head->attach->pile_map);
             @endphp
             <tr>
-                <td colspan="2" style="padding: 0.5rem;font-weight:bold;text-align:center" class="page-break">
+                <td colspan="2" style="padding: 0.5rem;font-weight:bold;text-align:center">
                     @foreach ($var as $key)
                         <center>
                             <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/' . $key))) }}"
