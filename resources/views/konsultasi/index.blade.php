@@ -61,7 +61,7 @@
                                         <td class="text-center">
                                             {{ $item->doc->surat->nomor }}
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             {{ $item->doc->surat->tanggal }}
                                         </td>
                                         <td>
