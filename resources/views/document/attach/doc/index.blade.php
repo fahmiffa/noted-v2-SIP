@@ -51,7 +51,7 @@
             </tr>
         </tbody>
     </table>
-    <table style="width: 100%; border:none;margin-top:1rem" class="page-break">
+    <table style="width: 100%; border:none;margin-top:1rem">
         <tr>
             <td colspan="2" style="padding: 0.5rem;font-weight:bold;text-align:center">Gambar Denah / Situasi</td>
         </tr>
