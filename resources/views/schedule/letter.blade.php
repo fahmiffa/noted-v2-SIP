@@ -151,7 +151,7 @@
 
         <table style="width:100%; margin:auto" align="center">
             <tr>
-                <td width="40%" style="border:none">&nbsp;</td>
+                <td width="60%" style="border:none">&nbsp;</td>
                 <td style="border:none;">
                     <p style="text-align: center">
                         Slawi, {{ dateID($schedule->created_at) }}<br>
