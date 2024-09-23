@@ -113,4 +113,21 @@
         </li>
     </ol>
     <img src="data:image/png;base64, {{ $head->qr }}" width="20%" style="float: right">
+
+
+    <script type="text/php"> 
+        if (isset($pdf)) { 
+            //Shows number center-bottom of A4 page with $x,$y values
+            $x = 270;  //X-axis vertical position 
+            $y = 828; //Y-axis horizontal position
+            $text = "Lembar BAK Dokumen No. {{ str_replace('SPm', 'LDP', str_replace('600.1.15', '600.1.15/PBLT', $head->nomor)) }} | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
+            $font =  $fontMetrics->get_font("helvetica", "bold");
+            $size = 7;
+            $color = array(0,0,0);
+            $word_space = 0.0;  //  default
+            $char_space = 0.0;  //  default
+            $angle = 0.0;   //  default
+            $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+        }
+    </script>
 @endsection
