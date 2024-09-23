@@ -108,11 +108,11 @@ class Head extends Model
         }
         else if($barp)
         {
-            $val = 'Proses Pleno';
+            $val = 'Proses Konsultasi (BAK/BARP)';
         }
         else if($bak)
         {
-            $val = 'Proses Konsultasi';
+            $val = 'Proses Konsultasi (BAK/BARP)';
         }
         else if($kons)
         {

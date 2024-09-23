@@ -118,8 +118,7 @@
             </td>
         </tr>
     </table>
-
-
+    
     <script type="text/php"> 
         @php  $header = (array) json_decode($head->header); @endphp
         if (isset($pdf)) { 
