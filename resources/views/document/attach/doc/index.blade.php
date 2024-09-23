@@ -52,8 +52,8 @@
                     <td width="50%" style="border:none">Luas Persil</td>
                     <td width="50%" style="border:none">: {{ $head->attach->persil }}</td>
                 @endif
-                <td width="50%" style="border:none">Bukti Kepemilikan Tanah</td>
-                <td width="50%" style="border:none">: {{ $head->attach->bukti }}</td>
+                <td width="70%" style="border:none">Bukti Kepemilikan Tanah</td>
+                <td width="30%" style="border:none">: {{ $head->attach->bukti }}</td>
             </tr>
         </tbody>
     </table>
