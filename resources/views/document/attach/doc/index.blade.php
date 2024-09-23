@@ -120,8 +120,8 @@
         if (isset($pdf)) { 
             //Shows number center-bottom of A4 page with $x,$y values
             $x = 270;  //X-axis vertical position 
-            $y = 828; //Y-axis horizontal position
-            $text = "Lembar Lampiran PBG Dokumen No. Registrasi {{$header[0]}}  | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
+            $y = 820; //Y-axis horizontal position
+            $text = "Lembar Lampiran PBG No. Registrasi {{$header[0]}}  | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
             $font =  $fontMetrics->get_font("helvetica", "bold");
             $size = 7;
             $color = array(0,0,0);
