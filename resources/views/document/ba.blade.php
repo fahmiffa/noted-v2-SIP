@@ -55,7 +55,7 @@
                                         <td>
                                             {{ $item->nomor }}
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             @php
                                                 $color = $item->barp && $item->barp->status == 1 ? 'btn-success' : 'btn-secondary';
                                             @endphp
