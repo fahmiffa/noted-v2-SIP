@@ -150,7 +150,7 @@ class AttachController extends Controller
         }
 
         $pile_map = $request->file('pile_map');
-        if(count($pile_map) > 0)
+        if(is_array($pile_map))
         {
             $filePaths = [];
             foreach ($pile_map as $key => $value) {
