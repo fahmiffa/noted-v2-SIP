@@ -65,7 +65,7 @@
                     <td colspan="2" style="padding: 0.5rem;">
                         <center>
                             <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/' . $key))) }}"
-                                style="width:100%;object-fit:cover;object-position:center;margin:auto;display:block;padding:0.3rem">
+                                style="width:90%;object-fit:cover;object-position:center;margin:auto;display:block;padding:0.3rem">
                         </center>
                     </td>
                 </tr>
