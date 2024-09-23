@@ -128,7 +128,7 @@
             <tr>
                 <td width="30%" style="border:none">Tempat</td>
                 <td width="1%" style="border:none">: </td>
-                <td style="border:none"> {{ ucwords(str_replace('_', ' ', $place[0])) }}  {{ ucwords(str_replace('_', ' ', $place[1])) }}</td>
+                <td style="border:none">{{ ucwords(str_replace('_', ' ', $place[1])) }}</td>
             </tr>
             <tr>
                 <td width="30%" style="border:none;vertical-align:top">Keterangan</td>
