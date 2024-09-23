@@ -98,7 +98,11 @@ class Head extends Model
         $bak  =  $this->bak()->exists();
         $kons =  $this->kons()->exists();
 
-        if($barp)
+        if($this->do == 1)
+        {
+            $val = 'Verifikasi Kabid / Ketua TPA';
+        }
+        else if($barp)
         {
             $val = 'Proses Pleno';
         }
