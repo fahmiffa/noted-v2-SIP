@@ -88,6 +88,7 @@
         <button id="prev">Previous</button>
         <span>Page: <span id="page-num"></span> / <span id="page-count"></span></span>
         <button id="next">Next</button>
+        <button id="download">Download</button>
     </div>
 
     <div id="pdf-viewer">
@@ -133,6 +134,13 @@
             const pdfDataUri = await mergedPdf.saveAsBase64({
                 dataUri: true
             });
+
+            function downloadPdf() {
+                const link = document.createElement('a');
+                link.href = pdfDataUri;
+                link.download = 'document.pdf';
+                link.click();
+            }
 
             function renderPage(num) {
                 pageRendering = true;
@@ -187,6 +195,7 @@
 
             document.getElementById('prev').addEventListener('click', onPrevPage);
             document.getElementById('next').addEventListener('click', onNextPage);
+            document.getElementById('download').addEventListener('click', downloadPdf);
 
             pdfjsLib.getDocument(pdfDataUri).promise.then(function(pdfDoc_) {
                 pdfDoc = pdfDoc_;
