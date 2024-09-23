@@ -21,9 +21,9 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>No. Registrasi</th>
-                                    <th width="17%" >Pemohon</th>
+                                    <th width="17%">Pemohon</th>
                                     <th>Nama Bangunan</th>
-                                    <th width="17%">Lokasi Bangunan</th>                              
+                                    <th width="17%">Lokasi Bangunan</th>
                                     <th>No. Dokumen</th>
                                     <th>Action</th>
                                 </tr>
@@ -39,32 +39,35 @@
                                             {{ $item->reg }}
                                         </td>
                                         <td>
-                                            <h6 class="mb-0">Nama</h6>{{ $header ? $header[2] : null }}      
+                                            <h6 class="mb-0">Nama</h6>{{ $header ? $header[2] : null }}
                                             <h6 class="mb-0">Alamat</h6>
                                             {{ $header ? $header[4] : null }}
-                                        </td>      
+                                        </td>
                                         <td class="text-center">
                                             {{ $header ? $header[5] : null }}
                                         </td>
                                         <td>
                                             {{ $header ? $header[7] : null }}<br>
-                                            {{ $item->region ? 'Desa/Kel. '.$item->region->name : null }},
+                                            {{ $item->region ? 'Desa/Kel. ' . $item->region->name : null }},
                                             {{ $item->region ? 'Kec. ' . $item->region->kecamatan->name : null }}
                                         </td>
                                         <td class="text-center">
                                             {{ $item->nomor }}
                                         </td>
                                         <td>
-                                            @if ($item->tax)                      
-                                                <a target="_blank" href="{{ route('doc.tax', ['id' => md5($item->id)]) }}"
-                                                    class="btn btn-sm btn-danger"><i class="bi bi-file-pdf"></i></a>
-                                            @else                                    
-                                                <a class="btn btn-primary btn-sm"
-                                                    href="{{ route('step.tax', ['id' => md5($item->id)]) }}"
-                                                    data-toggle="tooltip" data-placement="top" title="Submit Dokumen">
-                                                    <i class="bi bi-send"></i>
-                                                </a>
-                                            @endif
+                                            <div class="d-flex justiify-content-between align-items-center">
+                                                @if ($item->tax)
+                                                    <a target="_blank"
+                                                        href="{{ route('doc.tax', ['id' => md5($item->id)]) }}"
+                                                        class="btn btn-sm btn-danger"><i class="bi bi-file-pdf"></i></a>
+                                                @else
+                                                    <a class="btn btn-primary btn-sm"
+                                                        href="{{ route('step.tax', ['id' => md5($item->id)]) }}"
+                                                        data-toggle="tooltip" data-placement="top" title="Submit Dokumen">
+                                                        <i class="bi bi-send"></i>
+                                                    </a>
+                                                @endif
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
