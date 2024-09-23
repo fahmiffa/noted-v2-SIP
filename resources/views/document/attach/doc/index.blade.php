@@ -117,7 +117,7 @@
                 </ol>
             </td>
             <td style="border:none">
-                <img src="data:image/png;base64, {{ $head->qr }}" width="20%" style="float: right">
+                <img src="data:image/png;base64, {{ $head->qr }}" width="80%">
             </td>
         </tr>
     </table>
