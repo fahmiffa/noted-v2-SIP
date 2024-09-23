@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>{{env('APP_NAME')}} | {{env('APP_TAG')}}</title>
+    <title>{{ env('APP_NAME') }} | {{ env('APP_TAG') }}</title>
 
     <meta content="{{ env('APP_DES') }}" name="description">
     <meta content="{{ env('APP_NAME') }}" name="keywords">
@@ -36,8 +36,9 @@
             <tr>
                 <td style="border:none"><img style="width: 60px" class="img" src="{{ gambar('kab.png') }}" /></td>
                 <td width="100%" style="border:none; text-align:center">
-                    <p><span style="font-weight: bold;text-wrap:none;font-size:1rem">SURAT PEMBERITAHUAN / UNDANGAN <br>KONSULTASI PBG DAN/ATAU SLF</span>
-                        <br>No.&nbsp;&nbsp;{{$schedule->nomor}}
+                    <p><span style="font-weight: bold;text-wrap:none;font-size:1rem">SURAT PEMBERITAHUAN / UNDANGAN
+                            <br>KONSULTASI PBG DAN/ATAU SLF</span>
+                        <br>No.&nbsp;&nbsp;{{ $schedule->nomor }}
                     </p>
                 </td>
                 <td style="border:none"><img style="width: 60px" class="img" src="{{ gambar('logo.png') }}" /></td>
@@ -53,13 +54,13 @@
                 <td width="1%" style="border:none;vertical-align:top">:</td>
                 <td style="border:none;">Surat Pemberitahuan / Undangan <br>Konsultasi PBG dan/atau SLF</td>
                 <td style="border:none;text-align:right;vertical-align:top">Slawi, {{ dateID($schedule->tanggal) }}</td>
-            </tr> 
+            </tr>
         </table>
 
         @php
-        $time = explode('#', $schedule->waktu);
-        $place = explode('#', $schedule->tempat);
-        $header = json_decode($schedule->doc->header);
+            $time = explode('#', $schedule->waktu);
+            $place = explode('#', $schedule->tempat);
+            $header = json_decode($schedule->doc->header);
         @endphp
 
         <p style="margin-left:24rem">
@@ -100,7 +101,8 @@
                 <td width="30%" style="border:none;vertical-align:top">Alamat Bangunan</td>
                 <td width="1%" style="border:none;vertical-align:top">: </td>
                 <td style="border:none;vertical-align:top">{{ $header[7] }} <br>Desa/Kel.
-                    {{ $schedule->doc->region->name }} Kec. {{ $schedule->doc->region->kecamatan->name }} Kab. Tegal </td>
+                    {{ $schedule->doc->region->name }} Kec. {{ $schedule->doc->region->kecamatan->name }} Kab. Tegal
+                </td>
             </tr>
         </table>
 
@@ -118,7 +120,7 @@
             <tr>
                 <td width="30%" style="border:none">Pukul</td>
                 <td width="1%" style="border:none">: </td>
-                <td style="border:none">{{ $time[0] }} - {{ $time[1] }}  WIB </td>
+                <td style="border:none">{{ $time[0] }} - {{ $time[1] }} WIB </td>
             </tr>
             <tr>
                 <td width="30%" style="border:none">Jenis Konsultasi</td>
@@ -128,16 +130,24 @@
             <tr>
                 <td width="30%" style="border:none;vertical-align:top">Tempat</td>
                 <td width="1%" style="border:none;vertical-align:top">: </td>
-                <td style="border:none">{{ ucwords(str_replace('_', ' ', $place[1])) }}</td>
+                @if ($place[0] == 'alamat_bangunan')
+                    <td style="border:none;vertical-align:top">
+                        {{ $header[7] }} <br>Desa/Kel.
+                        {{ $schedule->doc->region->name }} Kec. {{ $schedule->doc->region->kecamatan->name }} Kab.
+                        Tegal
+                    </td>
+                @else
+                    <td style="border:none;vertical-align:top">{{ ucwords(str_replace('_', ' ', $place[1])) }}</td>
+                @endif
             </tr>
             <tr>
                 <td width="30%" style="border:none;vertical-align:top">Keterangan</td>
                 <td width="1%" style="border:none;vertical-align:top">: </td>
                 <td style="border:none;vertical-align:top;text-align:justify" class="warp">
                     @php
-                        $pass = ['<p>','<ul>'];
-                        $new = ['<p style="margin-top:0rem">','<ul style="margin-top:0rem">'];
-                        $text = str_replace($pass,$new,$schedule->keterangan);
+                        $pass = ['<p>', '<ul>'];
+                        $new = ['<p style="margin-top:0rem">', '<ul style="margin-top:0rem">'];
+                        $text = str_replace($pass, $new, $schedule->keterangan);
                     @endphp
                     {!! $text !!}
                 </td>
