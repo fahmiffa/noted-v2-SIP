@@ -150,16 +150,19 @@ class AttachController extends Controller
         }
 
         $pile_map = $request->file('pile_map');
-        $filePaths = [];
-        foreach ($pile_map as $key => $value) {
-            
-            $ext = $value->getClientOriginalExtension();
-            $path = $value->storeAs(
-                'assets/data/pile_map'.$key.'.' . $ext, ['disk' => 'public']
-            );
-            $filePaths[] = $path;
+        if(count($pile_map) > 0)
+        {
+            $filePaths = [];
+            foreach ($pile_map as $key => $value) {
+                
+                $ext = $value->getClientOriginalExtension();
+                $path = $value->storeAs(
+                    'assets/data/pile_map'.$key.'.' . $ext, ['disk' => 'public']
+                );
+                $filePaths[] = $path;
+            }
+            $item->pile_map = json_encode($filePaths);
         }
-        $item->pile_map = json_encode($filePaths);
 
         $pile_land = $request->file('pile_land');
         if ($pile_land) {
