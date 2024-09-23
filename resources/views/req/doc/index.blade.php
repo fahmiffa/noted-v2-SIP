@@ -513,7 +513,7 @@
                         $var = json_decode($head->attach->pile_map);
                     @endphp
                     @foreach ($var as $key)
-                        <tr class="{{ $loop->last ? 'page-break' : null }}">
+                        <tr class="{{ $loop->last ? null : null }}">
                             <td colspan="2" style="padding: 0.5rem;">
                                 <center>
                                     <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/' . $key))) }}"
