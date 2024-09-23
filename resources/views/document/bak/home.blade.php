@@ -39,7 +39,7 @@
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
                                         <td class="text-center">
-                                            {{ $item->doc->reg }} 
+                                            {{ $item->doc->reg }}
                                         </td>
                                         <td>
                                             <h6 class="mb-0">Nama</h6>{{ $header ? $header[2] : null }}
@@ -101,11 +101,13 @@
                                                         @endif
                                                     @endif
                                                 @else
-                                                    <button data-toggle="tooltip" data-placement="top"
-                                                        title="Tanda Tangan Dokumen"
-                                                        onclick="location.href='{{ route('sign.news', ['id' => md5($item->doc->bak->id)]) }}'"
-                                                        class="btn btn-primary btn-sm mx-2"><i
-                                                            class="bi bi-vector-pen"></i></button>
+                                                    @if ($item->doc)
+                                                        <button data-toggle="tooltip" data-placement="top"
+                                                            title="Tanda Tangan Dokumen"
+                                                            onclick="location.href='{{ route('sign.news', ['id' => md5($item->doc->bak->id)]) }}'"
+                                                            class="btn btn-primary btn-sm mx-2"><i
+                                                                class="bi bi-vector-pen"></i></button>
+                                                    @endif
                                                 @endif
                                             </div>
                                         </td>
