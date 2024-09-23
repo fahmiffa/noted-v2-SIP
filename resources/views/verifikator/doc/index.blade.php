@@ -233,7 +233,7 @@
                 @endforeach
                 @if ($head->type == 'umum' && $other && $vother)
                     <tr style="font-weight: bold;">
-                        <td align="center">{{ strtoupper(Abjad($last)) }}. {{ $last }}</td>
+                        <td align="center">{{ strtoupper(Abjad($last)) }}. </td>
                         <td colspan="4">&nbsp;Lain-lain</td>
                     </tr>
 
