@@ -170,6 +170,7 @@ class AttachController extends Controller
             $item->pile_land = $path;
         }
         $item->luas = $request->luas;
+        $item->persil = $request->persil;
         $item->koordinat = $request->koordinat;
         $item->save();
 

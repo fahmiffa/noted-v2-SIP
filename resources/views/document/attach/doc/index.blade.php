@@ -41,14 +41,19 @@
             <tr>
                 <td width="40%" style="border:none;vertical:align:top">Alamat Bangunan </td>
                 <td colspan="3" style="border:none;vertical-align:top">
-                    : {{ $header[7] }}, Desa/Kel. {{ $head->region->name }}, Kec. {{ $head->region->kecamatan->name }}, Kab. Tegal Prov. Jawa Tengah
+                    : {{ $header[7] }}, Desa/Kel. {{ $head->region->name }}, Kec. {{ $head->region->kecamatan->name }},
+                    Kab. Tegal, Prov. Jawa Tengah
                 </td>
             </tr>
             <tr>
                 <td width="40%" style="border:none">Luas Tanah</td>
                 <td width="60%" style="border:none">: {{ $head->attach->luas }}</td>
-                <td width="50%" style="border:none">Bukti Kepemilikan Tanah</td>
-                <td width="50%" style="border:none">: {{ $head->attach->bukti }}</td>
+                @if ($head->attach->persil)
+                    <td width="40%" style="border:none">Luas Persil</td>
+                    <td width="60%" style="border:none">: {{ $head->attach->persil }}</td>
+                @endif
+                <td width="40%" style="border:none">Bukti Kepemilikan Tanah</td>
+                <td width="60%" style="border:none">: {{ $head->attach->bukti }}</td>
             </tr>
         </tbody>
     </table>
@@ -61,7 +66,7 @@
                 $var = json_decode($head->attach->pile_map);
             @endphp
             @foreach ($var as $key)
-                <tr class="{{$loop->last ? null : null}}">
+                <tr class="{{ $loop->last ? null : null }}">
                     <td colspan="2" style="padding: 0.5rem;">
                         <center>
                             <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/' . $key))) }}"

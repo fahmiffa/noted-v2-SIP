@@ -48,6 +48,15 @@
                                             <div class='small text-danger text-left'>{{ $message }}</div>
                                         @enderror
                                     </div>
+
+                                    <div class="form-group mb-3">
+                                        <label>Luas Persil</label>
+                                        <input type="text" name="persil"
+                                            value="{{ isset($attach) ? $attach->persil : old('persil') }}" class="form-control">
+                                        @error('persil')
+                                            <div class='small text-danger text-left'>{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group mb-3">
