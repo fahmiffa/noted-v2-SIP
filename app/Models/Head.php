@@ -100,6 +100,10 @@ class Head extends Model
 
         if($this->do == 1)
         {
+            $val = 'Verifikasi Kabid / Ketua TPA DONE';
+        }
+        else if($this->do == 0 && $barp && $bak)
+        {
             $val = 'Verifikasi Kabid / Ketua TPA';
         }
         else if($barp)
