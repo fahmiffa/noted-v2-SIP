@@ -108,7 +108,7 @@ class Head extends Model
         }
         else if($kons)
         {
-            $val = 'Penjadwal Konsultasi';
+            $val = 'Penjadwalan Konsultasi';
         }
         else
         {
