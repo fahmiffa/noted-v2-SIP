@@ -100,7 +100,7 @@
                 <td width="30%" style="border:none;vertical-align:top">Alamat Bangunan</td>
                 <td width="1%" style="border:none;vertical-align:top">: </td>
                 <td style="border:none;vertical-align:top">{{ $header[7] }} <br>Desa/Kel.
-                    {{ $schedule->doc->region->name }} Kec. {{ $schedule->doc->region->kecamatan->name }} </td>
+                    {{ $schedule->doc->region->name }} Kec. {{ $schedule->doc->region->kecamatan->name }} Kab. Tegal </td>
             </tr>
         </table>
 
@@ -151,11 +151,11 @@
 
         <table style="width:100%; margin:auto" align="center">
             <tr>
-                <td width="35%" style="border:none">&nbsp;</td>
+                <td width="40%" style="border:none">&nbsp;</td>
                 <td style="border:none;">
                     <p style="text-align: center">
                         Slawi, {{ dateID($schedule->created_at) }}<br>
-                        <img src="data:image/png;base64, {{ $qrCode }}" width="25%">
+                        <img src="data:image/png;base64, {{ $qrCode }}" width="30%">
                         <br>
                         DPUPR Kabupaten Tegal
                     </p>
