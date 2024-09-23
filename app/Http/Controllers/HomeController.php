@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Formulir;
 use App\Models\Head;
-use App\Models\User;
 use App\Models\Links;
+use App\Models\User;
 use App\Models\Verifikator;
 use App\Rules\MatchOldPassword;
 use Auth;
@@ -31,13 +31,13 @@ class HomeController extends Controller
             'password_confirmation' => 'required',
         ];
         $message = [
-            'required'  => 'Field ini harus diisi',
+            'required' => 'Field ini harus diisi',
             'confirmed' => 'Field :attribute Konfirm tidak valid',
-            'regex'     =>  'Password harus kombinasi Huruf dan Angka'     
+            'regex' => 'Password harus kombinasi Huruf dan Angka',
         ];
         $request->validate($rule, $message);
 
-        $user = User::where('id',Auth::user()->id)->first();
+        $user = User::where('id', Auth::user()->id)->first();
         $user->password = bcrypt($request->password);
         $user->save();
 
@@ -181,20 +181,16 @@ class HomeController extends Controller
 
         $step = $head->step == 1 ? 0 : 1;
 
-        if($head->grant == 1)
-        {
-            $link = $head->links->where('ket','verifikasi')->first(); 
-            $res = route('link',['id'=>$link->short]);
-        }
-        else
-        {
+        if ($head->grant == 1) {
+            $link = $head->links->where('ket', 'verifikasi')->first();
+            $res = route('link', ['id' => $link->short]);
+        } else {
             $res = $head->reg;
         }
-        
+
         $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($res));
 
         $data = compact('qrCode', 'docs', 'head', 'step', 'num');
-
 
         if ($head->step == 1) {
             $pdf = PDF::loadView('verifikator.doc.index', $data)->setPaper('a4', 'potrait');
@@ -210,20 +206,52 @@ class HomeController extends Controller
     public function doc($id)
     {
         $head = Head::where(DB::raw('md5(id)'), $id)->first();
-        if($head->grant == 1)
-        {
-            $link = $head->links->where('ket','verifikasi')->first(); 
-            $res = route('link',['id'=>$link->short]);
+        // if($head->grant == 1)
+        // {
+        //     $link = $head->links->where('ket','verifikasi')->first();
+        //     $res = route('link',['id'=>$link->short]);
+        // }
+        // else
+        // {
+        //     $res = $head->reg;
+        // }
+
+        // $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($res));
+        // $data = compact('qrCode', 'head');
+        // $pdf = PDF::loadView('req.doc.index', $data)->setPaper('a4', 'potrait');
+        // return $pdf->stream();
+
+        $pdfUrls = [
+            route('bak.doc', ['id' => md5($head->bak->id)]),
+            route('barp.doc', ['id' => md5($head->barp->id)]),
+        ];
+
+        $pdf = new Fpdi();
+
+        foreach ($pdfUrls as $url) {
+            $pdfContent = file_get_contents($url);
+            if ($pdfContent === false) {
+                return response()->json(['error' => "Gagal mengunduh PDF dari $url"], 500);
+            }
+
+            $tempFile = tempnam(sys_get_temp_dir(), 'pdf');
+            file_put_contents($tempFile, $pdfContent);
+
+            $pageCount = $pdf->setSourceFile($tempFile);
+            for ($i = 1; $i <= $pageCount; $i++) {
+                $tplId = $pdf->importPage($i);
+                $pdf->AddPage();
+                $pdf->useTemplate($tplId);
+            }
+
+            unlink($tempFile);
         }
-        else
-        {
-            $res = $head->reg;
-        }
-        
-        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($res));
-        $data = compact('qrCode', 'head');
-        $pdf = PDF::loadView('req.doc.index', $data)->setPaper('a4', 'potrait');
-        return $pdf->stream();
+
+        // $pdf->Output('D', 'merged.pdf'); 
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: inline; filename="merged.pdf"');
+
+        $pdf->Output('I');
     }
 
     public function view($id)
