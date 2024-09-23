@@ -208,6 +208,7 @@ class HomeController extends Controller
     public function doc($id)
     {
         $head = Head::where(DB::raw('md5(id)'), $id)->first();
+        return view('document.pdf',compact('head'));
         // if($head->grant == 1)
         // {
         //     $link = $head->links->where('ket','verifikasi')->first();
@@ -221,39 +222,7 @@ class HomeController extends Controller
         // $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($res));
         // $data = compact('qrCode', 'head');
         // $pdf = PDF::loadView('req.doc.index', $data)->setPaper('a4', 'potrait');
-        // return $pdf->stream();
-
-        $pdfUrls = [
-            route('bak.doc', ['id' => md5($head->bak->id)]),
-            route('barp.doc', ['id' => md5($head->barp->id)]),
-        ];
-
-        $pdf = new Fpdi();
-
-        foreach ($pdfUrls as $url) {
-            $pdfContent = file_get_contents($url);
-            if ($pdfContent === false) {
-                return response()->json(['error' => "Gagal mengunduh PDF dari $url"], 500);
-            }
-
-            $tempFile = tempnam(sys_get_temp_dir(), 'pdf');
-            file_put_contents($tempFile, $pdfContent);
-
-            $pageCount = $pdf->setSourceFile($tempFile);
-            for ($i = 1; $i <= $pageCount; $i++) {
-                $tplId = $pdf->importPage($i);
-                $pdf->AddPage();
-                $pdf->useTemplate($tplId);
-            }
-
-            unlink($tempFile);
-        }
-
-        // $pdf->Output('D', 'merged.pdf'); 
-        header('Content-Type: application/pdf');
-        header('Content-Disposition: inline; filename="merged.pdf"');
-
-        $pdf->Output('I');
+        // return $pdf->stream();    
     }
 
     public function view($id)
