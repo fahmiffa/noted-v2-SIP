@@ -16,6 +16,8 @@ use PDF;
 use QrCode;
 use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\Fpdf;
+use App\Models\News;
+use App\Models\Meet;
 
 class HomeController extends Controller
 {
