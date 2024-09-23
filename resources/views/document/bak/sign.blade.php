@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="divider">
-                    <div class="divider-text">{{ $lead ? 'Ketua' : 'Anggota' }}</div>
+                    <div class="divider-text">{{ $lead ? 'Ketua/Notulen' : 'Anggota' }}</div>
                 </div>
                 <div class="row">
                     <div class="col-6 col-sm-6 mx-auto">
