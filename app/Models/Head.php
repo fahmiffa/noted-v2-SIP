@@ -194,7 +194,7 @@ class Head extends Model
     {            
         $surat =  $this->surat()->exists();
 
-        if($barp)
+        if($surat)
         {
             return str_replace('Und','BARP',str_replace('600.1.15','600.1.15/PBLT',$this->nomor));
         } 
