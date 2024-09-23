@@ -150,7 +150,7 @@
     <p>Demikian hasil konsultasi TPT/TPA yang dihadiri oleh:</p>
     @if($head->sign)
         <table style="width:35%;">
-            @foreach($head->sign->where('type','member') as $val)
+            @foreach($head->sign as $val)
                 <tr>      
                     <td width="2%" style="border: none">
                     {{$loop->iteration}}.
