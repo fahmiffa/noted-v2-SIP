@@ -60,16 +60,16 @@
             @php
                 $var = json_decode($head->attach->pile_map);
             @endphp
-            <tr>
-                <td colspan="2" style="padding: 0.5rem;font-weight:bold;text-align:center">
-                    @foreach ($var as $key)
+            @foreach ($var as $key)
+                <tr class="{{$loop->last ? 'page-break' : null}}">
+                    <td colspan="2" style="padding: 0.5rem;font-weight:bold;text-align:center">
                         <center>
                             <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/' . $key))) }}"
                                 style="width:100%;object-fit:cover;object-position:center;margin:auto;display:block;padding:0.3rem">
                         </center>
-                </td>
-            </tr>
-        @endforeach
+                    </td>
+                </tr>
+            @endforeach
         @endif
         <tr>
             <td style="padding: 0.5rem;font-weight:bold;text-align:center" width="50%">
