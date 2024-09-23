@@ -25,12 +25,13 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th width="17%" >No. Registrasi</th>
+                                    <th width="17%">No. Registrasi</th>
                                     <th width="17%">Pemohon</th>
                                     <th>Nama Bangunan</th>
                                     <th width="17%">Lokasi Bangunan</th>
                                     <th>No. Dokumen</th>
-                                    <th width="17%">Tim</th>
+                                    <th>No Surat</th>
+                                    <th>Tanggal</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -55,17 +56,17 @@
                                         </td>
                                         <td class="text-center">{{ $header ? $header[5] : null }}</td>
                                         <td>
-                                            {{ $item->doc->region ? 'Desa/Kel. '.$item->doc->region->name . ', ' : null }}
+                                            {{ $item->doc->region ? 'Desa/Kel. ' . $item->doc->region->name . ', ' : null }}
                                             {!! $item->doc->region ? $item->doc->region->kecamatan->name . '<br>' : null !!} {{ $header ? $header[7] : null }}
                                         </td>
                                         <td class="text-center">
                                             {{ $item->doc->nomor }}
                                         </td>
                                         <td>
-                                            <h6>Ketua/Notulen</h6>
-                                            &#9632; {!! ucfirst(implode('<br>&#9632; ', $item->notulens)) !!}
-                                            <h6>Anggota</h6>
-                                            &#9632; {!! ucfirst(implode('<br>&#9632; ', $item->kons)) !!}
+                                            {{ $item->doc->surat->nomor }}
+                                        </td>
+                                        <td>
+                                            {{ $item->doc->surat->tanggal }}
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-between align-items-center">
@@ -81,26 +82,28 @@
                                                     @endif
                                                     @if ($item->files)
                                                         <a target="_blank" href="{{ asset('storage/' . $item->files) }}"
-                                                            class="btn btn-sm btn-warning"><i class="bi bi-file-pdf"></i></a>
+                                                            class="btn btn-sm btn-warning"><i
+                                                                class="bi bi-file-pdf"></i></a>
                                                     @else
                                                         <a target="_blank"
                                                             href="{{ route('schedule.show', ['schedule' => $item->doc->surat->id]) }}"
-                                                            class="btn btn-sm btn-warning"><i class="bi bi-file-pdf"></i></a>
+                                                            class="btn btn-sm btn-warning"><i
+                                                                class="bi bi-file-pdf"></i></a>
                                                     @endif
-    
+
                                                     @php
                                                         $msg = "Yth.%0ABapak%2FIbu%20$header[2]%20dengan%20Nomor%20Registrasi%20$reg%20%0APermohonan%20PBG%20dan%2Fatau%20SLF%20anda%20akan%20dilakukan%20Penjadwalan%20Konsultasi%20sesuai%0AUndangan%20Terlampir%20pada%20tautan%20berikut%20%3A%20%0A$uri%0A%0AMohon%20kirimkan%20Share%20Location%20anda%20untuk%20Konfirmasi.%0AAtas%20perhatiannya%2C%20disampaikan%20terima%20kasih.%0ADPUPR%20Kabupaten%20Tegal";
                                                     @endphp
-    
+
                                                     <a target="_blank"
                                                         href="https://wa.me/{{ $numb }}?text={{ $msg }}"
                                                         class="btn btn-sm btn-success my-1"><i class="bi bi-whatsapp"></i>
                                                     </a>
-    
-                                                    {{-- <button type="button" class="btn btn-dark btn-sm" data-bs-toggle="modal"
-                                                        data-bs-target="#det{{ $item->id }}">
+
+                                                    <button type="button" class="btn btn-dark btn-sm"
+                                                        data-bs-toggle="modal" data-bs-target="#det{{ $item->id }}">
                                                         <i class="bi bi-eye"></i>
-                                                    </button> --}}
+                                                    </button>
                                                 </form>
                                             </div>
                                         </td>
@@ -128,33 +131,10 @@
                                     aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <div class="row mb-3">
-                                    <div class="col-4 ">
-                                        <h6>Task</h6>
-                                        {{ $item->doc->step }} Tahap
-                                    </div>
-                                    <div class="col-4 ">
-                                        <h6>Verifikator</h6>
-                                        &#9632; {!! ucfirst(implode('<br>&#9632; ', $item->doc->verif)) !!}
-                                    </div>
-                                    <div class="col-4 ">
-                                        <h6>Tipe</h6>
-                                        {{ ucfirst($item->doc->type) }}
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-3 col-6 fw-bold">Nama Pemohon</div>
-                                    <div class="col-md-8 col-6">{{ $header ? $header[2] : null }}</div>
-                                    <div class="col-md-3 col-6 fw-bold">Alamat Pemohon</div>
-                                    <div class="col-md-8 col-6">
-                                        {{ $item->doc->region ? $item->doc->region->name : null }},
-                                        {{ $item->doc->region ? $item->doc->region->kecamatan->name : null }},
-                                        {{ $header ? $header[4] : null }}</div>
-                                    <div class="col-md-3 col-6 fw-bold">Nama Bangunan</div>
-                                    <div class="col-md-8 col-6">{{ $header ? $header[5] : null }}</div>
-                                    <div class="col-md-3 col-6 fw-bold">Lokasi Bangunan</div>
-                                    <div class="col-md-8 col-6">{{ $header ? $header[7] : null }}</div>
-                                </div>
+                                <h6>Ketua/Notulen</h6>
+                                &#9632; {!! ucfirst(implode('<br>&#9632; ', $item->notulens)) !!}
+                                <h6>Anggota</h6>
+                                &#9632; {!! ucfirst(implode('<br>&#9632; ', $item->kons)) !!}
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
