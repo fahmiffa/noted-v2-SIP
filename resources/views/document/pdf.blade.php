@@ -119,7 +119,9 @@
 
             const pdfUrls = [
                 '{{ route('req.dok', ['id' => md5($head->id), 'par'=>'bak']) }}',
-                '{{ route('req.dok', ['id' => md5($head->id), 'par'=>'barp']) }}'
+                '{{ route('req.dok', ['id' => md5($head->id), 'par'=>'barp']) }}',
+                '{{ route('req.dok', ['id' => md5($head->id), 'par'=>'attach']) }}',
+                '{{ route('req.dok', ['id' => md5($head->id), 'par'=>'tax']) }}',
             ];
 
             const mergedPdf = await PDFDocument.create();

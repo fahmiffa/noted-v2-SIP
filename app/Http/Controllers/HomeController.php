@@ -239,11 +239,21 @@ class HomeController extends Controller
         }   
         else if($par == 'tax')
         {
+            $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
+            $data = compact('qrCode', 'head');
+    
+            $pdf = PDF::loadView('document.tax.doc.index', $data)->setPaper('a4', 'potrait');        
+            return $pdf->stream();
 
         }   
         else if($par == 'attach')
         {
-
+            $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
+            $data = compact('qrCode', 'head');
+    
+            $pdf = PDF::loadView('document.attach.doc.index', $data)->setPaper('a4', 'potrait');
+            // return view('document.attach.doc.index', $data);
+            return $pdf->stream();
         }   
     } 
  
