@@ -157,7 +157,7 @@
                                     <h6>Dokumen Perbaikan</h6>
                                     <ul>
                                         @if ($item->parents)
-                                            <li>{{ $item->parents->reg }} ({{ $item->parents->nomor }}) <a
+                                            <li class="text-warp">{{ $item->parents->reg }} ({{ $item->parents->nomor }}) <a
                                                     target="_blank"
                                                     href="{{ route('monitoring.doc', ['id' => md5($item->parents->id)]) }}"
                                                     class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>
