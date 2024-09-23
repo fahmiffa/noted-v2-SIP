@@ -57,7 +57,7 @@
             <td colspan="2" style="padding: 0.5rem;font-weight:bold;text-align:center">Gambar Denah / Situasi</td>     
         </tr>
         <tr>
-            <td colspan="2" style="padding: 0.5rem;font-weight:bold;text-align:center">
+            <td colspan="2" style="padding: 0.5rem;font-weight:bold;text-align:center" class="page-break">
                 @if($head->attach->pile_map)
                     @php
                       $var = json_decode($head->attach->pile_map);
@@ -79,7 +79,7 @@
             </td>    
         </tr>   
         <tr>
-            <td style="padding: 0.5rem;font-weight:bold;text-align:center" class="page-break" width="50%">
+            <td style="padding: 0.5rem;font-weight:bold;text-align:center" width="50%">
                 @if($head->attach->pile_land)
                 <center>
                     <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$head->attach->pile_loc))) }}"  style="width:100%;object-fit:cover;object-position:center;margin:auto;display:block">
