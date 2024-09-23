@@ -104,7 +104,7 @@ class Head extends Model
         }
         else if($bak)
         {
-            $val = 'BAK';
+            $val = 'Proses Konsultasi';
         }
         else if($kons)
         {
