@@ -101,7 +101,7 @@
                                                         @endif
                                                     @endif
                                                 @else
-                                                    @if ($item->doc)
+                                                    @if ($item->doc->bak)
                                                         <button data-toggle="tooltip" data-placement="top"
                                                             title="Tanda Tangan Dokumen"
                                                             onclick="location.href='{{ route('sign.news', ['id' => md5($item->doc->bak->id)]) }}'"
