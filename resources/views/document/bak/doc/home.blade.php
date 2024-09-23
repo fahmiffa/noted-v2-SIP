@@ -96,7 +96,7 @@
             <td width="60%" style="border:none">: {{ ucwords(str_replace('_', ' ', $area->permanensi)) }} </td>
         </tr>
     </table>
-    <table style="width:100%;margin-top:1rem;margin-bottom:1rem">
+    <table style="width:100%;margin-top:1rem;">
         <tr>
             <td colspan="3" style="border: none">Informasi Umum :</td>
             <td colspan="3" style="border: none">Informasi Bangunan Gedung :</td>

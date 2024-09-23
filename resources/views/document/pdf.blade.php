@@ -13,7 +13,6 @@
         (async () => {
             const { PDFDocument } = PDFLib;
 
-            // URL PDF yang ingin digabungkan
             const pdfUrls = [
                 '{{ route('req.bak', ['id' => md5($head->bak->id)]) }}',
                 '{{ route('req.barp', ['id' => md5($head->barp->id)]) }}'
@@ -30,8 +29,7 @@
             }
 
             const pdfDataUri = await mergedPdf.saveAsBase64({ dataUri: true });
-
-            // Menampilkan PDF yang digabungkan di iframe
+  
             const iframe = document.getElementById('pdf-frame');
             iframe.src = pdfDataUri;
             iframe.style.display = 'block';
