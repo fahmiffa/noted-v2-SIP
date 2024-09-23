@@ -53,7 +53,7 @@
                                             <h6 class="mb-0">Alamat</h6>
                                             {{ $header ? $header[4] : null }}
                                         </td>
-                                        <td>{{ $header ? $header[5] : null }}</td>
+                                        <td class="text-center">{{ $header ? $header[5] : null }}</td>
                                         <td>
                                             {{ $item->doc->region ? 'Desa/Kel. '.$item->doc->region->name . ', ' : null }}
                                             {!! $item->doc->region ? $item->doc->region->kecamatan->name . '<br>' : null !!} {{ $header ? $header[7] : null }}
@@ -67,7 +67,7 @@
                                             <h6>Anggota</h6>
                                             &#9632; {!! ucfirst(implode('<br>&#9632; ', $item->kons)) !!}
                                         </td>
-                                        <td>
+                                        <td class="d-flex justify-content-between align-items-center">
                                             <form onsubmit="return confirm('Apakah Anda Yakin Menghapus ?');"
                                                 action="{{ route('consultation.destroy', $item->id) }}" method="POST">
                                                 <a href="{{ route('consultation.edit', $item->id) }}"
