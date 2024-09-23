@@ -207,27 +207,9 @@ class HomeController extends Controller
 
     public function doc($id)
     {
-        if($head->grant == 1)
-        {
-            $link = $head->links->where('ket','verifikasi')->first();
-            $res = route('link',['id'=>$link->short]);
-        }
-        else
-        {
-            $res = $head->reg;
-        }
-
-        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($res));
-        $data = compact('qrCode', 'head');
-        $pdf = PDF::loadView('req.doc.index', $data)->setPaper('a4', 'potrait');
-        return $pdf->stream();    
-    }
-
-    public function dok($id)
-    {
         $head = Head::where(DB::raw('md5(id)'), $id)->first();
-        return view('document.pdf',compact('head'));    
-    }
+        return view('document.pdf',compact('head'));      
+    } 
 
     public function docBak($id)
     {
