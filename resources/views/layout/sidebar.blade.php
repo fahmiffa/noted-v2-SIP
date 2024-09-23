@@ -43,7 +43,7 @@
         <li class="sidebar-item {{ request()->routeIs('ba.verifikasi') ? 'active' : null }}">
             <a href="{{ route('ba.verifikasi') }}" class="sidebar-link">
                 <i class="bi bi-file-earmark-text"></i>
-                <span>BAK BARP</span>
+                <span>BAK-BARP</span>
             </a>
         </li>  
     @endif
