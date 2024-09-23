@@ -196,7 +196,7 @@ class Head extends Model
 
         if($surat)
         {
-            return str_replace('Und','BARP',str_replace('600.1.15','600.1.15/PBLT',$this->nomor));
+            return str_replace('Spm','Und',str_replace('600.1.15','600.1.15/PBLT',$this->nomor));
         } 
         else
         {
