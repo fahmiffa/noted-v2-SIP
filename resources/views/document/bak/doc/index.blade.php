@@ -1,4 +1,4 @@
 @extends('layout.pdf')
 @section('main')
-    @include('document.bak.home');
+    @include('document.doc.bak.home');
 @endsection
