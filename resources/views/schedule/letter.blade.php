@@ -132,9 +132,11 @@
                 <td width="1%" style="border:none;vertical-align:top">: </td>
                 @if ($place[0] == 'alamat_bangunan')
                     <td style="border:none;vertical-align:top">
-                        {{ $header[7] }} <br>Desa/Kel.
+                        {{ $header[7] }} Desa/Kel.
                         {{ $schedule->doc->region->name }} Kec. {{ $schedule->doc->region->kecamatan->name }} Kab.
                         Tegal
+                        <br>
+                        {{ ucwords(str_replace('_', ' ', $place[1])) }}
                     </td>
                 @else
                     <td style="border:none;vertical-align:top">
