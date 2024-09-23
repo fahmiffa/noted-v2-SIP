@@ -64,7 +64,7 @@
                     @endphp
                     @foreach($var as $key)
                         <center>
-                            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$key))) }}"  style="width:95%;object-fit:cover;object-position:center;margin:auto;display:block;padding:0.1rem">
+                            <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/'.$key))) }}"  style="width:50%;object-fit:cover;object-position:center;margin:auto;display:block;padding:0.3rem">
                         </center>       
                     @endforeach
                 @endif
