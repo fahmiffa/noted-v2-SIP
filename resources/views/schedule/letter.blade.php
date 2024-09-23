@@ -36,7 +36,7 @@
             <tr>
                 <td style="border:none"><img style="width: 60px" class="img" src="{{ gambar('kab.png') }}" /></td>
                 <td width="100%" style="border:none; text-align:center">
-                    <p><span style="font-weight: bold;text-wrap:none;font-size:1rem">SURAT PEMBERITAHUAN / UNDANGAN KONSULTASI PBG DAN/ATAU SLF</span>
+                    <p><span style="font-weight: bold;text-wrap:none;font-size:1rem">SURAT PEMBERITAHUAN / UNDANGAN <br>KONSULTASI PBG DAN/ATAU SLF</span>
                         <br>No.&nbsp;&nbsp;{{$schedule->nomor}}
                     </p>
                 </td>
@@ -65,7 +65,7 @@
         <p style="margin-left:24rem">
             Kepada Yth.<br>
             Bapak/Ibu<br>
-            {{ $header[2] }}<br>
+            <b>{{ $header[2] }}</b><br>
             di -<br>
             <span style="margin-left:2.5rem">Tempat</span>
         </p>
@@ -133,7 +133,7 @@
             <tr>
                 <td width="30%" style="border:none;vertical-align:top">Keterangan</td>
                 <td width="1%" style="border:none;vertical-align:top">: </td>
-                <td style="border:none;vertical-align:top">
+                <td style="border:none;vertical-align:top" class="warp">
                     @php
                         $pass = ['<p>','<ul>'];
                         $new = ['<p style="margin-top:0rem">','<ul style="margin-top:0rem">'];
