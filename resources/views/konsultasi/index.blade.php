@@ -60,6 +60,8 @@
                                         </td>
                                         <td class="text-center">
                                             {{ $item->doc->letter }}
+                                            <br>
+                                            {{ $item->doc->nomor }}
                                         </td>
                                         <td class="text-center">
                                             {{ $item->doc->surat->tanggal }}
