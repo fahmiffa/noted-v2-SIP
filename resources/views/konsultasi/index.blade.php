@@ -25,12 +25,12 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
-                                    <th>No. Registrasi</th>
+                                    <th width="17%" >No. Registrasi</th>
                                     <th width="17%">Pemohon</th>
                                     <th>Nama Bangunan</th>
                                     <th width="17%">Lokasi Bangunan</th>
                                     <th>No. Dokumen</th>
-                                    <th>Tim</th>
+                                    <th width="17%">Tim</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
