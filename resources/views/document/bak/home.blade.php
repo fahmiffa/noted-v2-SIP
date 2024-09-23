@@ -58,7 +58,7 @@
                                             {{ $item->doc->nomor }}
                                         </td>
                                         <td>
-                                            <div class="d-flex justify-content-between">
+                                            <div class="d-flex justify-content-between align-items-center">
                                                 @if ($item->type == 'lead')
                                                     @if ($item->doc->bak)
                                                         @if ($item->doc->bak->status == 2)
@@ -107,6 +107,12 @@
                                                             onclick="location.href='{{ route('sign.news', ['id' => md5($item->doc->bak->id)]) }}'"
                                                             class="btn btn-primary btn-sm mx-2"><i
                                                                 class="bi bi-vector-pen"></i></button>
+                                                        <a class="btn {{ $item->doc->bak->grant == 1 ? 'btn-success' : 'btn-danger' }} btn-sm"
+                                                            target="_blank"
+                                                            href="{{ route('doc.news', ['id' => md5($item->doc->bak->id)]) }}"
+                                                            data-toggle="tooltip" data-placement="top" title="PDF Dokumen">
+                                                            <i class="bi bi-file-pdf"></i>
+                                                        </a>
                                                     @endif
                                                 @endif
                                             </div>

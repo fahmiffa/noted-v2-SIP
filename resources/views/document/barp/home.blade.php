@@ -54,7 +54,7 @@
                                             {{ $item->doc->nomor }}
                                         </td>
                                         <td>
-                                            <div class="d-flex justify-content-between">
+                                            <div class="d-flex justify-content-between align-items-center">
                                                 @if ($item->type == 'lead')
                                                     @if ($item->doc->barp)
                                                         @if ($item->doc->barp->status == 2)
@@ -77,7 +77,7 @@
                                                             <i class="bi bi-file-pdf"></i>
                                                         </a>
                                                     @else
-                                                        @if ($item->barp && $item->barp->grant == 1)                                                      
+                                                        @if ($item->barp && $item->barp->grant == 1)
                                                             <a class="btn btn-danger btn-sm" target="_blank"
                                                                 href="{{ route('doc.news', ['id' => md5($item->doc->bak->id)]) }}"
                                                                 data-toggle="tooltip" data-placement="top"
@@ -100,6 +100,13 @@
                                                             onclick="location.href='{{ route('sign.meet', ['id' => md5($item->doc->barp->id)]) }}'"
                                                             class="btn btn-primary btn-sm mx-2"><i
                                                                 class="bi bi-vector-pen"></i></button>
+
+                                                        <a class="btn {{ $item->doc->barp->grant == 1 ? 'btn-success' : 'btn-danger' }} btn-sm"
+                                                            target="_blank"
+                                                            href="{{ route('doc.meet', ['id' => md5($item->doc->barp->id)]) }}"
+                                                            data-toggle="tooltip" data-placement="top" title="PDF Dokumen">
+                                                            <i class="bi bi-file-pdf"></i>
+                                                        </a>
                                                     @endif
                                                 @endif
                                             </div>
