@@ -126,8 +126,8 @@
                 <td style="border:none">{{ ucwords(str_replace('_', ' ', $schedule->jenis)) }}</td>
             </tr>
             <tr>
-                <td width="30%" style="border:none">Tempat</td>
-                <td width="1%" style="border:none">: </td>
+                <td width="30%" style="border:none;vertical-align:top">Tempat</td>
+                <td width="1%" style="border:none;vertical-align:top">: </td>
                 <td style="border:none">{{ ucwords(str_replace('_', ' ', $place[1])) }}</td>
             </tr>
             <tr>
