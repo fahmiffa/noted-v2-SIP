@@ -38,7 +38,7 @@
                 <td width="100%" style="border:none; text-align:center">
                     <p><span style="font-weight: bold;text-wrap:none;font-size:1rem">SURAT PEMBERITAHUAN / UNDANGAN
                             <br>KONSULTASI PBG DAN/ATAU SLF</span>
-                        <br>No.&nbsp;&nbsp;{{ $schedule->nomor }}
+                        <br>No.&nbsp;&nbsp;{{ $schedule->number }}
                     </p>
                 </td>
                 <td style="border:none"><img style="width: 60px" class="img" src="{{ gambar('logo.png') }}" /></td>
