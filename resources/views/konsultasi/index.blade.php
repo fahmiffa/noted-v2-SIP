@@ -29,7 +29,6 @@
                                     <th width="17%">Pemohon</th>
                                     <th>Nama Bangunan</th>
                                     <th width="17%">Lokasi Bangunan</th>
-                                    <th>No. Dokumen</th>
                                     <th>No Surat</th>
                                     <th>Tanggal</th>
                                     <th>Action</th>
@@ -58,9 +57,6 @@
                                         <td>
                                             {{ $item->doc->region ? 'Desa/Kel. ' . $item->doc->region->name . ', ' : null }}
                                             {!! $item->doc->region ? $item->doc->region->kecamatan->name . '<br>' : null !!} {{ $header ? $header[7] : null }}
-                                        </td>
-                                        <td class="text-center">
-                                            {{ $item->doc->nomor }}
                                         </td>
                                         <td class="text-center">
                                             {{ $item->doc->surat->nomor }}
