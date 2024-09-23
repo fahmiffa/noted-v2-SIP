@@ -81,11 +81,11 @@
                                                     @endif
                                                     @if ($item->files)
                                                         <a target="_blank" href="{{ asset('storage/' . $item->files) }}"
-                                                            class="btn btn-sm btn-danger"><i class="bi bi-file-pdf"></i></a>
+                                                            class="btn btn-sm btn-warning"><i class="bi bi-file-pdf"></i></a>
                                                     @else
                                                         <a target="_blank"
                                                             href="{{ route('schedule.show', ['schedule' => $item->doc->surat->id]) }}"
-                                                            class="btn btn-sm btn-danger"><i class="bi bi-file-pdf"></i></a>
+                                                            class="btn btn-sm btn-warning"><i class="bi bi-file-pdf"></i></a>
                                                     @endif
     
                                                     @php
