@@ -1,6 +1,6 @@
 @if ($level == 'VL2')
     @php
-    $VL2 = $head->steps ? $head->steps->where('kode', 'VL2')->first() : false;
+    $VL2 = $head->steps->count() > 0 ? $head->steps->where('kode', 'VL2')->first() : false;
     $head = $VL2 ? $head : $head->old;
     $old = $head->steps->where('kode', 'VL2')->first();
     $remain = $old ? true : false;
