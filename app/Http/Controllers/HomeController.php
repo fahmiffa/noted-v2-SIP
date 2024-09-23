@@ -14,6 +14,8 @@ use DB;
 use Illuminate\Http\Request;
 use PDF;
 use QrCode;
+use setasign\Fpdi\Fpdi;
+use setasign\Fpdi\Fpdf;
 
 class HomeController extends Controller
 {
