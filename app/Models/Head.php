@@ -143,7 +143,7 @@ class Head extends Model
                 }
                 else
                 {
-                    $val = 'Verifikasi';
+                    $val = 'Verifikasi Kelengkapan Dokumen';
                 }
             }
             else
@@ -169,7 +169,7 @@ class Head extends Model
                 }
                 else
                 {
-                    $val = 'Verifikasi';
+                    $val = 'Verifikasi Kelengkapan Dokumen';
                 }
 
             }
