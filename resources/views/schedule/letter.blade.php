@@ -100,7 +100,7 @@
             <tr>
                 <td width="30%" style="border:none;vertical-align:top">Alamat Bangunan</td>
                 <td width="1%" style="border:none;vertical-align:top">: </td>
-                <td style="border:none;vertical-align:top">{{ $header[7] }} <br>Desa/Kel.
+                <td style="border:none;vertical-align:top">{{ $header[7] }} Desa/Kel.
                     {{ $schedule->doc->region->name }} Kec. {{ $schedule->doc->region->kecamatan->name }} Kab. Tegal
                 </td>
             </tr>
