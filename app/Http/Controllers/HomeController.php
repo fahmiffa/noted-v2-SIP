@@ -213,28 +213,40 @@ class HomeController extends Controller
         return view('document.pdf',compact('head'));      
     } 
 
-    public function docBak($id)
+    public function dok($id,$par)
     {
-        $news = News::where(DB::raw('md5(id)'), $id)->first();
-        $head = $news->doc;
-        $data = compact('news', 'head');
+        $head = Head::where(DB::raw('md5(id)'), $id)->first();
 
-        $pdf = PDF::loadView('document.bak.doc.index', $data)->setPaper('a4', 'potrait');
-        return $pdf->stream();
-        return view('document.bak.doc.index', $data);  
-    }
+        if($par == 'bak')
+        {
+            $news = $head->bak;
+            $data = compact('news', 'head');
+    
+            $pdf = PDF::loadView('document.bak.doc.index', $data)->setPaper('a4', 'potrait');
+            return $pdf->stream();
+            return view('document.bak.doc.index', $data);  
+        }
+        else if($par == 'barp')
+        {
+            $meet = $head->barp;
+            $news = $head->bak;
+            $data = compact('news', 'head', 'meet');
+    
+            $pdf = PDF::loadView('document.barp.doc.index', $data)->setPaper('a4', 'potrait');
+            return $pdf->stream();
+            return view('document.barp.doc.index', $data);
 
-    public function docBarp($id)
-    {
-        $meet = Meet::where(DB::raw('md5(id)'), $id)->first();
-        $news = $meet->doc->bak;
-        $head = $meet->doc;
-        $data = compact('news', 'head', 'meet');
+        }   
+        else if($par == 'tax')
+        {
 
-        $pdf = PDF::loadView('document.barp.doc.index', $data)->setPaper('a4', 'potrait');
-        return $pdf->stream();
-        return view('document.barp.doc.index', $data);
-    }
+        }   
+        else if($par == 'attach')
+        {
+
+        }   
+    } 
+ 
 
     public function view($id)
     {
