@@ -205,7 +205,7 @@
                                             <select class="form-control" name="place" required>
                                                 <option value="">Pilih Tempat</option>
                                                 @php
-                                                    $var = ['alamat_bangunan', 'ruang_rapat_DPUPR', 'link_zoom'];
+                                                    $var = ['alamat_bangunan', 'ruang_rapat_DPUPR_KAB_TEGAL', 'link_zoom'];
                                                 @endphp
                                                 @foreach ($var as $item)
                                                     <option value="{{ $item }}" @selected(isset($schedule) && $place[0] == $item) @selected( old('place') == $item)>
