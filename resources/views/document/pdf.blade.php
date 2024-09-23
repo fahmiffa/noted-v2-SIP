@@ -8,6 +8,8 @@
 </head>
 <body>
     <button id="merge-pdfs">Merge PDFs</button>
+    <iframe id="pdf-frame" style="width: 100%; height: 600px; display: none;"></iframe>
+
     <script>
         document.getElementById('merge-pdfs').addEventListener('click', async () => {
             const { PDFDocument } = PDFLib;
@@ -34,6 +36,10 @@
             link.download = 'merged.pdf';
             link.innerText = 'Download Merged PDF';
             document.body.appendChild(link);
+
+            const iframe = document.getElementById('pdf-frame');
+            iframe.src = pdfDataUri;
+            iframe.style.display = 'block';
         });
     </script>
 </body>
