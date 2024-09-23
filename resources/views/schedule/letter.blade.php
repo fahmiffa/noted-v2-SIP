@@ -128,12 +128,12 @@
             <tr>
                 <td width="30%" style="border:none">Tempat</td>
                 <td width="1%" style="border:none">: </td>
-                <td style="border:none"> {{ ucwords(str_replace('_', ' ', $place[0])) }}</td>
+                <td style="border:none"> {{ ucwords(str_replace('_', ' ', $place[0])) }}  {{ ucwords(str_replace('_', ' ', $place[1])) }}</td>
             </tr>
             <tr>
                 <td width="30%" style="border:none;vertical-align:top">Keterangan</td>
                 <td width="1%" style="border:none;vertical-align:top">: </td>
-                <td style="border:none;vertical-align:top" class="warp">
+                <td style="border:none;vertical-align:top;text-align:justify" class="warp">
                     @php
                         $pass = ['<p>','<ul>'];
                         $new = ['<p style="margin-top:0rem">','<ul style="margin-top:0rem">'];
