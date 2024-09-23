@@ -30,7 +30,7 @@
             </tr>
             <tr>
                 <td width="40%" style="border:none">Alamat Pemohon </td>
-                <td width="60%" style="border:none">: {{ $header[4] }}</td>
+                <td colspan="3" style="border:none">: {{ $header[4] }}</td>
             </tr>
             <tr>
                 <td width="40%" style="border:none">Nama Bangunan </td>
