@@ -100,7 +100,7 @@ class Head extends Model
 
         if($barp)
         {
-            $val = 'BARP';
+            $val = 'Proses Pleno';
         }
         else if($bak)
         {
