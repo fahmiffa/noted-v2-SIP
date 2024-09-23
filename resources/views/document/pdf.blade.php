@@ -3,21 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Merge PDFs</title>
+    <title>Merge and Display PDFs</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 </head>
 <body>
-    <button id="merge-pdfs">Merge PDFs</button>
     <iframe id="pdf-frame" style="width: 100%; height: 600px; display: none;"></iframe>
 
     <script>
-        document.getElementById('merge-pdfs').addEventListener('click', async () => {
+        (async () => {
             const { PDFDocument } = PDFLib;
 
+            // URL PDF yang ingin digabungkan
             const pdfUrls = [
                 '{{ route('bak.doc', ['id' => md5($head->bak->id)]) }}',
                 '{{ route('barp.doc', ['id' => md5($head->barp->id)]) }}'
             ];
+
 
             const mergedPdf = await PDFDocument.create();
 
@@ -30,17 +31,11 @@
 
             const pdfDataUri = await mergedPdf.saveAsBase64({ dataUri: true });
 
-            // Menampilkan PDF yang digabungkan
-            const link = document.createElement('a');
-            link.href = pdfDataUri;
-            link.download = 'merged.pdf';
-            link.innerText = 'Download Merged PDF';
-            document.body.appendChild(link);
-
+            // Menampilkan PDF yang digabungkan di iframe
             const iframe = document.getElementById('pdf-frame');
             iframe.src = pdfDataUri;
             iframe.style.display = 'block';
-        });
+        })();
     </script>
 </body>
 </html>
