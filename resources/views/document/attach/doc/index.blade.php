@@ -18,11 +18,11 @@
         <tbody>
             <tr>
                 <td width="40%" style="border:none">No. Registrasi </td>
-                <td colspan="5" style="border:none">: {{ $header[0] }} </td>             
+                <td colspan="5" style="border:none">: {{ $header[0] }} </td>
             </tr>
             <tr>
                 <td width="40%" style="border:none">Nama Pemohon </td>
-                <td colspan="5" style="border:none">: {{ $header[2] }}</td>          
+                <td colspan="5" style="border:none">: {{ $header[2] }}</td>
             </tr>
             <tr>
                 <td width="40%" style="border:none">Alamat Pemohon </td>
@@ -30,7 +30,7 @@
             </tr>
             <tr>
                 <td width="40%" style="border:none">Nama Bangunan </td>
-                <td colspan="5" style="border:none">: {{ $header[5] }}</td>          
+                <td colspan="5" style="border:none">: {{ $header[5] }}</td>
             </tr>
             <tr>
                 <td width="40%" style="border:none;vertical:align:top">Alamat Bangunan </td>
@@ -100,18 +100,27 @@
             <td colspan="2" style="padding: 0.5rem;font-weight:bold">Koordinat : {{ $head->attach->koordinat }}</td>
         </tr>
     </table>
-    <p>Catatan :</p> 
-    <ol>
-        <li>Lampiran ini merupakan bagian yang tidak terpisahkan dari Berita Acara Rapat Pleno (BARP) <br> No.
-            {{ $head->number }}
-        </li>
-        <li>Pemilik bangunan tidak diperkenankan mengembangkan bangunan diluar ketentuan yang berlaku.
-        </li>
-        <li>Terhadap bangunan yang telah berdiri (existing) agar dilakukan pemeriksaan kelaikan fungsi sebelum bangunan
-            dimanfaatkan.
-        </li>
-    </ol>
-    <img src="data:image/png;base64, {{ $head->qr }}" width="20%" style="float: right">
+    <table style="width: 100%; border:none;margin-top:1rem">
+        <tr>
+            <td style="border:none">
+                <p>Catatan :</p>
+                <ol>
+                    <li>Lampiran ini merupakan bagian yang tidak terpisahkan dari Berita Acara Rapat Pleno (BARP) <br> No.
+                        {{ $head->number }}
+                    </li>
+                    <li>Pemilik bangunan tidak diperkenankan mengembangkan bangunan diluar ketentuan yang berlaku.
+                    </li>
+                    <li>Terhadap bangunan yang telah berdiri (existing) agar dilakukan pemeriksaan kelaikan fungsi sebelum
+                        bangunan
+                        dimanfaatkan.
+                    </li>
+                </ol>
+            </td>
+            <td style="border:none">
+                <img src="data:image/png;base64, {{ $head->qr }}" width="20%" style="float: right">
+            </td>
+        </tr>
+    </table>
 
 
     <script type="text/php"> 
