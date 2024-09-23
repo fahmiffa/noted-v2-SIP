@@ -140,7 +140,7 @@
                     </td>
                 @else
                     <td style="border:none;vertical-align:top">
-                        {{ ucwords(str_replace('_', ' ', $place[0])) }} {{ ucwords(str_replace('_', ' ', $place[1])) }}
+                        {{ ucwords(str_replace('_', ' ', $place[0])) }}<br>{{ ucwords(str_replace('_', ' ', $place[1])) }}
                     </td>
                 @endif
             </tr>
