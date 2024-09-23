@@ -34,7 +34,7 @@ class ConsultationController extends Controller
     {
         $val = Consultation::latest();
         $da = $val->get();
-        $data = "Panugasan & Penjadwalan TPT TPA";
+        $data = "Panugasan & Penjadwalan TPT/TPA";
         return view('konsultasi.index',compact('da','data'));
     }
 
