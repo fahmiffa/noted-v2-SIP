@@ -59,7 +59,7 @@
                                             {!! $item->doc->region ? $item->doc->region->kecamatan->name . '<br>' : null !!} {{ $header ? $header[7] : null }}
                                         </td>
                                         <td class="text-center">
-                                            {{ $item->doc->surat->letter }}
+                                            {{ $item->doc->letter }}
                                             <br>
                                             {{ $item->doc->nomor }}
                                         </td>
