@@ -30,7 +30,7 @@
                                     <th>Nama Bangunan</th>
                                     <th width="17%">Lokasi Bangunan</th>
                                     <th>No Surat</th>
-                                    <th>Tanggal</th>
+                                    <th>Tanggal Acara</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
