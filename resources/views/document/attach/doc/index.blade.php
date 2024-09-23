@@ -46,14 +46,14 @@
                 </td>
             </tr>
             <tr>
-                <td width="40%" style="border:none">Luas Tanah</td>
-                <td width="60%" style="border:none">: {{ $head->attach->luas }}</td>
+                <td width="50%" style="border:none">Luas Tanah</td>
+                <td width="50%" style="border:none">: {{ $head->attach->luas }}</td>
                 @if ($head->attach->persil)
-                    <td width="40%" style="border:none">Luas Persil</td>
-                    <td width="60%" style="border:none">: {{ $head->attach->persil }}</td>
+                    <td width="50%" style="border:none">Luas Persil</td>
+                    <td width="50%" style="border:none">: {{ $head->attach->persil }}</td>
                 @endif
-                <td width="40%" style="border:none">Bukti Kepemilikan Tanah</td>
-                <td width="60%" style="border:none">: {{ $head->attach->bukti }}</td>
+                <td width="50%" style="border:none">Bukti Kepemilikan Tanah</td>
+                <td width="50%" style="border:none">: {{ $head->attach->bukti }}</td>
             </tr>
         </tbody>
     </table>
