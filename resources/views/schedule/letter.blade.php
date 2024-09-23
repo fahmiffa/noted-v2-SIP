@@ -155,7 +155,7 @@
                 <td style="border:none;">
                     <p style="text-align: center">
                         Slawi, {{ dateID($schedule->created_at) }}<br>
-                        <img src="data:image/png;base64, {{ $qrCode }}" width="30%">
+                        <img src="data:image/png;base64, {{ $qrCode }}" width="40%">
                         <br>
                         DPUPR Kabupaten Tegal
                     </p>
