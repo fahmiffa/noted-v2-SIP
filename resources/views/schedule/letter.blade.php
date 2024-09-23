@@ -137,7 +137,9 @@
                         Tegal
                     </td>
                 @else
-                    <td style="border:none;vertical-align:top">{{ ucwords(str_replace('_', ' ', $place[1])) }}</td>
+                    <td style="border:none;vertical-align:top">
+                        {{-- {{ ucwords(str_replace('_', ' ', $place[1])) }} --}}
+                    </td>
                 @endif
             </tr>
             <tr>
