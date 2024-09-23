@@ -311,7 +311,8 @@
                                                 <input class="form-check-input" type="radio"
                                                     name="subDt[{{ $item->id }}][{{ $sub->id }}]"
                                                     value="0"
-                                                    {{ $remain && $subPt[$item->id]['value'][$sub->id] == 0 ? 'checked' : null }}>
+                                                    {{ $remain && $subPt[$item->id]['value'][$sub->id] == 0 ? 'checked' : null }}
+                                                    {{ $remain == false ? 'checked' : null }}>
                                                 <label class="form-check-label">Tidak Ada</label>
                                             </div>
                                             <div class="form-check d-inline-block">
@@ -344,7 +345,8 @@
                                         <div class="form-check d-inline-block mx-3">
                                             <input class="form-check-input" type="radio"
                                                 name="itemDt[{{ $item->id }}]" value="0"
-                                                {{ $remain && $itemPt[$item->id] == 0 ? 'checked' : null }}>
+                                                {{ $remain && $itemPt[$item->id] == 0 ? 'checked' : null }}
+                                                {{ $remain == false ? 'checked' : null }}>
                                             <label class="form-check-label">Tidak Ada</label>
                                         </div>
                                         <div class="form-check d-inline-block">
