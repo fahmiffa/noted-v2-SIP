@@ -63,7 +63,6 @@ class ConsultationController extends Controller
             'date'      => 'required',   
             'jenis'      => 'required',   
             'place'     => 'required',                                           
-            // 'place_des' => 'required',     
             'pile' => 'nullable|file|mimes:pdf|max:2048',                          
             ];
         
@@ -333,6 +332,8 @@ class ConsultationController extends Controller
     public function destroy(Consultation $consultation)
     {
         $consultation->delete();
+        Schedule::where('head',$consultation->head)->delete();
+        Signed::where('head',$consultation->head)->delete();
         return back();
     }
 }
