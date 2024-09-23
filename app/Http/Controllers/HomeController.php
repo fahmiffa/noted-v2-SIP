@@ -207,22 +207,49 @@ class HomeController extends Controller
 
     public function doc($id)
     {
-        $head = Head::where(DB::raw('md5(id)'), $id)->first();
-        return view('document.pdf',compact('head'));
-        // if($head->grant == 1)
-        // {
-        //     $link = $head->links->where('ket','verifikasi')->first();
-        //     $res = route('link',['id'=>$link->short]);
-        // }
-        // else
-        // {
-        //     $res = $head->reg;
-        // }
+        if($head->grant == 1)
+        {
+            $link = $head->links->where('ket','verifikasi')->first();
+            $res = route('link',['id'=>$link->short]);
+        }
+        else
+        {
+            $res = $head->reg;
+        }
 
-        // $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($res));
-        // $data = compact('qrCode', 'head');
-        // $pdf = PDF::loadView('req.doc.index', $data)->setPaper('a4', 'potrait');
-        // return $pdf->stream();    
+        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($res));
+        $data = compact('qrCode', 'head');
+        $pdf = PDF::loadView('req.doc.index', $data)->setPaper('a4', 'potrait');
+        return $pdf->stream();    
+    }
+
+    public function dok($id)
+    {
+        $head = Head::where(DB::raw('md5(id)'), $id)->first();
+        return view('document.pdf',compact('head'));    
+    }
+
+    public function docBak($id)
+    {
+        $news = News::where(DB::raw('md5(id)'), $id)->first();
+        $head = $news->doc;
+        $data = compact('news', 'head');
+
+        $pdf = PDF::loadView('document.bak.doc.index', $data)->setPaper('a4', 'potrait');
+        return $pdf->stream();
+        return view('document.bak.doc.index', $data);  
+    }
+
+    public function docBarp($id)
+    {
+        $meet = Meet::where(DB::raw('md5(id)'), $id)->first();
+        $news = $meet->doc->bak;
+        $head = $meet->doc;
+        $data = compact('news', 'head', 'meet');
+
+        $pdf = PDF::loadView('document.barp.doc.index', $data)->setPaper('a4', 'potrait');
+        return $pdf->stream();
+        return view('document.barp.doc.index', $data);
     }
 
     public function view($id)

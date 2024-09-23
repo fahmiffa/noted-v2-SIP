@@ -15,8 +15,8 @@
 
             // URL PDF yang ingin digabungkan
             const pdfUrls = [
-                '{{ route('bak.doc', ['id' => md5($head->bak->id)]) }}',
-                '{{ route('barp.doc', ['id' => md5($head->barp->id)]) }}'
+                '{{ route('req.bak', ['id' => md5($head->bak->id)]) }}',
+                '{{ route('req.barp', ['id' => md5($head->barp->id)]) }}'
             ];
 
 

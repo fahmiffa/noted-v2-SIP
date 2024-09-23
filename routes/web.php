@@ -31,6 +31,8 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('main'); 
         Route::get('permohonan', [App\Http\Controllers\HomeController::class, 'req'])->name('req.index');     
         Route::get('dokumen/{id}', [App\Http\Controllers\HomeController::class, 'doc'])->name('req.doc'); 
+        Route::get('dokumen-bak/{id}', [App\Http\Controllers\HomeController::class, 'docBak'])->name('req.bak'); 
+        Route::get('dokumen-barp/{id}', [App\Http\Controllers\HomeController::class, 'docBarp'])->name('req.barp'); 
         Route::get('monitoring', [App\Http\Controllers\HomeController::class, 'monitoring'])->name('monitoring');         
     });
 
