@@ -46,7 +46,7 @@
     </header>
     <div style="border-bottom: 3px solid black;width:100%;margin-bottom:0.1rem;margin-top:0.2rem"></div>
     <div style="border-bottom: 1px solid black;width:100%"></div>
-    <div style="margin: auto; display:block; width:600px; max-width:100%">
+    <div style="margin: auto; display:block;">
         <table style="width:100%; margin-top: 0.5rem">
             <tr>
                 <td width="10%" style="border:none;vertical-align:top">Perihal</td>
