@@ -57,7 +57,6 @@ class ConsultationController extends Controller
             'doc' => 'required',       
             'notulen'=>'required',
             'konsultan'=> 'required',            
-            'nomor'     =>'required',
             'tanggal'   => 'required',   
             'timeStart' => 'required',  
             'timeEnd'      => 'required',   
@@ -99,7 +98,6 @@ class ConsultationController extends Controller
         
         $ch             = new Schedule;
         $ch->head       = $request->doc;
-        $ch->nomor      = $request->nomor;
         $ch->jenis      = $request->jenis;
         $ch->tanggal    = $request->tanggal;
         $ch->waktu      = $request->timeStart.'#'.$request->timeEnd.'#'.$request->date;
@@ -252,14 +250,12 @@ class ConsultationController extends Controller
             'doc' => 'required',       
             'notulen'=>'required',
             'konsultan'=> 'required',            
-            'nomor'     =>'required',
             'tanggal'   => 'required',   
             'timeStart' => 'required',  
             'timeEnd'      => 'required',   
             'date'      => 'required',   
             'jenis'      => 'required',   
             'place'     => 'required',                                           
-            // 'place_des' => 'required',        
             'pile' => 'nullable|file|mimes:pdf|max:2048',                                       
             ];
 

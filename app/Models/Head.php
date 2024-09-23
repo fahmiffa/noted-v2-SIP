@@ -190,6 +190,20 @@ class Head extends Model
         }
     }
 
+    public function getletterAttribute()
+    {            
+        $surat =  $this->surat()->exists();
+
+        if($barp)
+        {
+            return str_replace('Und','BARP',str_replace('600.1.15','600.1.15/PBLT',$this->nomor));
+        } 
+        else
+        {
+            return null;
+        }
+    }
+
     public function getqrAttribute()
     {            
 

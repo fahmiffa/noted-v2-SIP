@@ -144,16 +144,7 @@
                                     </div>
 
                                     <div class="form-group mb-3">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <label>No. Surat</label>
-                                                <input type="text" name="nomor"
-                                                    value="{{ isset($schedule) ? $schedule->nomor : old('nomor') }}"
-                                                    class="form-control">
-                                                @error('nomor')
-                                                    <div class='small text-danger text-left'>{{ $message }}</div>
-                                                @enderror
-                                            </div>
+                                        <div class="row">                                
                                             <div class="col-md-6">
                                                 <label>Tanggal Surat</label>
                                                 <input type="date" name="tanggal"
