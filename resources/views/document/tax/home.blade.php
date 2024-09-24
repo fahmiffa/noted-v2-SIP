@@ -56,7 +56,7 @@
                                                 @php
                                                 $tax = (object) json_decode($item->tax->parameter);  
                                                 @endphp
-                                                {{ format_number($tax->retri, 2, 0) }}
+                                                {{ format_number($tax->retri, 2) }}
                                             @endif
                                         </td>
                                         <td>
