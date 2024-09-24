@@ -1,7 +1,7 @@
 @if ($level == 'VL2')
     @php
     $VL2 = $head->steps->where('kode', 'VL2')->first();
-    $head = $VL2 ? $head->old : $head;
+    $head = $VL2 && $head->parent != null ? $head->old : $head;
     $old = $head->steps->where('kode', 'VL2')->first();
     $remain = $old ? true : false;
     @endphp
@@ -376,7 +376,7 @@
 @else
     @php
         $VL3 = $head->steps->where('kode', 'VL3')->first();
-        $head = $VL3 ? $head->old : $head;        
+        $head = $VL3 && $head->parent != null ? $head->old : $head;     
         $old = $head->steps->where('kode', 'VL3')->first();
         $remain = $old ? true : false;
         if ($remain) {

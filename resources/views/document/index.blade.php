@@ -18,14 +18,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-body p-5">              
+                <div class="card-body p-5">
                     <div class="table-responsive">
                         <table class="table table-bordered" id="table1" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>No.</th>
                                     <th>No. Registrasi</th>
-                                    <th width="17%" >Pemohon</th>
+                                    <th width="17%">Pemohon</th>
                                     <th>Nama Bangunan</th>
                                     <th width="17%">Lokasi Bangunan</th>
                                     <th>No. Dokumen</th>
@@ -52,10 +52,10 @@
                                         <td class="text-center">
                                             {{ $header ? $header[5] : null }}
                                         </td>
-                                        <td class="text-center">                                                                                        
+                                        <td class="text-center">
                                             {{ $header ? $header[7] : null }}<br>
-                                            {{ $item->region ? 'Desa/Kel. '.$item->region->name : null }},
-                                            {{ $item->region ? 'Kec. '.$item->region->kecamatan->name : null }}
+                                            {{ $item->region ? 'Desa/Kel. ' . $item->region->name : null }},
+                                            {{ $item->region ? 'Kec. ' . $item->region->kecamatan->name : null }}
                                         </td>
                                         <td class="text-center">
                                             {{ $item->nomor }}
@@ -66,54 +66,57 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            {{ $item->dokumen }} 
+                                            {{ $item->dokumen }}
                                         </td>
-
-                                        <td class="d-flex justify-content-center align-items-center my-auto"
-                                            style="height: 150px">
-
-                                            @if ($item->status == 5 && $item->parent == null)
-                                                <a href="{{ route('verifikasi.edit', $item->id) }}" data-toggle="tooltip"
-                                                    data-placement="top" title="Edit Dokumen"
-                                                    class="btn btn-sm btn-primary me-1">Edit</a>                                 
-                                            @endif
-
-                                            @if ($item->status == 1)
-                                                @if ($item->grant == 0)
-                                                    <button type="button" class="btn btn-info btn-sm mx-2"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Dokumen belum diverifikasi" data-bs-toggle="modal"
-                                                        data-bs-target="#ver{{ $item->id }}">
-                                                        Verifikasi
-                                                    </button>                              
+                                        <td>
+                                            <div class="d-flex justify-content-center align-items-center">
+                                                @if ($item->status == 5 && $item->parent == null)
+                                                    <a href="{{ route('verifikasi.edit', $item->id) }}"
+                                                        data-toggle="tooltip" data-placement="top" title="Edit Dokumen"
+                                                        class="btn btn-sm btn-primary me-1">Edit</a>
                                                 @endif
-                                            @endif
 
-                                            <button type="button"
-                                                class="btn {{ $item->head->count() > 0 ? 'btn-warning' : 'btn-dark' }} btn-sm"
-                                                data-toggle="tooltip" data-placement="top" title="Dokumen Detail"
-                                                data-bs-toggle="modal" data-bs-target="#det{{ $item->id }}">
-                                                Detail
-                                            </button>
+                                                @if ($item->status == 1)
+                                                    @if ($item->grant == 0)
+                                                        <button type="button" class="btn btn-info btn-sm mx-2"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="Dokumen belum diverifikasi" data-bs-toggle="modal"
+                                                            data-bs-target="#ver{{ $item->id }}">
+                                                            Verifikasi
+                                                        </button>
+                                                    @endif
+                                                @endif
 
-                                            @if ($item->status == 5)
-                                                <form onsubmit="return confirm('Apakah Anda Yakin Menghapus ?');"
-                                                    action="{{ route('verifikasi.destroy', $item->id) }}" method="POST">
-                                                    @method('DELETE')
-                                                    @csrf
-                                                    <button type="submit" class="btn btn-sm btn-danger mx-2"
-                                                        data-toggle="tooltip" data-placement="top" title="Hapus Dokumen">
-                                                        <i class="bi bi-trash"></i>
-                                                    </button>
-                                                </form>
-                                            @endif
+                                                <button type="button"
+                                                    class="btn {{ $item->head->count() > 0 ? 'btn-warning' : 'btn-dark' }} btn-sm"
+                                                    data-toggle="tooltip" data-placement="top" title="Dokumen Detail"
+                                                    data-bs-toggle="modal" data-bs-target="#det{{ $item->id }}">
+                                                    Detail
+                                                </button>
 
-                                            @if ($item->status == 1)
-                                                <a target="_blank" data-toggle="tooltip" data-placement="top"
-                                                    title="Dokumen PDF"
-                                                    href="{{ route('monitoring.doc', ['id' => md5($item->id)]) }}"
-                                                    class="btn btn-sm btn-danger mx-2"><i class="bi bi-file-pdf"></i></a>
-                                            @endif
+                                                @if ($item->status == 5)
+                                                    <form onsubmit="return confirm('Apakah Anda Yakin Menghapus ?');"
+                                                        action="{{ route('verifikasi.destroy', $item->id) }}"
+                                                        method="POST">
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm btn-danger mx-2"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="Hapus Dokumen">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                @endif
+
+                                                @if ($item->status == 1)
+                                                    <a target="_blank" data-toggle="tooltip" data-placement="top"
+                                                        title="Dokumen PDF"
+                                                        href="{{ route('monitoring.doc', ['id' => md5($item->id)]) }}"
+                                                        class="btn btn-sm btn-danger mx-2"><i
+                                                            class="bi bi-file-pdf"></i></a>
+                                                @endif
+
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -152,20 +155,21 @@
                                         <h6>Tipe</h6>
                                         {{ ucfirst($item->type) }}
                                     </div>
-                                </div>         
+                                </div>
                                 @if ($item->head->count() > 0)
                                     <h6>Dokumen Perbaikan</h6>
                                     <ul>
                                         @if ($item->parents)
-                                            <li class="text-wrap text-break">{{ $item->parents->reg }} ({{ $item->parents->nomor }}) <a
-                                                    target="_blank"
+                                            <li class="text-wrap text-break">{{ $item->parents->reg }}
+                                                ({{ $item->parents->nomor }}) <a target="_blank"
                                                     href="{{ route('monitoring.doc', ['id' => md5($item->parents->id)]) }}"
                                                     class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>
                                                 ({{ $item->parents->note }})
                                             </li>
                                         @endif
                                         @foreach ($item->parents->tmp->whereNotNull('deleted_at') as $val)
-                                            <li class="text-wrap text-break">{{ $val->reg }} ({{ $val->nomor }}) <a target="_blank"
+                                            <li class="text-wrap text-break">{{ $val->reg }} ({{ $val->nomor }}) <a
+                                                    target="_blank"
                                                     href="{{ route('monitoring.doc', ['id' => md5($val->id)]) }}"
                                                     class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>
                                                 ({{ $val->note }})

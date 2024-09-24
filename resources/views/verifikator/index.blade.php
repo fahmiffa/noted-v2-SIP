@@ -59,39 +59,39 @@
                                             <td class="text-center">
                                                 {{ $item->nomor }}
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 {{ $item->dokumen }}
                                             </td>
-                                            <td class="d-flex jusstify-content-between align-items-center my-auto"
-                                                style="height: 150px">
-
-                                                @if ($item->status == 1)
-                                                    <a target="_blank"
-                                                        href="{{ route('monitoring.doc', ['id' => md5($item->id)]) }}"
-                                                        class="btn btn-sm btn-danger mx-2"><i
-                                                            class="bi bi-file-pdf"></i></a>
-                                                @else                                      
-                                                    <a href="{{ route('step.verifikasi', ['id' => md5($item->id)]) }}"
-                                                        data-toggle="tooltip" data-placement="top"
-                                                        title="Form Dokumen verifikasi" class="btn btn-sm btn-primary"><i
-                                                            class="bi bi-pencil"></i></a>
-
-                                                    @if ($item->steps->count() > 0)
+                                            <td>
+                                                <div class="d-flex jusstify-content-between align-items-center">
+                                                    @if ($item->status == 1)
                                                         <a target="_blank"
                                                             href="{{ route('monitoring.doc', ['id' => md5($item->id)]) }}"
                                                             class="btn btn-sm btn-danger mx-2"><i
                                                                 class="bi bi-file-pdf"></i></a>
+                                                    @else
+                                                        <a href="{{ route('step.verifikasi', ['id' => md5($item->id)]) }}"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="Form Dokumen verifikasi"
+                                                            class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
+
+                                                        @if ($item->steps->count() > 0)
+                                                            <a target="_blank"
+                                                                href="{{ route('monitoring.doc', ['id' => md5($item->id)]) }}"
+                                                                class="btn btn-sm btn-danger mx-2"><i
+                                                                    class="bi bi-file-pdf"></i></a>
+                                                        @endif
                                                     @endif
-                                                @endif
 
-
-                                                @if ($item->head->count() > 0)
-                                                    <button class="btn btn-warning btn-sm ms-1" data-toggle="tooltip"
-                                                        data-placement="top" title="Dokumen di tolak verifikasi"
-                                                        data-bs-toggle="modal" data-bs-target="#des{{ $item->id }}">
-                                                        Perbaikan
-                                                    </button>
-                                                @endif
+                                                    @if ($item->head->count() > 0)
+                                                        <button class="btn btn-warning btn-sm ms-1" data-toggle="tooltip"
+                                                            data-placement="top" title="Dokumen di tolak verifikasi"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#des{{ $item->id }}">
+                                                            Perbaikan
+                                                        </button>
+                                                    @endif
+                                                </div>
                                             </td>
                                         </tr>
                                     @endif
@@ -119,7 +119,8 @@
                                 <div class="modal-body">
                                     <ul>
                                         @if ($item->parents)
-                                            <li class="text-wrap text-break">{{ $item->parents->reg }} ({{ $item->parents->nomor }})
+                                            <li class="text-wrap text-break">{{ $item->parents->reg }}
+                                                ({{ $item->parents->nomor }})
                                                 <a target="_blank"
                                                     href="{{ route('monitoring.doc', ['id' => md5($item->parents->id)]) }}"
                                                     class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>
@@ -127,7 +128,8 @@
                                             </li>
                                         @endif
                                         @foreach ($item->parents->tmp->whereNotNull('deleted_at') as $val)
-                                            <li class="text-wrap text-break">{{ $val->reg }} ({{ $val->nomor }}) <a target="_blank"
+                                            <li class="text-wrap text-break">{{ $val->reg }} ({{ $val->nomor }}) <a
+                                                    target="_blank"
                                                     href="{{ route('monitoring.doc', ['id' => md5($val->id)]) }}"
                                                     class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>
                                                 ({{ $val->note }})
