@@ -65,7 +65,7 @@
                                     </div>
                                 </div>
                             </div>       
-                            <div class="col col-md-4">
+                            {{-- <div class="col col-md-4">
                                 <div class="d-flex jusitify-content-between">
                                     <div class="p-1">
                                         <div class="stats-icon blue mb-2">
@@ -77,7 +77,7 @@
                                         <h6 class="font-extrabold mb-0">{{$barp+$bak}}</h6>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="col col-md-4">
                                 <div class="d-flex jusitify-content-between">
                                     <div class="p-1">
