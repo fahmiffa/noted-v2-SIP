@@ -51,10 +51,12 @@
                                         {{ $item->region ? 'Kec. ' . $item->region->kecamatan->name : null }}
                                     </td>
                                     <td class="text-center">
-                                        {{ $item->nomor }}
+                                        {{ $item->numbDoc('barp') }}
                                     </td>
                                     <td>                        
-                                      <a target="_blank" href="{{ route('req.doc', ['id'=>md5($item->id)]) }}" class="btn btn-sm btn-danger"><i class="bi bi-file-pdf"></i></a>
+                                        <div class="d-flex justify-content-center align-items-center">
+                                            <a target="_blank" href="{{ route('req.doc', ['id'=>md5($item->id)]) }}" class="btn btn-sm btn-danger"><i class="bi bi-file-pdf"></i></a>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
