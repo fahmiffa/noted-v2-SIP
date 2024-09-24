@@ -284,7 +284,7 @@
                 //Shows number center-bottom of A4 page with $x,$y values
                 $x = 270;  //X-axis vertical position 
                 $y = 828; //Y-axis horizontal position
-                $text = "Lembar BAK Dokumen No. {{ str_replace('SPm', 'BAK', str_replace('600.1.15', '600.1.15/PBLT', $head->nomor)) }} | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
+                $text = "Lembar BAK No. {{ str_replace('SPm', 'BAK', str_replace('600.1.15', '600.1.15/PBLT', $head->nomor)) }} | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
                 $font =  $fontMetrics->get_font("helvetica", "bold");
                 $size = 7;
                 $color = array(0,0,0);
