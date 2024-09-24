@@ -136,7 +136,7 @@
                                 $header = (array) json_decode($item->header);
                                 @endphp
                                 <div class="row small">
-                                    <div class="col-3">Pemohon</div>
+                                    <div class="col-3">Nama Pemohon</div>
                                     <div class="col-9">: {{ $header ? $header[2] : null }}   </div>
                                     <div class="col-3">Alamat</div>
                                     <div class="col-9 d-inline-flex">:&nbsp;<p class="mb-0">{{ $item->region ? $item->region->name : null }}, {{ $item->region ? $item->region->kecamatan->name : null }}, {{ $header ? $header[4] : null }}</p></div>                              
