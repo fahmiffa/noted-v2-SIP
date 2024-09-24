@@ -39,7 +39,7 @@
         bottom: 0;
         width: 100%;
         height: 100%;
-        background-image: url({{gambar('watermak.png')}});
+        background-image: url({{gambar('bg.png')}});
         background-repeat: repeat;
         opacity: 0.1;
         pointer-events: none;
