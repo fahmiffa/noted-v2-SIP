@@ -29,11 +29,11 @@
     .watermark {
         position: fixed;
         top: 50%;
-        left: 50%;
+        left: 40%;
         opacity: 0.1;
-        transform: translate(-50%, -50%);
+        transform: rotate(333deg);
         z-index: -1;
-        font-size: 100px;
+        font-size: 200px;
         color: blue;
         text-align: center;
     }
