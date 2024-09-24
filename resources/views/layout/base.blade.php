@@ -23,7 +23,7 @@
 
         .toast-top-right {
             top: 5% !important;
-            left: 70% !important;
+            left: 60% !important;
             transform: translate(-50%, -50%) !important;
             position: fixed !important;
             z-index: 9999 !important;
