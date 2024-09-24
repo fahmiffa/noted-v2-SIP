@@ -47,7 +47,7 @@
                                         </div>
                                     </div>
                                     <div class="p-1">
-                                        <h6 class="text-muted font-semibold">Proses Konsultasi</h6>
+                                        <h6 class="text-muted font-semibold">Penjadwalan Konsultasi</h6>
                                         <h6 class="font-extrabold mb-0">{{$kons}}</h6>
                                     </div>
                                 </div>
