@@ -128,55 +128,73 @@
                         Ilo x SHST x LLt)</i>&nbsp;</td>
                 <td align="right">{{ number_format($par->retri, 0, ',', '.') }}</td>
             </tr>
-    </table>
-    @php
-        $pra = (array) $par->pra;
-    @endphp
-    <h4>D. PERHITUNGAN NILAI RETRIBUSI PRASARANA</h4>
-    <table style="width: 98%">
-        <tr align="center" style="background-color:lightgrey">
-            <td>No.</td>
-            <td>Uraian</td>
-            <td>Volume</td>
-            <td>Sat.</td>
-            <td>Harga Satuan.</td>
-            <td>Jumlah Harga</td>
-        </tr>
-        @for ($i = 1; $i < count($pra); $i++)
-            @isset($pra[$i][0])
-                <tr>
-                    <td align="center">{{ $i }}</td>
-                    <td style="padding:0.2rem">{{ $pra[$i][0] }}</td>
-                    <td style="padding:0.2rem">{{ $pra[$i][1] }}</td>
-                    <td style="padding:0.2rem">{{ $pra[$i][2] }}</td>
-                    <td style="padding:0.2rem" align="right">
-                        {{ number_format($pra[$i][3], 0, ',', '.') }}
-                    </td>
-                    <td style="padding:0.2rem" align="right">
-                        {{ number_format($pra[$i][4], 0, ',', '.') }}
-                    </td>
+        </table>
+        @php
+            $pra = (array) $par->pra;
+        @endphp
+        <h4>D. PERHITUNGAN NILAI RETRIBUSI PRASARANA</h4>
+        <table style="width: 98%">
+            <tr align="center" style="background-color:lightgrey">
+                <td>No.</td>
+                <td>Uraian</td>
+                <td>Volume</td>
+                <td>Sat.</td>
+                <td>Harga Satuan.</td>
+                <td>Jumlah Harga</td>
+            </tr>
+            @for ($i = 1; $i < count($pra); $i++)
+                @isset($pra[$i][0])
+                    <tr>
+                        <td align="center">{{ $i }}</td>
+                        <td style="padding:0.2rem">{{ $pra[$i][0] }}</td>
+                        <td style="padding:0.2rem">{{ $pra[$i][1] }}</td>
+                        <td style="padding:0.2rem">{{ $pra[$i][2] }}</td>
+                        <td style="padding:0.2rem" align="right">
+                            {{ number_format($pra[$i][3], 0, ',', '.') }}
+                        </td>
+                        <td style="padding:0.2rem" align="right">
+                            {{ number_format($pra[$i][4], 0, ',', '.') }}
+                        </td>
+                    </tr>
+                @endif
+                @endfor
+                <tr style="background-color:ivory">
+                    <td colspan="5" style="text-align:right">NILAI RETRIBUSI PRASARANA&nbsp;</td>
+                    <td align="right">{{ number_format($par->sumPra, 0, ',', '.') }}</td>
                 </tr>
-            @endif
-            @endfor
-            <tr style="background-color:ivory">
-                <td colspan="5" style="text-align:right">NILAI RETRIBUSI PRASARANA&nbsp;</td>
-                <td align="right">{{ number_format($par->sumPra, 0, ',', '.') }}</td>
-            </tr>
-            <tr style="background-color:ivory">
-                <td colspan="5" style="text-align:right">
-                    <strong>TOTAL NILAI RETRIBUSI</strong><br>
-                    (NILAI RETRIBUSI BANGUNAN GEDUNG + NILAI RETRIBUSI PRASARANA)
-                </td>
-                <td align="right">{{ number_format($par->totRetri, 0, ',', '.') }}</td>
-            </tr>
-    </table>
-    <p>Catatan :</p>
-    <ol>
-        <li>Perhitungan Retribusi ini merupakan simulasi dengan mengacu pada Perda Kab. Tegal Nomor 11 Tahun 2023 tentang Pajak Daerah dan Retribusi Daerah
-        </li>
-        <li>Dokumen ini BUKAN merupakan PBG / Bukti Penagihan / Bukti Pembayaran yang sah, proses penagihan dan pembayaran  tetap mengacu pada SKRD yang dikeluarkan oleh DPMPTSP
-        </li>
-        <li>Hasil perhitungan ini dimungkinan terdapat perbedaan dengan hasil perhitungan retribusi akhir karena faktor sistem dan hasil verifikasi akhir terhadap dokumen teknis secara menyeluruh
-        </li>
-    </ol>
-
+                <tr style="background-color:ivory">
+                    <td colspan="5" style="text-align:right">
+                        <strong>TOTAL NILAI RETRIBUSI</strong><br>
+                        (NILAI RETRIBUSI BANGUNAN GEDUNG + NILAI RETRIBUSI PRASARANA)
+                    </td>
+                    <td align="right">{{ number_format($par->totRetri, 0, ',', '.') }}</td>
+                </tr>
+            </table>
+            <p>Catatan :</p>
+            <ol>
+                <li>Perhitungan Retribusi ini merupakan simulasi dengan mengacu pada Perda Kab. Tegal Nomor 11 Tahun 2023
+                    tentang Pajak Daerah dan Retribusi Daerah
+                </li>
+                <li>Dokumen ini BUKAN merupakan PBG / Bukti Penagihan / Bukti Pembayaran yang sah, proses penagihan dan
+                    pembayaran tetap mengacu pada SKRD yang dikeluarkan oleh DPMPTSP
+                </li>
+                <li>Hasil perhitungan ini dimungkinan terdapat perbedaan dengan hasil perhitungan retribusi akhir karena faktor
+                    sistem dan hasil verifikasi akhir terhadap dokumen teknis secara menyeluruh
+                </li>
+            </ol>
+            @php  $header = (array) json_decode($head->header); @endphp
+            <script type="text/php"> 
+            if (isset($pdf)) { 
+                //Shows number center-bottom of A4 page with $x,$y values
+                $x = 280;  //X-axis vertical position 
+                $y = 820; //Y-axis horizontal position
+                $text = "Simulasi Perhitungan Retribusi & No. Registrasi {{$header[0]}} | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
+                $font =  $fontMetrics->get_font("helvetica", "bold");
+                $size = 7;
+                $color = array(0,0,0);
+                $word_space = 0.0;  //  default
+                $char_space = 0.0;  //  default
+                $angle = 0.0;   //  default
+                $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+            }
+        </script>

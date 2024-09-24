@@ -54,34 +54,36 @@
                                         <td class="text-center">
                                             {{ str_replace('SPm', 'LDP', str_replace('600.1.15', '600.1.15/PBLT', $item->nomor))  }}
                                         </td>
-                                        <td class="d-flex justify-content-between align-items-center my-auto" style="height: 150px">
-                                            @if ($item->attach)
-                                                <a class="btn btn-{{ $item->attach->status == 2 ? 'warning' : 'success' }} btn-sm"
-                                                    href="{{ route('step.attach', ['id' => md5($item->id)]) }}"
-                                                    data-toggle="tooltip" data-placement="top" title="Dokumen Draft">
-                                                    <i
-                                                        class="bi bi-{{ $item->attach->status == 2 ? 'archive' : 'send' }}"></i>
-                                                </a>
-
-                                                <a target="_blank"
-                                                    href="{{ route('doc.attach', ['id' => md5($item->id)]) }}"
-                                                    class="btn btn-sm btn-danger mx-2"><i class="bi bi-file-pdf"></i></a>
-                                                <a target="_blank" class="btn btn-sm btn-primary"
-                                                    href="https://www.google.com/maps/search/?api=1&query={{ $item->attach->koordinat }}"><i
-                                                        class="bi bi-geo-alt"></i></a>
-                                            @else
+                                        <td>
+                                            <div class="d-flex justiify-content-center align-items-center">
                                                 @if ($item->attach)
-                                                    <button data-toggle="tooltip" data-placement="top"
-                                                        title="Dokumen terlah diverifikasi"
-                                                        class="btn btn-success btn-sm"><i class="bi bi-check"></i></button>
-                                                @else
-                                                    <a class="btn btn-primary btn-sm my-auto"
+                                                    <a class="btn btn-{{ $item->attach->status == 2 ? 'warning' : 'success' }} btn-sm"
                                                         href="{{ route('step.attach', ['id' => md5($item->id)]) }}"
-                                                        data-toggle="tooltip" data-placement="top" title="Submit Dokumen">
-                                                        <i class="bi bi-send"></i>
+                                                        data-toggle="tooltip" data-placement="top" title="Dokumen Draft">
+                                                        <i
+                                                            class="bi bi-{{ $item->attach->status == 2 ? 'archive' : 'send' }}"></i>
                                                     </a>
+    
+                                                    <a target="_blank"
+                                                        href="{{ route('doc.attach', ['id' => md5($item->id)]) }}"
+                                                        class="btn btn-sm btn-danger mx-2"><i class="bi bi-file-pdf"></i></a>
+                                                    <a target="_blank" class="btn btn-sm btn-primary"
+                                                        href="https://www.google.com/maps/search/?api=1&query={{ $item->attach->koordinat }}"><i
+                                                            class="bi bi-geo-alt"></i></a>
+                                                @else
+                                                    @if ($item->attach)
+                                                        <button data-toggle="tooltip" data-placement="top"
+                                                            title="Dokumen terlah diverifikasi"
+                                                            class="btn btn-success btn-sm"><i class="bi bi-check"></i></button>
+                                                    @else
+                                                        <a class="btn btn-primary btn-sm my-auto"
+                                                            href="{{ route('step.attach', ['id' => md5($item->id)]) }}"
+                                                            data-toggle="tooltip" data-placement="top" title="Submit Dokumen">
+                                                            <i class="bi bi-send"></i>
+                                                        </a>
+                                                    @endif
                                                 @endif
-                                            @endif
+                                            </div>
                                         </td>
                                     </tr>
                                 @endforeach
