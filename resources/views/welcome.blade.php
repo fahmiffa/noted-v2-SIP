@@ -90,7 +90,7 @@
                                 <img src="{{ asset('logo.png') }}" style="height: 2.8rem; width:2.8rem;" class="me-3" >                           
                                 <h6 class="text-white my-auto">Sistem Informasi Penyelenggaraan Bangunan Gedung</h6>
                             </div>
-                            <p class="text-white p-3">
+                            <p class="text-white p-3 d-none">
                                 Aplikasi penunjang proses penyelenggaraan bangunan Gedung sebagai aplikasi pendukung
                                 Sistem Informasi Bangunan Gedung (SIMBG)
                             </p>
