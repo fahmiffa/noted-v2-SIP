@@ -46,7 +46,7 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        opacity: 0.1;
+        opacity: 0.3;
         z-index: -1;
     }
 
@@ -66,7 +66,7 @@
 </style>
 
 <body>
-    <img class="watermark" src="{{ gambar('watermak.png') }}" width="70%" />
+    <img class="watermark" src="{{ gambar('watermak.png') }}" width="75%" />
     @yield('main')
 </body>
 
