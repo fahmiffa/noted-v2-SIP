@@ -83,7 +83,7 @@
 
     <li class="sidebar-item {{ request()->routeIs('req.index') ? 'active' : null }}">
         <a href="{{ route('req.index') }}" class="sidebar-link">
-            <i class="bi bi-files"></i>
+            <i class="bi bi-folder"></i>
             <span>Permohonan</span>
         </a>
     </li>
