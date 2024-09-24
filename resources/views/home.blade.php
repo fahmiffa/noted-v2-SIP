@@ -78,7 +78,7 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div class="col col-md-4">
+                            <div class="col col-md-4">
                                 <div class="d-flex jusitify-content-between">
                                     <div class="p-1">
                                         <div class="stats-icon blue mb-2">
@@ -86,11 +86,11 @@
                                         </div>
                                     </div>
                                     <div class="p-1">
-                                        <h6 class="text-muted font-semibold">BARP</h6>
-                                        <h6 class="font-extrabold mb-0">{{$barp}}</h6>
+                                        <h6 class="text-muted font-semibold">Selesai</h6>
+                                        <h6 class="font-extrabold mb-0">{{$head->where('do',1)->count()}}</h6>
                                     </div>
                                 </div>
-                            </div> --}}
+                            </div>
                         </div>             
                     </div>
                 </div>        
