@@ -19,6 +19,8 @@ use setasign\Fpdi\Fpdf;
 use App\Models\Signed;
 use App\Models\Links;
 use Illuminate\Support\Str;
+use App\Models\News;
+use App\Models\Meet;
 
 class ConsultationController extends Controller
 {
@@ -334,6 +336,8 @@ class ConsultationController extends Controller
         $consultation->delete();
         Schedule::where('head',$consultation->head)->delete();
         Signed::where('head',$consultation->head)->delete();
+        News::where('head',$consultation->head)->delete();
+        Meet::where('head',$consultation->head)->delete();
         return back();
     }
 }
