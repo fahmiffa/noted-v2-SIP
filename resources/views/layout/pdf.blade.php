@@ -30,9 +30,9 @@
         position: fixed;
         top: 30%;
         left: 15%;
-        font-size: 180px;
+        font-size: 150px;
         color: rgba(53, 0, 247, 0.11);
-        transform: rotate(-45deg);
+        transform: rotate(-47deg);
         z-index: -1;
     }
 
