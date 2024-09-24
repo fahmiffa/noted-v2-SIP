@@ -73,7 +73,7 @@
                                         </div>
                                     </div>
                                     <div class="p-1">
-                                        <h6 class="text-muted font-semibold">BARP</h6>
+                                        <h6 class="text-muted font-semibold">Proses BARP</h6>
                                         <h6 class="font-extrabold mb-0">{{$barp}}</h6>
                                     </div>
                                 </div>
