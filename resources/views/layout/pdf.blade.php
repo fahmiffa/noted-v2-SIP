@@ -31,9 +31,9 @@
         top: 50%;
         left: 40%;
         opacity: 0.1;
-        transform: rotate(333deg);
+        transform: translate(-50%, -50%), rotate(333deg);
         z-index: -1;
-        font-size: 200px;
+        font-size: 150px;
         color: blue;
         text-align: center;
     }
