@@ -42,7 +42,7 @@
         opacity: 0.1;
         pointer-events: none;
         z-index: 9999;
-        transform: rotate(-45deg);
+        /* transform: rotate(-45deg); */
         transform-origin: 0 0;
     }
 
