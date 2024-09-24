@@ -15,7 +15,7 @@
     <style>
         .toast-top-right {
             top: 5% !important;
-            left: 50% !important;
+            left: 70% !important;
             transform: translate(-50%, -50%) !important;
             position: fixed !important;
             z-index: 9999 !important;
