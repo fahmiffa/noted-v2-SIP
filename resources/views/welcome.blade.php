@@ -14,7 +14,7 @@
 
     <style>
         #bg {
-            background: url('{{ asset('assets/bgn.jpg') }}') no-repeat center center fixed;
+            background: url('{{ asset('assets/bga.jpg') }}') no-repeat center center fixed;
             background-size: cover;
             width: 100%;
             height: 100%;
