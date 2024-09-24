@@ -55,9 +55,8 @@
                                             @if($item->tax)
                                                 @php
                                                 $tax = (object) json_decode($item->tax->parameter);  
-                                                dd($tax);    
                                                 @endphp
-                                                {{ $tax->retribusi }}
+                                                {{ $tax->retri }}
                                             @endif
                                         </td>
                                         <td>
