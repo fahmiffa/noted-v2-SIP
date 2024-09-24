@@ -51,7 +51,20 @@
                                         <h6 class="font-extrabold mb-0">{{$kons}}</h6>
                                     </div>
                                 </div>
-                            </div>        
+                            </div> 
+                            <div class="col col-md-4">
+                                <div class="d-flex jusitify-content-between">
+                                    <div class="p-1">
+                                        <div class="stats-icon mb-2" style="background-color: rgb(194, 3, 178)">
+                                            <i class="iconly-boldPaper"></i>
+                                        </div>
+                                    </div>
+                                    <div class="p-1">
+                                        <h6 class="text-muted font-semibold">Penjadwalan Konsultasi</h6>
+                                        <h6 class="font-extrabold mb-0">{{$head->where('status',1)->where('grant',1)->count()}}</h6>
+                                    </div>
+                                </div>
+                            </div>       
                             <div class="col col-md-4">
                                 <div class="d-flex jusitify-content-between">
                                     <div class="p-1">
