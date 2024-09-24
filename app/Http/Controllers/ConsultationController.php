@@ -150,7 +150,7 @@ class ConsultationController extends Controller
 
         $qrCode = base64_encode(QrCode::format('png')->size(200)->generate(route('link',['id'=>$link->short])));
         $data = compact('schedule','qrCode');
-        $pdf = PDF::loadView('schedule.letter', $data)->setPaper('f4', 'potrait');
+        $pdf = PDF::loadView('schedule.letter', $data)->setPaper([0, 0, 330, 215], 'potrait');
         Storage::disk('public')->put($path, $pdf->output());   
 
         $pdf = new fpdi();

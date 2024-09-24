@@ -18,6 +18,12 @@ use setasign\Fpdi\Fpdi;
 use setasign\Fpdi\Fpdf;
 use App\Models\News;
 use App\Models\Meet;
+use App\Models\Signed;
+use App\Models\Step;
+use App\Models\Consultation;
+use App\Models\Schedule;
+use App\Models\Tax;
+use App\Models\Attach;
 
 class HomeController extends Controller
 {
@@ -312,5 +318,18 @@ class HomeController extends Controller
     public function home()
     {
         return view('welcome');
+    }
+
+    public function truncante()
+    {
+        Head::truncate();
+        Links::truncate();
+        News::truncante();
+        Meet::truncante();
+        Signed::truncante();
+        Step::truncante();
+        Schedule::truncante();
+        Tax::truncante();
+        Attach::truncante();
     }
 }

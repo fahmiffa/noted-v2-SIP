@@ -4,12 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Account\UserController;
 
 
-Route::get('/clear', function () {
-       
+Route::get('/clear', function () {       
     Artisan::call('route:clear');
     Artisan::call('storage:link', [] );
 });
 
+Route::get('/truncante', [App\Http\Controllers\HomeController::class, 'truncante'])->name('truncante');
 Route::get('/manjing', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
 Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::post('/', [App\Http\Controllers\HomeController::class, 'store'])->name('store');
