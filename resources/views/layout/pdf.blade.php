@@ -29,9 +29,9 @@
     .watermark {
         position: fixed;
         top: 50%;
-        left: 40%;
+        left: 30%;
         opacity: 0.1;
-        transform: translate(-50%, -50%), rotate(333deg);
+        transform: rotate(333deg);
         z-index: -1;
         font-size: 150px;
         color: blue;
