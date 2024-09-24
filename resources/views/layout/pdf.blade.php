@@ -33,8 +33,8 @@
         opacity: 0.1;
         transform: translate(-50%, -50%);
         z-index: -1;
-        font-size: 80px;
-        color: #e0e0e0;
+        font-size: 100px;
+        color: blue;
         text-align: center;
     }
 
