@@ -27,13 +27,13 @@
                                 </div>
                             </div>
 
-                            <div class="form-floating row mb-3">
+                            {{-- <div class="form-floating row mb-3">
                                 <div class="col-md-12">
                                     <label>Nilai ILO</label>
                                     <input type="number" min="0.01" name="ilo" value="{{ isset($val) ? $val->ilo : null }}"
                                         class="form-control" required>
                                 </div>
-                            </div>
+                            </div> --}}
 
 
                             <div class="form-group row mb-3">
