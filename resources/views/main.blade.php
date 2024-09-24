@@ -21,7 +21,7 @@
                                         </div>
                                     </div>
                                     <div class="p-1">
-                                        <h6 class="text-muted font-semibold">Task</h6>
+                                        <h6 class="text-muted font-semibold">Penugasan</h6>
                                         <h6 class="font-extrabold mb-0">{{ $task }}</h6>
                                     </div>
                                 </div>
