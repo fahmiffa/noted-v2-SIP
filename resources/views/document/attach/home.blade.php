@@ -52,7 +52,7 @@
                                             {{ $item->region ? 'Kec. ' . $item->region->kecamatan->name : null }}
                                         </td>
                                         <td class="text-center">
-                                            {{ str_replace('SPm', 'LDP', str_replace('600.1.15', '600.1.15/PBLT', $head->nomor))  }}
+                                            {{ str_replace('SPm', 'LDP', str_replace('600.1.15', '600.1.15/PBLT', $item->nomor))  }}
                                         </td>
                                         <td class="d-flex justify-content-between align-items-center my-auto" style="height: 150px">
                                             @if ($item->attach)
