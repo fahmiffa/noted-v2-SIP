@@ -140,6 +140,18 @@ class Head extends Model
         }
     }
 
+    public function numbDoc($par)
+    {
+        if ($par == 'bak') {
+            return str_replace('SPm', 'BAK', str_replace('600.1.15', '600.1.15/PBLT', $this->nomor));
+        } else if ($par == 'barp') {
+            return str_replace('SPm', 'BARP', str_replace('600.1.15', '600.1.15/PBLT', $this->nomor));
+        } else {
+            return null;
+        }
+
+    }
+
     public function getqrAttribute()
     {
 

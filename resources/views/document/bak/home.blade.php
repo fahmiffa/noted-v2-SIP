@@ -55,10 +55,10 @@
                                             {{ $item->doc->region ? 'Kec. ' . $item->doc->region->kecamatan->name : null }}
                                         </td>
                                         <td class="text-center">
-                                            {{ $item->doc->nomor }}
+                                            {{ $item->doc->numbDoc('bak') }}
                                         </td>
                                         <td>
-                                            <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex justify-content-center align-items-center">
                                                 @if ($item->type == 'lead')
                                                     @if ($item->doc->bak)
                                                         @if ($item->doc->bak->status == 2)
