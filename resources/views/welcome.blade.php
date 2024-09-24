@@ -138,9 +138,9 @@
                                 <div class="row small">
                                     <div class="col-3">Nama Pemohon</div>
                                     <div class="col-9">: {{ $header ? $header[2] : null }}   </div>
-                                    <div class="col-3">Alamat</div>
+                                    <div class="col-3">Alamat Pemohon</div>
                                     <div class="col-9 d-inline-flex">:&nbsp;<p class="mb-0">{{ $item->region ? $item->region->name : null }}, {{ $item->region ? $item->region->kecamatan->name : null }}, {{ $header ? $header[4] : null }}</p></div>                              
-                                    <div class="col-3">Registrasi</div>
+                                    <div class="col-3">No. Registrasi</div>
                                     <div class="col-9">: {{ $item->reg }}</div>
                                     <div class="col-3">Dokumen</div>
                                     <div class="col-9 d-inline-flex">:&nbsp;<p class="mb-0" >{{ $item->nomor }}</p></div>
