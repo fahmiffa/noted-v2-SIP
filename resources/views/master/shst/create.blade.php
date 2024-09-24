@@ -30,7 +30,7 @@
                             <div class="form-floating row mb-3">
                                 <div class="col-md-12">
                                     <label>Nilai ILO</label>
-                                    <input type="number" name="ilo" value="{{ isset($val) ? $val->ilo : null }}"
+                                    <input type="number" min="0.01" name="ilo" value="{{ isset($val) ? $val->ilo : null }}"
                                         class="form-control" required>
                                 </div>
                             </div>
