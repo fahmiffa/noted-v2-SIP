@@ -68,8 +68,7 @@
     }
 </style>
 
-<body>
-    <img src=" {{ gambar('kab.png') }}" class="watermark" />
+<body>  
     @yield('main')
 </body>
 

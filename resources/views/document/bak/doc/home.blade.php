@@ -1,4 +1,4 @@
-    
+<img src=" {{ gambar('kab.png') }}" class="watermark" />
     @if ($head->do == 1 && $head->bak->primary == 'TPA')
         <table style="width:30%;" class="footer">
             <tr>
