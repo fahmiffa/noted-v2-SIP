@@ -98,7 +98,7 @@ class Head extends Model
                 if ($this->parents()->count() > 0 && $this->grant == 0 && $this->status == 5) {
                     $val = 'Verifikasi Ulang';
                 } else if ($this->status == 3) {
-                    $val = 'Proses Verifikasi';
+                    $val = 'Verifikasi Kelengkapan Dokumen';
                 } else if ($this->status == 1 && $this->grant == 0) {
                     $val = 'Verifikasi Operator';
                 } else if ($this->status == 1 && $this->grant == 1) {
@@ -110,7 +110,7 @@ class Head extends Model
                 if ($this->parents()->count() > 0 && $this->grant == 0 && $this->status != 1) {
                     $val = 'Verifikasi Ulang';
                 } else if ($this->status == 2) {
-                    $val = 'Proses Verifikasi';
+                    $val = 'Verifikasi Kelengkapan Dokumen';
                 } else if ($this->status == 1 && $this->grant == 0) {
                     $val = 'Verifikasi Operator';
                 } else if ($this->status == 1 && $this->grant == 1) {
