@@ -92,7 +92,7 @@ class HomeController extends Controller
 
             $chart = $this->chart();
             $head = Head::all();
-            $verif = Head::doesnthave('kons')->get()->count();
+            $verif = Head::doesnthave('kons')->where('grant',1)->get()->count();
             $kons = Head::has('kons')->get()->count();
 
             $bak = Head::whereHas('bak', function ($q) {
