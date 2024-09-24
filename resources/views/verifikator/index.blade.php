@@ -67,7 +67,7 @@
                                                     @if ($item->status == 1)
                                                         <a target="_blank"
                                                             href="{{ route('monitoring.doc', ['id' => md5($item->id)]) }}"
-                                                            class="btn btn-sm btn-danger mx-2"><i
+                                                            class="btn btn-sm btn-danger"><i
                                                                 class="bi bi-file-pdf"></i></a>
                                                     @else
                                                         <a href="{{ route('step.verifikasi', ['id' => md5($item->id)]) }}"
@@ -78,11 +78,10 @@
                                                         @if ($item->steps->count() > 0)
                                                             <a target="_blank"
                                                                 href="{{ route('monitoring.doc', ['id' => md5($item->id)]) }}"
-                                                                class="btn btn-sm btn-danger mx-2"><i
+                                                                class="btn btn-sm btn-danger"><i
                                                                     class="bi bi-file-pdf"></i></a>
                                                         @endif
                                                     @endif
-
                                                     @if ($item->head->count() > 0)
                                                         <button class="btn btn-warning btn-sm ms-1" data-toggle="tooltip"
                                                             data-placement="top" title="Dokumen di tolak verifikasi"
