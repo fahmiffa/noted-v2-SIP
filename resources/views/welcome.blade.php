@@ -147,7 +147,7 @@
                                     <div class="col-3">Nama Bangunan</div>
                                     <div class="col-9">: {{ $header ? $header[5] : null }}</div>
                                     <div class="col-3">Lokasi Bangunan</div>
-                                    <div class="col-9">: {{ $header ? $header[7].', ' : null }} {{ $item->region ? 'Desa/Kel. '.$item->region->name : null }} {{ $item->region ? ', Kec. '.$item->region->kecamatan->name : null }}</div>
+                                    <div class="col-9">: {{ $header ? $header[7].', ' : null }} {{ $item->region ? 'Desa/Kel. '.$item->region->name : null }} {{ $item->region ? ', Kec. '.$item->region->kecamatan->name : null }}, Kab. Tegal</div>
                                     <div class="col-3">Status</div>
                                     <div class="col-9">: {{$item->dokumen}}</div>                     
                                     <div class="col-3">Lihat Dokumen</div>
