@@ -96,35 +96,34 @@
             <td width="60%" style="border:none">: {{ ucwords(str_replace('_', ' ', $area->permanensi)) }} </td>
         </tr>
     </table>
-    <table style="width:100%;margin-top:1rem;">
-        <tr>
-            <td colspan="3" style="border: none">Informasi Umum :</td>
-            <td colspan="3" style="border: none">Informasi Bangunan Gedung :</td>
-        </tr>
-        <tr>
-            <td align="center">Uraian</td>
-            <td align="center">Dimensi</td>
-            <td style="border: none"></td>
-            <td align="center">Uraian</td>
-            <td align="center">Dimensi</td>
-            <td align="center">Catatan</td>
-        </tr>
-        @for ($i = 0; $i < count($bangunan); $i++)
+         <table style="width:100%;margin-top:1rem;">
             <tr>
-                @isset($umum[$i])
-                    <td>&nbsp;&nbsp;{{ $umum[$i]->uraian }}</td>
-                    <td>&nbsp;&nbsp;{{ $umum[$i]->value }}</td>
-                @else
-                    <td></td>
-                    <td></td>
-            @endif
-            <td style="border: none"></td>
-            <td>&nbsp;&nbsp;{{ ucwords(str_replace('_', ' ', $bangunan[$i]->uraian)) }}</td>
-            <td>&nbsp;&nbsp;{{ $bangunan[$i]->dimensi }}</td>
-            <td>&nbsp;&nbsp;{{ $bangunan[$i]->note }}</td>
+                <td colspan="3" style="border: none">Informasi Umum :</td>
+                <td colspan="3" style="border: none">Informasi Bangunan Gedung :</td>
             </tr>
+            <tr>
+                <td align="center">Uraian</td>
+                <td align="center">Dimensi</td>
+                <td style="border: none"></td>
+                <td align="center">Uraian</td>
+                <td align="center">Dimensi</td>
+                <td align="center">Catatan</td>
+            </tr>
+            @for ($i = 0; $i < count($bangunan); $i++)
+                <tr>
+                    @isset($umum[$i])
+                        <td>&nbsp;&nbsp;{{ $umum[$i]->uraian }}</td>
+                        <td>&nbsp;&nbsp;{{ $umum[$i]->value }}</td>
+                    @else
+                        <td></td>
+                        <td></td>
+                @endif
+                <td style="border: none"></td>
+                <td>&nbsp;&nbsp;{{ ucwords(str_replace('_', ' ', $bangunan[$i]->uraian)) }}</td>
+                <td>&nbsp;&nbsp;{{ $bangunan[$i]->dimensi }}</td>
+                <td>&nbsp;&nbsp;{{ $bangunan[$i]->note }}</td>
+                </tr>
             @endfor
-
             @if ($head->bak->ibg)
                 @foreach (json_decode($head->bak->ibg) as $fa)
                     <tr>

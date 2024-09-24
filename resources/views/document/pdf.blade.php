@@ -107,7 +107,7 @@
                 pageNum = 1,
                 pageRendering = false,
                 pageNumPending = null,
-                scale = 1,
+                scale = 1.5,
                 canvas = document.getElementById('pdf-canvas'),
                 ctx = canvas.getContext('2d');
 
