@@ -14,7 +14,7 @@
 
     <style>
         #bg {
-            background: url('{{ asset('assets/bg.jpg') }}') no-repeat center center fixed;
+            background: url('{{ asset('assets/background.jpg') }}') no-repeat center center fixed;
             background-size: cover;
             width: 100%;
             height: 100%;
@@ -91,7 +91,7 @@
                                 <h6 class="text-white my-auto">Sistem Informasi Penyelenggaraan Bangunan Gedung</h6>
                             </div>
                             <p class="text-white p-3">
-                                Merupakan aplikasi penunjang dalam proses Penyelenggaraan Bangunan Gedung di Kabupaten Tegal
+                                Aplikasi penunjang dalam proses Penyelenggaraan Bangunan Gedung di Kabupaten Tegal
                             </p>
                             <h5 class="my-5 text-white p-3">Dinas Pekerjaan Umum dan Penataan Ruang <br>Kabupaten Tegal</h5>
                         </div>
