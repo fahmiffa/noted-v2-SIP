@@ -28,6 +28,7 @@ class UserController extends Controller
     {
         $val = Setting::first();
         $val->shst = $request->value;
+        $val->ilo = $request->ilo;
         $val->save();
 
         toastr()->success('Setting Data berhasil', ['timeOut' => 5000]);
