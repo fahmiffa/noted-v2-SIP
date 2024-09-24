@@ -55,7 +55,7 @@
 </style>
 
 <body>  
-    <img class="img" src=" {{ gambar('kab.png') }}"/>
+    <img class="img" src="{{ gambar('kab.png') }}" />
     @yield('main')
 </body>
 
