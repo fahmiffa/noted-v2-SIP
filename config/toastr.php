@@ -27,7 +27,7 @@ return array(
         'closeButton' => true,
         'debug' => false,
         'newestOnTop' => false,
-        'positionClass' => 'toast-top-center',
+        'positionClass' => 'toast-center',
         'progressBar' => true,
     ],
 );

@@ -13,6 +13,14 @@
     <link rel="stylesheet" href="{{ asset('assets/compiled/css/auth.css') }}">
 
     <style>
+        .toast-top-right {
+            top: 5% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            position: fixed !important;
+            z-index: 9999 !important;
+        }
+
         #bg {
             background: url('{{ asset('assets/bg.jpg') }}') no-repeat center center fixed;
             background-size: cover;
@@ -52,7 +60,7 @@
                 border-top-left-radius: 0.75rem;
                 border-bottom-left-radius: 0.75rem;
             }
-         }
+        }
     </style>
 </head>
 
@@ -66,7 +74,8 @@
                             <h5 class="my-3 text-white">Sistem Informasi Penyelenggaraan Bangunan Gedung</h5>
                             <br><br>
                             <span class="d-block text-white" style="height: 8rem">
-                            Aplikasi penunjang proses penyelenggaraan bangunan Gedung sebagai aplikasi pendukung Sistem Informasi Bangunan Gedung (SIMBG) 
+                                Aplikasi penunjang proses penyelenggaraan bangunan Gedung sebagai aplikasi pendukung
+                                Sistem Informasi Bangunan Gedung (SIMBG)
                             </span>
                             <h5 class="my-3 text-white">Dinas Pekerjaan Umum dan Penataan Ruang Kabupaten Tegal</h5>
                         </div>
@@ -74,8 +83,8 @@
                     <div class="col-md-6 bg-white round-right shadow round-left-m">
                         <div class="p-3">
                             <div class="d-flex justify-content-between px-3 py-3">
-                                <img src="{{asset('kab.png')}}" style="height: 2.5rem; width:2.5rem;">
-                                <h2 class="my-auto">SIP BANGED                                
+                                <img src="{{ asset('kab.png') }}" style="height: 2.5rem; width:2.5rem;">
+                                <h2 class="my-auto">SIP BANGED
                                 </h2>
                                 <img src="{{ asset('assets/logo.png') }}" style="height: 2.5rem; width:2.5rem;">
                             </div>
@@ -113,16 +122,20 @@
                                         <div class='small text-danger text-left'>{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="col-12">                
+                                <div class="col-12">
                                     <div class="captcha">
-                                      <span class="w-100">{!! captcha_img() !!}</span>
-                                      <button type="button" class="btn btn-danger btn-sm" class="reload" id="reload"><i class="bi bi-arrow-clockwise"></i></button>                                      
+                                        <span class="w-100">{!! captcha_img() !!}</span>
+                                        <button type="button" class="btn btn-danger btn-sm" class="reload"
+                                            id="reload"><i class="bi bi-arrow-clockwise"></i></button>
                                     </div>
-                                    <input type="text" name="captcha" placeholder="Enter Captcha" class="form-control my-3" id="captcha" required>
-                                    @error('captcha')<div class='small text-danger text-left'>{{$message}}</div>@enderror
+                                    <input type="text" name="captcha" placeholder="Enter Captcha"
+                                        class="form-control my-3" id="captcha" required>
+                                    @error('captcha')
+                                        <div class='small text-danger text-left'>{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <p>Lupa Password ?&nbsp;
-                                    <a href="{{route('forgot')}}" class="badge bg-dark rounded-pill">Forgot</a>
+                                    <a href="{{ route('forgot') }}" class="badge bg-dark rounded-pill">Forgot</a>
                                 </p>
                                 <button class="btn btn-warning rounded-pill shadow-sm  fw-bold mb-3">Login</button>
                             </form>
@@ -133,19 +146,19 @@
         </div>
     </div>
 
-    <script src="{{asset('assets/extensions/jquery/jquery.min.js')}}"></script>
+    <script src="{{ asset('assets/extensions/jquery/jquery.min.js') }}"></script>
 
     <script type="text/javascript">
-    $('#reload').click(function () {
-        $.ajax({
-            type: 'GET',
-            url: 'reload-captcha',
-            success: function (data) {
-                $(".captcha span").html(data.captcha);
-            }
+        $('#reload').click(function() {
+            $.ajax({
+                type: 'GET',
+                url: 'reload-captcha',
+                success: function(data) {
+                    $(".captcha span").html(data.captcha);
+                }
+            });
         });
-    });
-</script>
+    </script>
 </body>
 
 </html>

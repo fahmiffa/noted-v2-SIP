@@ -4,21 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{env('APP_NAME')}} | {{env('APP_TAG')}}</title>
+    <title>{{ env('APP_NAME') }} | {{ env('APP_TAG') }}</title>
 
-    <meta content="{{env('APP_DES')}}" name="description">
-    <meta content="{{env('APP_NAME')}}" name="keywords">
+    <meta content="{{ env('APP_DES') }}" name="description">
+    <meta content="{{ env('APP_NAME') }}" name="keywords">
     <meta name="csrf-token" content="{{ csrf_token() }}" />
-    
-    <link rel="shortcut icon" href="{{asset('assets/logo.png')}}" type="image/x-icon">    
-    <link rel="stylesheet" href="{{asset('assets/compiled/css/app.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/compiled/css/app-dark.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/compiled/css/iconly.css')}}">   
+
+    <link rel="shortcut icon" href="{{ asset('assets/logo.png') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ asset('assets/compiled/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/compiled/css/app-dark.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/compiled/css/iconly.css') }}">
     @stack('css')
 
     <style>
         table.dataTable thead th {
             text-align: center;
+        }
+
+        .toast-top-right {
+            top: 5% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            position: fixed !important;
+            z-index: 9999 !important;
         }
     </style>
 </head>
@@ -26,33 +34,35 @@
 <body>
     <div id="app">
         @isset($single)
-        <nav class="navbar navbar-light">
-            <div class="container d-block">
-                @isset($public)
-                @else
-                    @isset($kabid)
-                        <a href="{{ route('ba.verifikasi') }}"><i class="bi bi-chevron-left"></i></a>
+            <nav class="navbar navbar-light">
+                <div class="container d-block">
+                    @isset($public)
                     @else
-                        <a href="{{ $doc == 'bak' ? route('news.index') : route('meet.index') }}"><i class="bi bi-chevron-left"></i></a>
-                    @endisset                
-                @endisset
-                <a class="navbar-brand ms-4 d-inline fw-bold" href="{{route('main')}}">
-                    {{$title}}          
-                </a>
-            </div>
-        </nav>        
-            @yield('main')    
+                        @isset($kabid)
+                            <a href="{{ route('ba.verifikasi') }}"><i class="bi bi-chevron-left"></i></a>
+                        @else
+                            <a href="{{ $doc == 'bak' ? route('news.index') : route('meet.index') }}"><i
+                                    class="bi bi-chevron-left"></i></a>
+                        @endisset
+                    @endisset
+                    <a class="navbar-brand ms-4 d-inline fw-bold" href="{{ route('main') }}">
+                        {{ $title }}
+                    </a>
+                </div>
+            </nav>
+            @yield('main')
         @else
             <div id="sidebar">
                 <div class="sidebar-wrapper active">
                     <div class="sidebar-header position-relative">
-                        <a href="{{route('main')}}">
+                        <a href="{{ route('main') }}">
                             <div class="d-inline-flex">
-                                <img style="height: 1.4rem" class="my-auto" src="{{asset('assets/logo.png')}}" alt="Logo" srcset="">                                
-                                <h4 class="ms-2 my-auto">{{env('APP_NAME')}}</h4>                      
+                                <img style="height: 1.4rem" class="my-auto" src="{{ asset('assets/logo.png') }}"
+                                    alt="Logo" srcset="">
+                                <h4 class="ms-2 my-auto">{{ env('APP_NAME') }}</h4>
                             </div>
                         </a>
-                        <p class="text-muted" style="font-size: 0.8rem">Sistem Informasi Penyelenggaraan Bangunan Gedung</p>           
+                        <p class="text-muted" style="font-size: 0.8rem">Sistem Informasi Penyelenggaraan Bangunan Gedung</p>
                     </div>
                     <div class="sidebar-menu">
                         @include('layout/sidebar')
@@ -66,18 +76,19 @@
                             <a href="#" class="burger-btn d-block">
                                 <i class="bi bi-justify fs-3"></i>
                             </a>
-    
+
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
-                          
+
                             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                 <div class="theme-toggle d-flex gap-2  align-items-center mt-2 ms-auto me-5">
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
-                                        role="img" class="iconify iconify--system-uicons" width="20" height="20"
-                                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 21 21">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        aria-hidden="true" role="img" class="iconify iconify--system-uicons"
+                                        width="20" height="20" preserveAspectRatio="xMidYMid meet"
+                                        viewBox="0 0 21 21">
                                         <g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-linecap="round"
                                             stroke-linejoin="round">
                                             <path
@@ -86,17 +97,20 @@
                                             <g transform="translate(-210 -1)">
                                                 <path d="M220.5 2.5v2m6.5.5l-1.5 1.5"></path>
                                                 <circle cx="220.5" cy="11.5" r="4"></circle>
-                                                <path d="m214 5l1.5 1.5m5 14v-2m6.5-.5l-1.5-1.5M214 18l1.5-1.5m-4-5h2m14 0h2"></path>
+                                                <path
+                                                    d="m214 5l1.5 1.5m5 14v-2m6.5-.5l-1.5-1.5M214 18l1.5-1.5m-4-5h2m14 0h2">
+                                                </path>
                                             </g>
                                         </g>
                                     </svg>
                                     <div class="form-check form-switch fs-6">
-                                        <input class="form-check-input  me-0" type="checkbox" id="toggle-dark" style="cursor: pointer">
+                                        <input class="form-check-input  me-0" type="checkbox" id="toggle-dark"
+                                            style="cursor: pointer">
                                         <label class="form-check-label"></label>
                                     </div>
-                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
-                                        role="img" class="iconify iconify--mdi" width="20" height="20" preserveAspectRatio="xMidYMid meet"
-                                        viewBox="0 0 24 24">
+                                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        aria-hidden="true" role="img" class="iconify iconify--mdi" width="20"
+                                        height="20" preserveAspectRatio="xMidYMid meet" viewBox="0 0 24 24">
                                         <path fill="currentColor"
                                             d="m17.75 4.09l-2.53 1.94l.91 3.06l-2.63-1.81l-2.63 1.81l.91-3.06l-2.53-1.94L12.44 4l1.06-3l1.06 3l3.19.09m3.5 6.91l-1.64 1.25l.59 1.98l-1.7-1.17l-1.7 1.17l.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95l2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85c-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14c.4-.4.82-.76 1.27-1.08c.75-.53 1.93.36 1.85 1.19c-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82c-2.81 3.14-2.7 7.96.31 10.98c3.02 3.01 7.84 3.12 10.98.31Z">
                                         </path>
@@ -106,22 +120,25 @@
                                     <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
                                         <div class="user-menu d-flex align-items-center">
                                             <div class="user-name me-3">
-                                                <div class="text-gray-600 text-nowrap my-auto fw-bold">{{ucwords(auth()->user()->name)}}</div>
+                                                <div class="text-gray-600 text-nowrap my-auto fw-bold">
+                                                    {{ ucwords(auth()->user()->name) }}</div>
                                             </div>
                                             <div class="user-img d-flex align-items-center">
                                                 <div class="avatar avatar-md">
-                                                    <img src="{{asset('assets/compiled/jpg/2.jpg')}}">
+                                                    <img src="{{ asset('assets/compiled/jpg/2.jpg') }}">
                                                 </div>
                                             </div>
                                         </div>
                                     </a>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton" style="min-width: 11rem;">                              
-                                        <li><a class="dropdown-item" href="{{route('profile')}}"><i class="icon-mid bi bi-person me-2"></i> 
-                                                Profile</a></li>                           
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton"
+                                        style="min-width: 11rem;">
+                                        <li><a class="dropdown-item" href="{{ route('profile') }}"><i
+                                                    class="icon-mid bi bi-person me-2"></i>
+                                                Profile</a></li>
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
-                                        <li><a class="dropdown-item" href="{{route('logout')}}"><i
+                                        <li><a class="dropdown-item" href="{{ route('logout') }}"><i
                                                     class="icon-mid bi bi-box-arrow-left me-2"></i> Logout</a></li>
                                     </ul>
                                 </div>
@@ -129,32 +146,33 @@
                         </div>
                     </nav>
                 </header>
-                <div id="main-content">      
-                    @yield('main')                     
+                <div id="main-content">
+                    @yield('main')
                 </div>
                 <footer>
                     <div class="footer clearfix mb-0 text-muted">
                         <div class="float-start">
-                            <p>{{date('Y')}} &copy; Developer</p>
-                        </div>                 
+                            <p>{{ date('Y') }} &copy; Developer</p>
+                        </div>
                     </div>
                 </footer>
             </div>
         @endisset
     </div>
-    <script src="{{asset('assets/static/js/components/dark.js')}}"></script>
-    <script src="{{asset('assets/compiled/js/app.js')}}"></script>
-    <script src="{{asset('assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js')}}"></script>
-@stack('js')
+    <script src="{{ asset('assets/static/js/components/dark.js') }}"></script>
+    <script src="{{ asset('assets/compiled/js/app.js') }}"></script>
+    <script src="{{ asset('assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
+    @stack('js')
 
-<script>
-    function goBack() {
-        window.history.back()
-    }
+    <script>
+        function goBack() {
+            window.history.back()
+        }
 
-    function prev() {
-        document.getElementById('back').submit();
-    }
-</script>
+        function prev() {
+            document.getElementById('back').submit();
+        }
+    </script>
 </body>
+
 </html>
