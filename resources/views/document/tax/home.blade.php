@@ -60,7 +60,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <div class="d-flex justiify-content-center align-items-center">
+                                            <div class="d-flex justify-content-center align-items-center">
                                                 @if ($item->tax)
                                                     <a target="_blank"
                                                         href="{{ route('doc.tax', ['id' => md5($item->id)]) }}"
