@@ -94,7 +94,7 @@
                                 Aplikasi penunjang proses penyelenggaraan bangunan Gedung sebagai aplikasi pendukung
                                 Sistem Informasi Bangunan Gedung (SIMBG)
                             </p>
-                            <h5 class="my-5 text-white p-3">Dinas Pekerjaan Umum dan Penataan Ruang Kabupaten Tegal</h5>
+                            <h5 class="my-5 text-white p-3">Dinas Pekerjaan Umum dan Penataan Ruang <br>Kabupaten Tegal</h5>
                         </div>
                     </div>
                     <div class="col-md-6 bg-white round-right shadow round-left-m">
