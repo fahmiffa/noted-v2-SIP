@@ -24,7 +24,7 @@
                                     <th width="17%">Pemohon</th>
                                     <th>Nama Bangunan</th>
                                     <th width="17%">Lokasi Bangunan</th>
-                                    <th>No. Dokumen</th>
+                                    <th>Nilai Retribusi</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -52,10 +52,15 @@
                                             {{ $item->region ? 'Kec. ' . $item->region->kecamatan->name : null }}
                                         </td>
                                         <td class="text-center">
-                                            {{ $item->nomor }}
+                                            @if($item->tax)
+                                                @php
+                                                $tax = (object) json_decode($item->tax->parameter);      
+                                                @endphp
+                                                {{ $tax->retribusi }}
+                                            @endif
                                         </td>
                                         <td>
-                                            <div class="d-flex justiify-content-between align-items-center">
+                                            <div class="d-flex justiify-content-center align-items-center">
                                                 @if ($item->tax)
                                                     <a target="_blank"
                                                         href="{{ route('doc.tax', ['id' => md5($item->id)]) }}"
