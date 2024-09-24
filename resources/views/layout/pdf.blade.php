@@ -47,9 +47,7 @@
         left: 50%;
         transform: translate(-50%, -50%);
         opacity: 0.1;
-        /* Adjust the transparency */
         z-index: -1;
-        /* Ensure it stays behind other content */
     }
 
     p {
@@ -63,15 +61,12 @@
         left: 0px;
         right: 0px;
         height: 20px;
-
         color: black;
-        /* text-align: center; */
-        /* line-height: 35px; */
     }
 </style>
 
 <body>
-    <img class="watermark" src="{{ gambar('kab.png') }}" />
+    <img class="watermark" src="{{ gambar('kab.png') }}" width="100%" />
     @yield('main')
 </body>
 
