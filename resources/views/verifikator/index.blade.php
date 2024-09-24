@@ -63,7 +63,7 @@
                                                 {{ $item->dokumen }}
                                             </td>
                                             <td>
-                                                <div class="d-flex jusstify-content-around align-items-center">
+                                                <div class="d-flex jusstify-content-center align-items-center">
                                                     @if ($item->status == 1)
                                                         <a target="_blank"
                                                             href="{{ route('monitoring.doc', ['id' => md5($item->id)]) }}"
@@ -73,7 +73,7 @@
                                                         <a href="{{ route('step.verifikasi', ['id' => md5($item->id)]) }}"
                                                             data-toggle="tooltip" data-placement="top"
                                                             title="Form Dokumen verifikasi"
-                                                            class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
+                                                            class="btn btn-sm btn-primary me-1"><i class="bi bi-pencil"></i></a>
 
                                                         @if ($item->steps->count() > 0)
                                                             <a target="_blank"
