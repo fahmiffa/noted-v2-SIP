@@ -94,7 +94,7 @@ class HomeController extends Controller
             $head  = Head::all();
             $jadwal = Head::doesnthave('kons')->where('grant',1)->get()->count();
             $verif = Head::doesnthave('kons')->where('grant',0)->get()->count();
-            $kons  = Head::has('kons')->get()->count();
+            $kons  = Head::has('kons')->where('do',0)->get()->count();
 
             $bak = Head::whereHas('bak', function ($q) {
                 $q->where('grant', 1);
