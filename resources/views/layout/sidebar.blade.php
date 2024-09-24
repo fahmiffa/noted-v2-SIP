@@ -2,7 +2,7 @@
     <li class="sidebar-item {{ request()->routeIs('main') ? 'active' : null }}">
         <a href="{{ route('main') }}" class='sidebar-link'>
             <i class="bi bi-grid-fill"></i>
-            <span>Dashboard</span>
+            <span>Beranda</span>
         </a>
     </li>
 
@@ -10,7 +10,7 @@
         <li class="sidebar-item has-sub {{ Request::segment(1) == 'task' ? 'active' : null }}">
             <a href="#" class="sidebar-link">
                 <i class="bi bi-file-earmark-text"></i>
-                <span>Task</span>
+                <span>Formulir</span>
             </a>
             <ul class="submenu submenu-{{ Request::segment(1) == 'task' ? 'open' : 'closed' }}"
                 style="--submenu-height: 86px;">
@@ -34,7 +34,7 @@
         <li class="sidebar-item {{ Request::segment(1) == 'task' ? 'active' : null }}">
             <a href="{{ route('verification.index') }}" class="sidebar-link">
                 <i class="bi bi-file-earmark-text"></i>
-                <span>Task</span>
+                <span>Formulir</span>
             </a>
         </li>
     @endif
