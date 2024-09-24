@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="p-1">
                                         <h6 class="text-muted font-semibold">Penjadwalan Konsultasi</h6>
-                                        <h6 class="font-extrabold mb-0">{{$head->where('status',1)->where('grant',1)->count()}}</h6>
+                                        <h6 class="font-extrabold mb-0">{{$jadwal}}</h6>
                                     </div>
                                 </div>
                             </div>       

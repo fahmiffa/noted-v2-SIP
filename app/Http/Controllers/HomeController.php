@@ -91,9 +91,10 @@ class HomeController extends Controller
         if (Auth::user()->ijin('master_formulir')) {
 
             $chart = $this->chart();
-            $head = Head::all();
-            $verif = Head::doesnthave('kons')->where('grant',1)->get()->count();
-            $kons = Head::has('kons')->get()->count();
+            $head  = Head::all();
+            $jadwal = Head::doesnthave('kons')->where('grant',1)->get()->count();
+            $verif = Head::doesnthave('kons')->where('grant',0)->get()->count();
+            $kons  = Head::has('kons')->get()->count();
 
             $bak = Head::whereHas('bak', function ($q) {
                 $q->where('grant', 1);
@@ -103,7 +104,7 @@ class HomeController extends Controller
                 $q->where('grant', 1);
             })->get()->count();
 
-            return view('home', compact('head', 'verif', 'kons', 'bak', 'barp', 'chart'));
+            return view('home', compact('head', 'verif', 'kons', 'bak', 'barp', 'chart','jadwal'));
         }
 
         // notulen (teknis)
