@@ -19,7 +19,7 @@ class UserController extends Controller
     public function shst()
     {
         $val = Setting::first();
-        $data = "SHST";
+        $data = "Retribusi";
         return view('master.shst.create',compact('data','val'));
     }
 

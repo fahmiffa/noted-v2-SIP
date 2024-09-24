@@ -167,7 +167,7 @@
                     <a href="{{ route('desa.index') }}" class="submenu-link">Desa</a>
                 </li>
                 <li class="submenu-item {{ request()->routeIs('shst') ? 'active' : null }}">
-                    <a href="{{ route('shst') }}" class="submenu-link">SHST</a>
+                    <a href="{{ route('shst') }}" class="submenu-link">Retribusi</a>
                 </li>
 
             </ul>

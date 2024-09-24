@@ -37,8 +37,11 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::group(['prefix'=>'master'],function() {   
         
-        Route::get('shst', [App\Http\Controllers\Account\UserController::class, 'shst'])->name('shst');   
-        Route::post('shst', [App\Http\Controllers\Account\UserController::class, 'shsts'])->name('shsts');   
+        Route::group(['prefix'=>'retribusi'],function() {        
+            Route::get('shst', [App\Http\Controllers\Account\UserController::class, 'shst'])->name('shst');   
+            Route::post('shst', [App\Http\Controllers\Account\UserController::class, 'shsts'])->name('shsts');   
+        });
+
         
         Route::group(['prefix'=>'account'],function() {   
             Route::resource('role', App\Http\Controllers\Account\RoleController::class);  

@@ -67,6 +67,12 @@
                                                         <i class="bi bi-send"></i>
                                                     </a>
                                                 @endif
+
+                                                <a class="btn btn-primary btn-sm"
+                                                    href="{{ route('step.tax', ['id' => md5($item->id)]) }}"
+                                                    data-toggle="tooltip" data-placement="top" title="Submit Dokumen">
+                                                    <i class="bi bi-send"></i>
+                                                </a>
                                             </div>
                                         </td>
                                     </tr>

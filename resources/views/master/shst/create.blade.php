@@ -21,8 +21,16 @@
                         <div class="px-5">
                             <div class="form-floating row mb-3">
                                 <div class="col-md-12">
-                                    <label>Nilai</label>
+                                    <label>Nilai SHST</label>
                                     <input type="number" name="value" value="{{ isset($val) ? $val->shst : null }}"
+                                        class="form-control" required>
+                                </div>
+                            </div>
+
+                            <div class="form-floating row mb-3">
+                                <div class="col-md-12">
+                                    <label>Nilai ILO</label>
+                                    <input type="number" name="ilo" value="{{ isset($val) ? $val->ilo : null }}"
                                         class="form-control" required>
                                 </div>
                             </div>
