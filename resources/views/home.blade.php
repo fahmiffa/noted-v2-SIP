@@ -81,7 +81,7 @@
                             <div class="col col-md-4">
                                 <div class="d-flex jusitify-content-between">
                                     <div class="p-1">
-                                        <div class="stats-icon blue mb-2">
+                                        <div class="stats-icon green mb-2">
                                             <i class="iconly-boldPaper"></i>
                                         </div>
                                     </div>
