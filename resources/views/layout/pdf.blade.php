@@ -26,6 +26,18 @@
         white-space: normal;
     }
 
+    .watermark {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        opacity: 0.1;
+        transform: translate(-50%, -50%);
+        z-index: -1;
+        font-size: 80px;
+        color: #e0e0e0;
+        text-align: center;
+    }
+
     .img {
         object-fit: cover;
         width: 50px;
