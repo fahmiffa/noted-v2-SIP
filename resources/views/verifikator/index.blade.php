@@ -63,7 +63,7 @@
                                                 {{ $item->dokumen }}
                                             </td>
                                             <td>
-                                                <div class="d-flex jusstify-content-between align-items-center">
+                                                <div class="d-flex jusstify-content-center align-items-center">
                                                     @if ($item->status == 1)
                                                         <a target="_blank"
                                                             href="{{ route('monitoring.doc', ['id' => md5($item->id)]) }}"
