@@ -15,16 +15,16 @@
             <ul class="submenu submenu-{{ Request::segment(1) == 'task' ? 'open' : 'closed' }}"
                 style="--submenu-height: 86px;">
                 <li class="submenu-item {{ request()->routeIs('news.index') ? 'active' : null }} {{ Request::segment(2) == 'input-bak' ? 'active' : null }}">
-                    <i class="bi bi-file-post"></i> <a href="{{ route('news.index') }}" class="submenu-link">BAK</a>
+                    <a href="{{ route('news.index') }}" class="submenu-link"><i class="bi bi-file-post"></i> BAK</a>
                 </li>
                 <li class="submenu-item {{ request()->routeIs('meet.index') ? 'active' : null }} {{ Request::segment(2) == 'input-barp' ? 'active' : null }}">
-                    <i class="bi bi-file-post-fill"></i> <a href="{{ route('meet.index') }}" class="submenu-link">BARP</a>
+                    <a href="{{ route('meet.index') }}" class="submenu-link"><i class="bi bi-file-post-fill"></i>  BARP</a>
                 </li>
                 <li class="submenu-item {{ request()->routeIs('attach.index') ? 'active' : null }} {{ Request::segment(2) == 'attach-step' ? 'active' : null }}">
-                    <i class="bi bi-files-alt"></i> <a href="{{ route('attach.index') }}" class="submenu-link">Lampiran</a>
+                     <a href="{{ route('attach.index') }}" class="submenu-link"><i class="bi bi-files-alt"></i> Lampiran</a>
                 </li>
                 <li class="submenu-item {{ request()->routeIs('tax.index') ? 'active' : null }}">
-                    <i class="bi bi-cash"></i> <a href="{{ route('tax.index') }}" class="submenu-link">Retribusi</a>
+                    <a href="{{ route('tax.index') }}" class="submenu-link"><i class="bi bi-cash"></i>  Retribusi</a>
                 </li>
             </ul>
         </li>
