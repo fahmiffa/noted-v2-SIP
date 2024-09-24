@@ -7,6 +7,11 @@
 <style>
     body {
         font-size: 8.5pt;
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100%;
+        background: white;
     }
 
     table {
@@ -36,6 +41,17 @@
         page-break-after: always;
     }
 
+    .watermark {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0.1;
+        /* Adjust the transparency */
+        z-index: -1;
+        /* Ensure it stays behind other content */
+    }
+
     p {
         overflow-wrap: break-word;
         white-space: normal;
@@ -54,8 +70,8 @@
     }
 </style>
 
-<body>  
-    <img class="img" src="{{ gambar('kab.png') }}" />
+<body>
+    <img class="watermark" src="{{ gambar('kab.png') }}" />
     @yield('main')
 </body>
 
