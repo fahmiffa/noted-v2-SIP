@@ -28,14 +28,12 @@
 
     .watermark {
         position: fixed;
-        top: 50%;
-        left: 30%;
-        opacity: 0.1;
-        transform: rotate(333deg);
+        top: 30%;
+        left: 15%;
+        font-size: 180px;
+        color: rgba(53, 0, 247, 0.11);
+        transform: rotate(-45deg);
         z-index: -1;
-        font-size: 150px;
-        color: blue;
-        text-align: center;
     }
 
     .img {
