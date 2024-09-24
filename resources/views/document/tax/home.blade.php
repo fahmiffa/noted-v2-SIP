@@ -54,7 +54,8 @@
                                         <td class="text-center">
                                             @if($item->tax)
                                                 @php
-                                                $tax = (object) json_decode($item->tax->parameter);      
+                                                $tax = (object) json_decode($item->tax->parameter);  
+                                                dd($tax);    
                                                 @endphp
                                                 {{ $tax->retribusi }}
                                             @endif
