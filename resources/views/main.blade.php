@@ -34,7 +34,7 @@
                                         </div>
                                     </div>
                                     <div class="p-1">
-                                        <h6 class="text-muted font-semibold">Complete</h6>
+                                        <h6 class="text-muted font-semibold">Selesai</h6>
                                         <h6 class="font-extrabold mb-0">{{ $comp}}</h6>
                                     </div>
                                 </div>

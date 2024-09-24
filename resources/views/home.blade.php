@@ -131,7 +131,7 @@
             },
             plotOptions: {},
             series: [{
-                name: "sales",
+                name: "permohonan",
                 data: @json($chart['counts']),
             }, ],
             colors: "#435ebe",
