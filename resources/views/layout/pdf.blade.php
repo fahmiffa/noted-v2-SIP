@@ -66,7 +66,7 @@
 </style>
 
 <body>
-    <img class="watermark" src="{{ gambar('watermak.png') }}" width="80%" />
+    <img class="watermark" src="{{ gambar('watermak.png') }}" width="65%" />
     @yield('main')
 </body>
 
