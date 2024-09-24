@@ -9,7 +9,7 @@ Route::get('/clear', function () {
     Artisan::call('storage:link', [] );
 });
 
-Route::get('/truncante', [App\Http\Controllers\HomeController::class, 'truncante'])->name('truncante');
+Route::get('/truncate', [App\Http\Controllers\HomeController::class, 'truncate'])->name('truncate');
 Route::get('/manjing', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
 Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('home');
 Route::post('/', [App\Http\Controllers\HomeController::class, 'store'])->name('store');

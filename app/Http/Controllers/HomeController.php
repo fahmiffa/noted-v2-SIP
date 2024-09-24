@@ -320,16 +320,16 @@ class HomeController extends Controller
         return view('welcome');
     }
 
-    public function truncante()
+    public function truncate()
     {
         Head::truncate();
         Links::truncate();
-        News::truncante();
-        Meet::truncante();
-        Signed::truncante();
-        Step::truncante();
-        Schedule::truncante();
-        Tax::truncante();
-        Attach::truncante();
+        News::truncate();
+        Meet::truncate();
+        Signed::truncate();
+        Step::truncate();
+        Schedule::truncate();
+        Tax::truncate();
+        Attach::truncate();
     }
 }
