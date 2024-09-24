@@ -44,7 +44,7 @@
     .watermark {
         position: fixed;
         top: 50%;
-        left: 50%;
+        left: 40%;
         transform: translate(-50%, -50%);
         opacity: 0.07;
         z-index: -1;
