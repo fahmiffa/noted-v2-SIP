@@ -10,7 +10,6 @@
         position: relative;
         margin: 0;
         padding: 0;
-        height: 100vh;
         overflow: hidden;
         background: white;
     }
@@ -38,18 +37,13 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-image: url({{asset('watermak.png')}});
-        /* Ganti dengan path gambar Anda */
+        background-image: url({{gambar('watermak.png')}});
         background-repeat: repeat;
         opacity: 0.1;
-        /* Sesuaikan transparansi watermark */
         pointer-events: none;
-        /* Agar tidak mengganggu interaksi */
         z-index: 9999;
         transform: rotate(-45deg);
-        /* Memutar watermark */
         transform-origin: 0 0;
-        /* Titik awal rotasi */
     }
 
     .img {
