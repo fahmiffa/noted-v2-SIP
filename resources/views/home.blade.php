@@ -47,24 +47,11 @@
                                         </div>
                                     </div>
                                     <div class="p-1">
-                                        <h6 class="text-muted font-semibold">Penjadwalan Konsultasi</h6>
+                                        <h6 class="text-muted font-semibold">Tahap Konsultasi</h6>
                                         <h6 class="font-extrabold mb-0">{{$kons}}</h6>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col col-md-4">
-                                <div class="d-flex jusitify-content-between">
-                                    <div class="p-1">
-                                        <div class="stats-icon green mb-2">
-                                            <i class="iconly-boldPaper"></i>
-                                        </div>
-                                    </div>
-                                    <div class="p-1">
-                                        <h6 class="text-muted font-semibold">Proses BAK</h6>
-                                        <h6 class="font-extrabold mb-0">{{$bak}}</h6>
-                                    </div>
-                                </div>
-                            </div>
+                            </div>        
                             <div class="col col-md-4">
                                 <div class="d-flex jusitify-content-between">
                                     <div class="p-1">
@@ -73,8 +60,8 @@
                                         </div>
                                     </div>
                                     <div class="p-1">
-                                        <h6 class="text-muted font-semibold">Proses BARP</h6>
-                                        <h6 class="font-extrabold mb-0">{{$barp}}</h6>
+                                        <h6 class="text-muted font-semibold">Proses BAK BARP</h6>
+                                        <h6 class="font-extrabold mb-0">{{$barp+$bak}}</h6>
                                     </div>
                                 </div>
                             </div>
