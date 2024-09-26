@@ -68,7 +68,7 @@
         width: 30%;
     }
 
-    .table-bordered, td{
+    .table-bordered td{
         border: none;        
     }
 
