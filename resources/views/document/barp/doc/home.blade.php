@@ -117,7 +117,7 @@
             <td style="padding: 0.3rem">Luas Total Bangunan termasuk <br> Luas Total Basement (LLt)
             </td>
             @foreach ($items->luas as $key => $val)
-                <td align="center" style="padding: 0.3rem">{{ $val }}</td>
+                <td align="{{$key != 2 ? null : 'center'}}" style="padding: 0.3rem">{{ $val }}</td>
             @endforeach
         </tr>
         @for ($i = 0; $i < count($other); $i++)
