@@ -23,7 +23,7 @@
         $bangunan = $item['informasi_bangunan_gedung'];
     @endphp
     <p>Sehubungan telah dilakukannya Konsultasi dengan TPT/TPA DPUPR Kabupaten Tegal pada :</p>
-    <table style="width:98%" align="center">
+    <table style="width:100%" align="center">
         <tr>
             <td width="40%" style="border:none">Hari / Tanggal</td>
             <td width="60%" style="border:none">: {{ dateID($head->barp->tanggal) }} </td>
@@ -38,7 +38,7 @@
         </tr>
     </table>
     <p>Atas pengajuan Persetujuan Bangunan Gedung :</p>
-    <table style="width:98%;" align="center">
+    <table style="width:100%;" align="center">
         <tbody>
             <tr>
                 <td width="40%" style="border:none">Nama Pemohon </td>
