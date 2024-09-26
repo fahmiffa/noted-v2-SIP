@@ -64,8 +64,12 @@
         color: black;
     }
 
-    .table-bordered{
-        border: none;
+    .table-bordered{        
+        width: 30%;
+    }
+
+    .table-bordered, td{
+        border: none;        
     }
 
     @page {
