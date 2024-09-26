@@ -63,6 +63,10 @@
         height: 20px;
         color: black;
     }
+
+    @page {
+        margin-bottom: 20mm;
+    }
 </style>
 
 <body>
