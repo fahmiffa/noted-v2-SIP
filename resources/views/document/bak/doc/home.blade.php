@@ -283,7 +283,7 @@ Saran :<br>
     <script type="text/php"> 
         if (isset($pdf)) { 
             //Shows number center-bottom of A4 page with $x,$y values
-            $x = 320;  //X-axis vertical position 
+            $x = 330;  //X-axis vertical position 
             $y = 990; //Y-axis horizontal position
             $text = "Lembar BAK No. {{ str_replace('SPm', 'BAK', str_replace('600.1.15', '600.1.15/PBLT', $head->nomor)) }} | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
             $font =  $fontMetrics->get_font("helvetica", "bold");
