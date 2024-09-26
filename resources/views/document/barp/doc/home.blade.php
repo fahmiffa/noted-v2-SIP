@@ -78,7 +78,7 @@
             </tr>
             <tr>
                 <td width="40%" style="border:none">Fungsi Bangunan</td>
-                <td width="60%" style="border:none">: {{ ucwords($mheader->jenis) }}</td>
+                <td width="60%" style="border:none">: {{ ucwords($mheader->fungsi) }}</td>
                 <td width="40%" style="border:none"></td>
                 <td width="60%" style="border:none"></td>
             </tr>
@@ -117,7 +117,7 @@
             <td style="padding: 0.3rem">Luas Total Bangunan termasuk <br> Luas Total Basement (LLt)
             </td>
             @foreach ($items->luas as $key => $val)
-                <td align="{{$key == 2 ? 'left' : 'center'}}" style="padding: 0.3rem">{{ $val }} {{$key}}</td>
+                <td align="{{$key == 2 ? 'left' : 'center'}}" style="padding: 0.3rem">{{ $val }}</td>
             @endforeach
         </tr>
         @for ($i = 0; $i < count($other); $i++)
