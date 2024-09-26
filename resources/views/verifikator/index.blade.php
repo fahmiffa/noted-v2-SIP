@@ -46,13 +46,13 @@
                                             </td>
                                             <td>
                                                 <h6 class="mb-0">Nama :</h6>{{ $header ? $header[2] : null }}
-                                                <h6 class="mb-0">Alamat :</h6>{{ $header ? $header[7] : null }}
+                                                <h6 class="mb-0">Alamat :</h6>{{ $header ? $header[4] : null }}
                                             </td>
                                             <td class="text-center">
                                                 {{ $header ? $header[5] : null }}
                                             </td>
                                             <td class="text-center">
-                                                {{ $header ? $header[4] : null }}<br>
+                                                {{ $header ? $header[7] : null }}<br>
                                                 {{ $item->region ? 'Desa/Kel. ' . $item->region->name : null }},
                                                 {{ $item->region ? 'Kec. ' . $item->region->kecamatan->name : null }}
                                             </td>

@@ -105,7 +105,7 @@
                                             <td align="center">{{ $subDa[$item->id]['saran'][$sub->id] }}</td>
                                         </tr>
                                     @else
-                                        @php $indeks -= $indeks; @endphp
+                                    @php $indeks -= $indeks; @endphp
                                     @endif
                                 @endforeach
                             @else
@@ -121,7 +121,7 @@
                         @endforeach
                     @endif
 
-                    @if ($VL2)
+                    @if($VL2)
                         @if ($row->name == doc(4, $head->type))
                             <tr style="font-weight: bold;">
                                 <td width="5%" align="center">{{ strtoupper(Abjad($loop->index)) }}.</td>
@@ -139,17 +139,16 @@
                                     @endphp
                                     @if ($vw0 || $vw1)
                                         <tr>
-                                            <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;
-                                            </td>
+                                            <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
                                             <td colspan="4">&nbsp;{{ $item->name }}</td>
                                         </tr>
                                     @endif
-                                    @foreach ($item->sub as $sub)
+                                    @foreach ($item->sub as $sub)          
                                         @if ($subDt[$item->id]['value'][$sub->id] != 2)
-                                            <tr>
-                                                <td></td>
-                                                <td width="1%" style="vertical-align:top;border-right:0px">
-                                                    &nbsp;{{ abjad($indeks++) }}. </td>
+                                        <tr>
+                                            <td></td>
+                                            <td width="1%" style="vertical-align:top;border-right:0px">
+                                                &nbsp;{{ abjad($indeks++) }}. </td>
                                                 <td style="border-left:0px">&nbsp;{{ $sub->name }}</td>
                                                 <td align="center">{{ status($subDt[$item->id]['value'][$sub->id]) }}</td>
                                                 <td align="center">{{ $subDt[$item->id]['saran'][$sub->id] }}</td>
@@ -161,8 +160,7 @@
                                 @else
                                     @if ($itemPt[$item->id] != 2)
                                         <tr>
-                                            <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;
-                                            </td>
+                                            <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
                                             <td colspan="2">&nbsp;{{ $item->name }}
                                             <td align="center">{{ status($itemPt[$item->id]) }}</td>
                                             <td>&nbsp;{{ $saranItemPt[$item->id] }}</td>
@@ -189,8 +187,7 @@
                                     @endphp
                                     @if ($vw0 || $vw1)
                                         <tr>
-                                            <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;
-                                            </td>
+                                            <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
                                             <td colspan="4">&nbsp;{{ $item->name }}</td>
                                         </tr>
                                         @foreach ($item->sub as $sub)
@@ -200,20 +197,18 @@
                                                     <td width="1%" style="vertical-align:top;border-right:0px">
                                                         &nbsp;{{ abjad($indeks++) }}. </td>
                                                     <td style="border-left:0px">&nbsp;{{ $sub->name }}</td>
-                                                    <td align="center">{{ status($subDpl[$item->id]['value'][$sub->id]) }}
-                                                    </td>
+                                                    <td align="center">{{ status($subDpl[$item->id]['value'][$sub->id]) }}</td>
                                                     <td align="center">{{ $subDpl[$item->id]['saran'][$sub->id] }}</td>
                                                 </tr>
                                             @else
-                                                @php $indeks -= $indeks;  @endphp
+                                            @php $indeks -= $indeks;  @endphp
                                             @endif
                                         @endforeach
                                     @endif
                                 @else
                                     @if ($itemDpl[$item->id] != 2)
                                         <tr>
-                                            <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;
-                                            </td>
+                                            <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
                                             <td colspan="2">&nbsp;{{ $item->name }}
                                             <td align="center">{{ status($itemDpl[$item->id]) }}</td>
                                             <td>&nbsp;{{ $saranItemDpl[$item->id] }}</td>
@@ -225,7 +220,7 @@
                     @endif
                 @endforeach
 
-                @if ($VL2)
+                @if($VL2)
                     @if ($head->type == 'umum' && $other)
                         <tr style="font-weight: bold;">
                             <td style="text-align: center">D.</td>
@@ -253,7 +248,21 @@
     @include('verifikator.doc.footer')
 
     @if ($head->deleted_at)
-        <p class="footer" style="color: red">Dokumen Perbaikain ke {{ $num }}</p>
+        <script type="text/php"> 
+            if (isset($pdf)) { 
+                //Shows number center-bottom of A4 page with $x,$y values
+                $x = 35;  //X-axis i.e. vertical position 
+                $y = 900; //Y-axis horizontal position
+                $text = "Dokumen Perbaikain ke {{$num}}";             
+                $font =  $fontMetrics->get_font("helvetica", "bold");
+                $size = 7;
+                $color = array(255,0,0);
+                $word_space = 0.0;  //  default
+                $char_space = 0.0;  //  default
+                $angle = 0.0;   //  default
+                $pdf->page_text($x, $y, $text, $font, $size, $color, $word_space, $char_space, $angle);
+            }
+        </script>
     @endif
 
 
