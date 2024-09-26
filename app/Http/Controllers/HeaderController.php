@@ -120,7 +120,9 @@ class HeaderController extends Controller
             $bak->save();            
 
             $bak->delete();
-            Signed::where(DB::raw('md5(head)'),$id)->update(['bak' => null]);
+            $barp = Meet::where(DB::raw('md5(head)'), $bak->head)->first();
+            $barp->delete();            
+            Signed::where(DB::raw('md5(head)'),$id)->update(['bak' => null, 'barp'=>null]);
         }
         else
         {
