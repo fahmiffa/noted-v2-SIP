@@ -228,7 +228,7 @@ Saran :<br>
 @if ($head->sign)
     <table style="width:35%;">
         @php
-            $ttd = collect($head->sign)->sortBy('id');
+            $ttd = collect($head->sign)->sortBy('type');
             dd($ttd);
 
         @endphp
