@@ -21,7 +21,7 @@ function splitChar($id)
 function shortLink($head,$par)
 {
     $link = Links::where('ket',$par)->where('head',$head)->first();
-
+    
     $shortUrl = Str::random(6);
     while (Links::where('short', $shortUrl)->exists()) {
         $shortUrl = Str::random(6);

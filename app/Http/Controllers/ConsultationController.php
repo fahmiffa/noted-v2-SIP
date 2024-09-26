@@ -269,7 +269,7 @@ class ConsultationController extends Controller
             $sign->save();
         }
 
-        shortLink($request->doc,'surat_undangan');
+        // shortLink($request->doc,'surat_undangan');
 
         toastr()->success('Update Data berhasil', ['timeOut' => 5000]);
         return redirect()->route('consultation.index');
