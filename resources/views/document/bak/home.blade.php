@@ -50,7 +50,7 @@
                                             {{ $header ? $header[5] : null }}
                                         </td>
                                         <td>
-                                            {{ $header ? $header[4] : null }}<br>
+                                            {{ $header ? $header[7] : null }}<br>
                                             {{ $item->doc->region ? 'Desa/Kel. ' . $item->doc->region->name . ', ' : null }}
                                             {{ $item->doc->region ? 'Kec. ' . $item->doc->region->kecamatan->name : null }}
                                         </td>

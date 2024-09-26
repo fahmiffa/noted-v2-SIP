@@ -55,8 +55,9 @@
                                         </td>
                                         <td class="text-center">{{ $header ? $header[5] : null }}</td>
                                         <td>
+                                            {{ $header ? $header[7] : null }}<br>
                                             {{ $item->doc->region ? 'Desa/Kel. ' . $item->doc->region->name . ', ' : null }}
-                                            {!! $item->doc->region ? $item->doc->region->kecamatan->name . '<br>' : null !!} {{ $header ? $header[7] : null }}
+                                            {!! $item->doc->region ? $item->doc->region->kecamatan->name . '<br>' : null !!} 
                                         </td>
                                         <td class="text-center">
                                             {{ $item->doc->surat->number }}                                       
