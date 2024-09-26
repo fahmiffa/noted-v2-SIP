@@ -120,7 +120,7 @@
 @endif
 <td style="border: none"></td>
 <td>&nbsp;&nbsp;{{ ucwords(str_replace('_', ' ', $bangunan[$i]->uraian)) }}</td>
-<td align="center">&nbsp;&nbsp;{{ $bangunan[$i]->dimensi }} o</td>
+<td align="center">&nbsp;&nbsp;{{ $bangunan[$i]->dimensi }}</td>
 <td align="center">&nbsp;&nbsp;{{ $bangunan[$i]->note }}</td>
 </tr>
 @endfor
@@ -131,8 +131,8 @@
         <td></td>
         <td style="border: none"></td>
         <td>&nbsp;&nbsp;{{ $fa[0] }}</td>
-        <td>&nbsp;&nbsp;{{ $fa[1] }}</td>
-        <td>&nbsp;&nbsp;{{ $fa[2] }}</td>
+        <td align="center">&nbsp;&nbsp;{{ $fa[1] }}</td>
+        <td align="center">&nbsp;&nbsp;{{ $fa[2] }}</td>
     </tr>
 @endforeach
 @endif
@@ -283,7 +283,7 @@ Saran :<br>
     <script type="text/php"> 
         if (isset($pdf)) { 
             //Shows number center-bottom of A4 page with $x,$y values
-            $x = 330;  //X-axis vertical position 
+            $x = 320;  //X-axis vertical position 
             $y = 990; //Y-axis horizontal position
             $text = "Lembar BAK No. {{ str_replace('SPm', 'BAK', str_replace('600.1.15', '600.1.15/PBLT', $head->nomor)) }} | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
             $font =  $fontMetrics->get_font("helvetica", "bold");
