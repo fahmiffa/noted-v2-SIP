@@ -55,9 +55,9 @@
             <td width="60%" style="border:none">: {{ $header[6] }}</td>
         </tr>
         <tr>
-            <td width="40%" style="border:none;vertical:align:top">Alamat Bangunan </td>
-            <td width="60%" colspan="3" style="border:none;vertical-align:top">
-                : {{ $header[7] }}, Desa/Kel. {{ $head->region->name }}, Kec. {{ $head->region->kecamatan->name }} <br>
+            <td width="40%" style="border:none;vertical-align:top">Alamat Bangunan </td>
+            <td colspan="3" style="border:none;vertical-align:top">
+                : {{ $header[7] }}, Desa/Kel. {{ $head->region->name }}, Kec. {{ $head->region->kecamatan->name }},
                 Kab. Tegal, Prov. Jawa Tengah             
             </td>
         </tr>
