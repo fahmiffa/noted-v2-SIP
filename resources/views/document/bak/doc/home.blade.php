@@ -237,7 +237,7 @@ Saran :<br>
                 </td>
                 <td style="border: none;vertical-align:middle">
                     @if ($val->bak)
-                        <img src="{{ $val->bak }}" width="50%">
+                        <center><img src="{{ $val->bak }}" width="50%"></center>
                     @endif
                 </td>
             </tr>
