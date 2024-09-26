@@ -25,9 +25,15 @@ class NewsController extends Controller
      */
     public function index()
     {
-        // $val = Notulen::where('users', Auth::user()->id);
-        $val = Signed::where('user', Auth::user()->id);
-        $da = $val->latest()->get();
+        if(Auth::user()->roles->kode == 'SU')
+        {
+            $val = News::latest();
+        }
+        else
+        {
+            $val = Signed::has('kons')->where('user', Auth::user()->id)->latest();
+        }
+        $da = $val->get();
 
         $data = "Berita Acara Konsultasi";
         return view('document.bak.home', compact('da', 'data'));
@@ -63,9 +69,25 @@ class NewsController extends Controller
             'kondisi' => 'required',
             'permanensi' => 'required',
             'build' => 'required',
+            'pile' => 'nullable|file|mimes:pdf|max:2048',
         ];
-        $message = ['required' => 'Field ini harus diisi'];
+        $message = [
+            'required' => 'Field ini harus diisi',
+            'mimes' => 'Extension File invalid',
+            'max' => 'File size max 2Mb',
+        ];
         $request->validate($rule, $message);
+
+        $path = null;
+        $pile = $request->file('pile');
+
+        if ($pile) {
+            $ext = $pile->getClientOriginalExtension();
+            $path = $pile->storeAs(
+                'assets/bak/' . time() . '_bak.' . $ext, ['disk' => 'public']
+            );
+        }
+
         $state = $request->has('state');
 
         $header = [
@@ -119,7 +141,15 @@ class NewsController extends Controller
         $da['idp'] = $request->idp;
         $item->item = json_encode($da);
         $item->note = $request->note;
-        $item->status = 2;
+        // bypass root
+        if(!Auth::user()->ijin('master'))
+        {
+            $item->status = 2;
+        }        
+        if($pile)
+        {
+            $item->files = $path;
+        }
         $item->signs = $old ? $old->signs : null;
         $item->save();
 
@@ -177,11 +207,11 @@ class NewsController extends Controller
         $data = compact('news', 'head');
 
         if ($news->type == 'konsultasi') {
-            $pdf = PDF::loadView('document.bak.doc.index', $data)->setPaper('a4', 'potrait');
+            $pdf = PDF::loadView('document.bak.doc.index', $data)->setPaper('legal', 'potrait');
             return $pdf->stream();
             return view('document.bak.doc.index', $data);
         } else {
-            $pdf = PDF::loadView('verifikator.doc.home', $data)->setPaper('a4', 'potrait');
+            $pdf = PDF::loadView('verifikator.doc.home', $data)->setPaper('legal', 'potrait');
             return $pdf->stream();
             return view('verifikator.doc.home', $data);
         }

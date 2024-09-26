@@ -115,7 +115,7 @@
             <tr>
                 <td width="30%" style="border:none">Hari, Tanggal</td>
                 <td width="1%" style="border:none">: </td>
-                <td style="border:none">{{ hari($time[1]) }}</td>
+                <td style="border:none">{{ hari($time[2]) }}</td>
             </tr>
             <tr>
                 <td width="30%" style="border:none">Pukul</td>

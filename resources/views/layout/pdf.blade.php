@@ -6,7 +6,7 @@
 </head>
 <style>
     body {
-        font-size: 8.5pt;
+        font-size: 10pt;
         margin: 0;
         padding: 0;
         height: 100vh;

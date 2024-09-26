@@ -21,7 +21,7 @@
                                 <tr>
                                     <th>No.</th>
                                     <th>No. Registrasi</th>
-                                    <th width="17%" >Pemohon</th>
+                                    <th width="17%">Pemohon</th>
                                     <th>Nama Bangunan</th>
                                     <th width="17%">Lokasi Bangunan</th>
                                     <th>No. Dokumen</th>
@@ -39,7 +39,7 @@
                                             {{ $item->reg }}
                                         </td>
                                         <td>
-                                            <h6 class="mb-0">Nama</h6>{{ $header ? $header[2] : null }}      
+                                            <h6 class="mb-0">Nama</h6>{{ $header ? $header[2] : null }}
                                             <h6 class="mb-0">Alamat</h6>
                                             {{ $header ? $header[4] : null }}
                                         </td>
@@ -48,25 +48,29 @@
                                         </td>
                                         <td>
                                             {{ $header ? $header[7] : null }}<br>
-                                            {{ $item->region ? 'Desa/Kel. '.$item->region->name : null }},
+                                            {{ $item->region ? 'Desa/Kel. ' . $item->region->name : null }},
                                             {{ $item->region ? 'Kec. ' . $item->region->kecamatan->name : null }}
                                         </td>
                                         <td class="text-center">
-                                            {{ str_replace('SPm', 'LDP', str_replace('600.1.15', '600.1.15/PBLT', $item->nomor))  }}
+                                            {{ str_replace('SPm', 'LDP', str_replace('600.1.15', '600.1.15/PBLT', $item->nomor)) }}
                                         </td>
                                         <td>
                                             <div class="d-flex justiify-content-center align-items-center">
                                                 @if ($item->attach)
-                                                    <a class="btn btn-{{ $item->attach->status == 2 ? 'warning' : 'success' }} btn-sm"
-                                                        href="{{ route('step.attach', ['id' => md5($item->id)]) }}"
-                                                        data-toggle="tooltip" data-placement="top" title="Dokumen Draft">
-                                                        <i
-                                                            class="bi bi-{{ $item->attach->status == 2 ? 'archive' : 'send' }}"></i>
-                                                    </a>
-    
+                                                    @if (auth()->user()->roles->kode == 'TPT' || auth()->user()->roles->kode == 'TPA')
+                                                        <a class="btn btn-{{ $item->attach->status == 2 ? 'warning' : 'success' }} btn-sm"
+                                                            href="{{ route('step.attach', ['id' => md5($item->id)]) }}"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="Dokumen Draft">
+                                                            <i
+                                                                class="bi bi-{{ $item->attach->status == 2 ? 'archive' : 'send' }}"></i>
+                                                        </a>
+                                                    @endif
+
                                                     <a target="_blank"
                                                         href="{{ route('doc.attach', ['id' => md5($item->id)]) }}"
-                                                        class="btn btn-sm btn-danger mx-2"><i class="bi bi-file-pdf"></i></a>
+                                                        class="btn btn-sm btn-danger mx-2"><i
+                                                            class="bi bi-file-pdf"></i></a>
                                                     <a target="_blank" class="btn btn-sm btn-primary"
                                                         href="https://www.google.com/maps/search/?api=1&query={{ $item->attach->koordinat }}"><i
                                                             class="bi bi-geo-alt"></i></a>
@@ -74,13 +78,17 @@
                                                     @if ($item->attach)
                                                         <button data-toggle="tooltip" data-placement="top"
                                                             title="Dokumen terlah diverifikasi"
-                                                            class="btn btn-success btn-sm"><i class="bi bi-check"></i></button>
+                                                            class="btn btn-success btn-sm"><i
+                                                                class="bi bi-check"></i></button>
                                                     @else
-                                                        <a class="btn btn-primary btn-sm my-auto"
-                                                            href="{{ route('step.attach', ['id' => md5($item->id)]) }}"
-                                                            data-toggle="tooltip" data-placement="top" title="Submit Dokumen">
-                                                            <i class="bi bi-send"></i>
-                                                        </a>
+                                                        @if (auth()->user()->roles->kode == 'TPT' || auth()->user()->roles->kode == 'TPA')
+                                                            <a class="btn btn-primary btn-sm my-auto"
+                                                                href="{{ route('step.attach', ['id' => md5($item->id)]) }}"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Submit Dokumen">
+                                                                <i class="bi bi-send"></i>
+                                                            </a>
+                                                        @endif
                                                     @endif
                                                 @endif
                                             </div>

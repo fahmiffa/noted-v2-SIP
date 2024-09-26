@@ -79,7 +79,7 @@
 
                                                         <a class="btn {{ $item->doc->bak->grant == 1 ? 'btn-success' : 'btn-danger' }} btn-sm"
                                                             target="_blank"
-                                                            href="{{ route('doc.news', ['id' => md5($item->doc->bak->id)]) }}"
+                                                            href="{{ route('preview', ['id' => md5($item->doc->bak->id), 'par' => 'bak']) }}"
                                                             data-toggle="tooltip" data-placement="top" title="PDF Dokumen">
                                                             <i class="bi bi-file-pdf"></i>
                                                         </a>
@@ -102,11 +102,13 @@
                                                     @endif
                                                 @else
                                                     @if ($item->doc->bak)
-                                                        <button data-toggle="tooltip" data-placement="top"
-                                                            title="Tanda Tangan Dokumen"
-                                                            onclick="location.href='{{ route('sign.news', ['id' => md5($item->doc->bak->id)]) }}'"
-                                                            class="btn btn-primary btn-sm mx-2"><i
-                                                                class="bi bi-vector-pen"></i></button>
+                                                        @if ($item->doc->bak->grant == 0)
+                                                            <button data-toggle="tooltip" data-placement="top"
+                                                                title="Tanda Tangan Dokumen"
+                                                                onclick="location.href='{{ route('sign.news', ['id' => md5($item->doc->bak->id)]) }}'"
+                                                                class="btn btn-primary btn-sm mx-2"><i
+                                                                    class="bi bi-vector-pen"></i></button>
+                                                        @endif
                                                         <a class="btn {{ $item->doc->bak->grant == 1 ? 'btn-success' : 'btn-danger' }} btn-sm"
                                                             target="_blank"
                                                             href="{{ route('doc.news', ['id' => md5($item->doc->bak->id)]) }}"
@@ -114,6 +116,25 @@
                                                             <i class="bi bi-file-pdf"></i>
                                                         </a>
                                                     @endif
+                                                @endif
+
+                                                @if (auth()->user()->roles->kode == 'SU')
+                                                    <a class="btn btn-dark btn-sm ms-1"
+                                                        href="{{ route('super.bak', ['id' => md5($item->head)]) }}"
+                                                        data-toggle="tooltip" data-placement="top" title="Dokumen Draft">
+                                                        <i class="bi bi-send"></i>
+                                                    </a>
+
+                                                    <form onsubmit="return confirm('Apakah Anda Yakin Menghapus ?');"
+                                                        action="{{ route('super.bak.destroy', md5($item->id)) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm btn-danger ms-1"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="Hapus Dokumen">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    </form>
                                                 @endif
                                             </div>
                                         </td>
@@ -145,7 +166,8 @@
                                     </ul>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Close</button>
                                 </div>
                             </div>
                         </div>

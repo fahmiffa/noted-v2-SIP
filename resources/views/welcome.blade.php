@@ -135,22 +135,22 @@
                                 $header = (array) json_decode($item->header);
                                 @endphp
                                 <div class="row small">
-                                    <div class="col-3">Nama Pemohon</div>
-                                    <div class="col-9">: {{ $header ? $header[2] : null }}   </div>
-                                    <div class="col-3">Alamat Pemohon</div>
-                                    <div class="col-9 d-inline-flex">:&nbsp;<p class="mb-0">{{ $header ? $header[4] : null }}</p></div>                              
-                                    <div class="col-3">No. Registrasi</div>
-                                    <div class="col-9">: {{ $item->reg }}</div>
-                                    <div class="col-3">No. Dokumen</div>
-                                    <div class="col-9 d-inline-flex">:&nbsp;<p class="mb-0" >{{ $item->nomor }}</p></div>
-                                    <div class="col-3">Nama Bangunan</div>
-                                    <div class="col-9">: {{ $header ? $header[5] : null }}</div>
-                                    <div class="col-3">Lokasi Bangunan</div>
-                                    <div class="col-9">: <p>{{ $header ? $header[7].', ' : null }} {{ $item->region ? 'Desa/Kel. '.$item->region->name : null }} {{ $item->region ? ', Kec. '.$item->region->kecamatan->name : null }}, Kab. Tegal</p></div>
-                                    <div class="col-3">Status</div>
-                                    <div class="col-9">: {{$item->dokumen}}</div>                     
-                                    <div class="col-3">Lihat Dokumen</div>
-                                    <div class="col-9 d-inline-flex">:&nbsp;<p>&#9632; {!! ucfirst(implode('<br>&#9632; ', $item->verif)) !!}</p></div>
+                                    <div class="col-4">Nama Pemohon</div>
+                                    <div class="col-8">: {{ $header ? $header[2] : null }}   </div>
+                                    <div class="col-4">Alamat Pemohon</div>
+                                    <div class="col-8 d-inline-flex">:&nbsp;<p class="mb-0">{{ $header ? $header[4] : null }}</p></div>                              
+                                    <div class="col-4">No. Registrasi</div>
+                                    <div class="col-8">: {{ $item->reg }}</div>
+                                    <div class="col-4">No. Dokumen</div>
+                                    <div class="col-8 d-inline-flex">:&nbsp;<p class="mb-0" >{{ $item->nomor }}</p></div>
+                                    <div class="col-4">Nama Bangunan</div>
+                                    <div class="col-8">: {{ $header ? $header[5] : null }}</div>
+                                    <div class="col-4">Lokasi Bangunan</div>
+                                    <div class="col-8 d-flex align-items-top">:&nbsp;<p class="mb-0">{{ $header ? $header[7].', ' : null }} {{ $item->region ? 'Desa/Kel. '.$item->region->name : null }} {{ $item->region ? ', Kec. '.$item->region->kecamatan->name : null }}, Kab. Tegal</p></div>
+                                    <div class="col-4">Status</div>
+                                    <div class="col-8">: {{$item->dokumen}}</div>                     
+                                    <div class="col-4">Lihat Dokumen</div>
+                                    <div class="col-8 d-inline-flex">:&nbsp;<a target="_blank" href="{{route('link',['id'=>$item->link->short])}}" class="btn btn-danger btn-sm rounded-pill">Dokumen</a></div>
                                 </div>
                             @endif
                         </div>

@@ -16,7 +16,7 @@ class AttachController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('IsPermission:bak');
+        $this->middleware('IsPermission:lampiran');
     }
     /**
      * Display a listing of the resource.
@@ -40,9 +40,9 @@ class AttachController extends Controller
         $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
         $data = compact('qrCode', 'head');
 
-        $pdf = PDF::loadView('document.attach.doc.index', $data)->setPaper('a4', 'potrait');
-        // return view('document.attach.doc.index', $data);
+        $pdf = PDF::loadView('document.attach.doc.index', $data)->setPaper('legal', 'potrait');
         return $pdf->stream();
+        return view('document.attach.doc.index', $data);
     }
 
     public function docs($id)
@@ -51,7 +51,7 @@ class AttachController extends Controller
         $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
         $data = compact('qrCode', 'head');
 
-        $pdf = PDF::loadView('document.tax.doc.index', $data)->setPaper('a4', 'potrait');        
+        $pdf = PDF::loadView('document.tax.doc.index', $data)->setPaper('legal', 'potrait');        
         return $pdf->stream();
     }
 
@@ -96,7 +96,7 @@ class AttachController extends Controller
         $tax = Tax::where(DB::raw('md5(head)'), $id)->first();
         $head = Head::where(DB::raw('md5(id)'), $id)->first();
 
-        $item = ($tax) ? $tax :  new Tax;
+        $item = $tax? $tax :  new Tax;
         $item->head = $head->id;
         $item->tanggal = $request->tanggal;
         $item->parameter = json_encode($input);

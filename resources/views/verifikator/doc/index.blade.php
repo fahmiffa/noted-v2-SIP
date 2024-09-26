@@ -282,7 +282,7 @@
             if (isset($pdf)) { 
                 //Shows number center-bottom of A4 page with $x,$y values
                 $x = 280;  //X-axis vertical position 
-                $y = 820; //Y-axis horizontal position
+                $y = 990; //Y-axis horizontal position
                 $text = "Lembar Verifikasi Dokumen No. Registrasi {{$header[0]}} | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
                 $font =  $fontMetrics->get_font("helvetica", "bold");
                 $size = 7;

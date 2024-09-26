@@ -69,23 +69,18 @@
                                                 <form onsubmit="return confirm('Apakah Anda Yakin Menghapus ?');"
                                                     action="{{ route('consultation.destroy', $item->id) }}" method="POST">
                                                     <a href="{{ route('consultation.edit', $item->id) }}"
-                                                        class="btn btn-sm btn-primary"><i class="bi bi-pencil"></i></a>
+                                                        class="btn btn-sm btn-primary mb-1"><i class="bi bi-pencil"></i></a>
                                                     @if ($item->bak == null)
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger"><i
+                                                        <button type="submit" class="btn btn-sm btn-danger mb-1"><i
                                                                 class="bi bi-trash"></i></button>
                                                     @endif
-                                                    @if ($item->files)
-                                                        <a target="_blank" href="{{ asset('storage/' . $item->files) }}"
-                                                            class="btn btn-sm btn-warning"><i
-                                                                class="bi bi-file-pdf"></i></a>
-                                                    @else
-                                                        <a target="_blank"
-                                                            href="{{ route('schedule.show', ['schedule' => $item->doc->surat->id]) }}"
-                                                            class="btn btn-sm btn-warning"><i
-                                                                class="bi bi-file-pdf"></i></a>
-                                                    @endif
+                                      
+                                                    <a target="_blank"
+                                                        href="{{ $uri }}"
+                                                        class="btn btn-sm btn-warning"><i
+                                                            class="bi bi-file-pdf"></i></a>
 
                                                     @php
                                                         $msg = "Yth.%0ABapak%2FIbu%20$header[2]%20dengan%20Nomor%20Registrasi%20$reg%20%0APermohonan%20PBG%20dan%2Fatau%20SLF%20anda%20akan%20dilakukan%20Penjadwalan%20Konsultasi%20sesuai%0AUndangan%20Terlampir%20pada%20tautan%20berikut%20%3A%20%0A$uri%0A%0AMohon%20kirimkan%20Share%20Location%20anda%20untuk%20Konfirmasi.%0AAtas%20perhatiannya%2C%20disampaikan%20terima%20kasih.%0ADPUPR%20Kabupaten%20Tegal";

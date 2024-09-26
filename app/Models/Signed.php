@@ -17,6 +17,11 @@ class Signed extends Model
         return $this->belongsTo(Head::class, 'head', 'id'); 
     }
 
+    public function kons()
+    {         
+        return $this->belongsTo(Consultation::class, 'head', 'head'); 
+    }
+
     public function users()
     {   
         return $this->HasOne(User::class, 'id', 'user'); 

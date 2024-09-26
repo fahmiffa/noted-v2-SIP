@@ -23,7 +23,7 @@
 
                 <div class="card-body">
 
-                    <form action="{{ route('news.store') }}" method="post" id="publish">
+                    <form action="{{ route('news.store') }}" method="post" id="publish" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="doc" value="{{ md5($head->id) }}">
                         @isset($news)
@@ -350,108 +350,120 @@
 
                         </div>
 
-                        @if(isset($news) && $news->ibg)
-                            @foreach(json_decode($news->ibg) as $par)
+                        @if (isset($news) && $news->ibg)
+                            @foreach (json_decode($news->ibg) as $par)
                                 <div class="form-group row mb-3">
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{$par[0]}}" name="par[]" placeholder="Parameter">
+                                        <input type="text" class="form-control" value="{{ $par[0] }}"
+                                            name="par[]" placeholder="Parameter">
                                     </div>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" value="{{$par[1]}}" name="par_d[]" placeholder="Dimensi">
-                                    </div> 
-                                    <div class="col-md-3">
-                                        <input type="text" class="form-control" value="{{$par[2]}}" name="par_c[]" placeholder="Catatan">
+                                        <input type="text" class="form-control" value="{{ $par[1] }}"
+                                            name="par_d[]" placeholder="Dimensi">
                                     </div>
-                                    <button class="btn btn-danger btn-sm my-auto" style="width:fit-content;height:fit-content"
-                                        onclick="remove(this)" type="button"><i class="bi bi-trash"></i></button>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control" value="{{ $par[2] }}"
+                                            name="par_c[]" placeholder="Catatan">
+                                    </div>
+                                    <button class="btn btn-danger btn-sm my-auto"
+                                        style="width:fit-content;height:fit-content" onclick="remove(this)"
+                                        type="button"><i class="bi bi-trash"></i></button>
                                 </div>
                             @endforeach
                         @endif
-                            <button type="button" id="add" class="btn btn-sm btn-primary rounded-pill">Tambah</button>
-                            <div id="input" class="my-3"></div>
+                        <button type="button" id="add" class="btn btn-sm btn-primary rounded-pill">Tambah</button>
+                        <div id="input" class="my-3"></div>
 
-                            <div class="row">
-                                <h6>Informasi Dimensi Bangunan dan Prasarana :</h6>
-                                <div class="col-md-8">
-                                    <div class="form-group mb-3">
-                                        <label>Bangunan Gedung</label>
-                                        <input type="hidden" name="idb[]" value="Informasi Dimensi Bangunan dan Prasarana"
-                                            class="form-control">
-                                        <textarea class="form-control summernote" name="idb[]" rows="2">{{ isset($news) ? $item->idb[1] : null }}</textarea>
-                                    </div>
-                                </div>
-                                <h6>Informasi Dimensi Prasarana :</h6>
-                                <div class="col-md-8">
-                                    <div class="form-group mb-3">
-                                        <label>Prasarana :</label>
-                                        <input type="hidden" name="idp[]" value="Informasi Dimensi Prasarana"
-                                            class="form-control">
-                                        <textarea class="form-control summernote" name="idp[]" rows="2">{{ isset($news) ? $item->idp[1] : null }}</textarea>
-                                    </div>
+                        <div class="row">
+                            <h6>Informasi Dimensi Bangunan dan Prasarana :</h6>
+                            <div class="col-md-8">
+                                <div class="form-group mb-3">
+                                    <label>Bangunan Gedung</label>
+                                    <input type="hidden" name="idb[]" value="Informasi Dimensi Bangunan dan Prasarana"
+                                        class="form-control">
+                                    <textarea class="form-control summernote" name="idb[]" rows="2">{{ isset($news) ? $item->idb[1] : null }}</textarea>
                                 </div>
                             </div>
-                            <div class="row">
-                                <h6>Catatan :</h6>
-                                <div class="col-md-8">
-                                    <div class="form-group mb-3">
-                                        <textarea class="form-control summernote" name="note" rows="2">{{ isset($news) ? $news->note : null }}</textarea>
-                                    </div>
+                            <h6>Informasi Dimensi Prasarana :</h6>
+                            <div class="col-md-8">
+                                <div class="form-group mb-3">
+                                    <label>Prasarana :</label>
+                                    <input type="hidden" name="idp[]" value="Informasi Dimensi Prasarana"
+                                        class="form-control">
+                                    <textarea class="form-control summernote" name="idp[]" rows="2">{{ isset($news) ? $item->idp[1] : null }}</textarea>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
+                            <h6>Catatan :</h6>
+                            <div class="col-md-8">
+                                <div class="form-group mb-3">
+                                    <textarea class="form-control summernote" name="note" rows="2">{{ isset($news) ? $news->note : null }}</textarea>
+                                </div>
+                            </div>
+                        </div>
 
-                            <div class="d-flex justify-content-between" id="load">
-                                <button type="submit" class="btn btn-dark rounded-pill"><i class="bi bi-archive"></i>
-                                    Draft</button>
-                                <div class="d-flex justify-content-start">
-                                    <a class="btn btn-danger rounded-pill" href="{{ route('news.index') }}">Back</a>
-                                </div>
+                        <div class="form-group row mb-3">
+                            <div class="col-md-8">
+                                <label>Lampiran</label><br>
+                                <small class="text-danger fw-bold">Format ekstensi upload PDF</small>
+                                <input class="form-control" name="pile" type="file" accept=".pdf">
+                                @error('pile')
+                                    <div class='small text-danger text-left'>{{ $message }}</div>
+                                @enderror
                             </div>
-                    </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between" id="load">
+                            <button type="submit" class="btn btn-dark rounded-pill"><i class="bi bi-archive"></i>
+                                Draft</button>
+                        </div>
                 </div>
-        </div>
+            </div>
+    </div>
 
-        </section>
+    </section>
 
-        </div>
-    @endsection
+    </div>
+@endsection
 
-    @push('js')
-        <script src="{{ asset('assets/extensions/jquery/jquery.min.js') }}"></script>
-        <script src="{{ asset('assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
-        <script src="{{ asset('assets/static/js/pages/form-element-select.js') }}"></script>
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        <script src="{{ asset('assets/extensions/summernote/summernote-lite.min.js') }}"></script>
+@push('js')
+    <script src="{{ asset('assets/extensions/jquery/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
+    <script src="{{ asset('assets/static/js/pages/form-element-select.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="{{ asset('assets/extensions/summernote/summernote-lite.min.js') }}"></script>
 
-        <script>
-            $(".summernote").summernote({
-                tabsize: 2,
-                height: 120,
-                toolbar: [
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
-                    ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['para', ['ul', 'ol', 'paragraph']],
-                ]
-            });
+    <script>
+        $(".summernote").summernote({
+            tabsize: 2,
+            height: 120,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['para', ['ul', 'ol', 'paragraph']],
+            ]
+        });
 
-            function remove(e) {
-                e.parentNode.remove();
-            }
+        function remove(e) {
+            e.parentNode.remove();
+        }
 
-            $('#add').on('click', function() {
-                var clonedDiv = '<div class="form-group row mb-3">\
-                                            <div class="col-md-4">\
-                                                <input type="text" class="form-control" name="par[]" placeholder="paramter">\
+        $('#add').on('click', function() {
+            var clonedDiv = '<div class="form-group row mb-3">\
+                                                <div class="col-md-4">\
+                                                    <input type="text" class="form-control" name="par[]" placeholder="paramter">\
+                                                </div>\
+                                                <div class="col-md-4">\
+                                                   <input type="text" class="form-control" name="par_d[]" placeholder="Dimensi">\
+                                                </div>\
+                                                <div class="col-md-3">\
+                                                   <input type="text" class="form-control" name="par_c[]" placeholder="Catatan">\
+                                                </div>\
+                                                <button class="btn btn-danger btn-sm my-auto" style="width:fit-content;height:fit-content" onclick="remove(this)"  type="button"><i class="bi bi-trash"></i></button>\
                                             </div>\
-                                            <div class="col-md-4">\
-                                               <input type="text" class="form-control" name="par_d[]" placeholder="Dimensi">\
-                                            </div>\
-                                            <div class="col-md-3">\
-                                               <input type="text" class="form-control" name="par_c[]" placeholder="Catatan">\
-                                            </div>\
-                                            <button class="btn btn-danger btn-sm my-auto" style="width:fit-content;height:fit-content" onclick="remove(this)"  type="button"><i class="bi bi-trash"></i></button>\
-                                        </div>\
-                                        ';
-                $('#input').append(clonedDiv);
-            });
-        </script>
-    @endpush
+                                            ';
+            $('#input').append(clonedDiv);
+        });
+    </script>
+@endpush

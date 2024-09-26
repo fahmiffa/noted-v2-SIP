@@ -78,8 +78,9 @@ class FormulirController extends Controller
                 $qrCode = base64_encode(QrCode::format('png')->size(100)->generate('hello qrcode'));
     
                 $data = compact('form','qrCode');
+                $preview = true;
     
-                $pdf = PDF::loadView('doc.bak', $data)->setPaper('a4', 'potrait');    
+                $pdf = PDF::loadView('doc.bak', $data)->setPaper('legal', 'potrait','preview');    
                 return $pdf->stream();
             }
         
@@ -100,8 +101,8 @@ class FormulirController extends Controller
 
             $data = compact('form','qrCode');
 
-            $pdf = PDF::loadView('doc.formulir.index', $data)->setPaper('a4', 'potrait');    
-            // return $pdf->stream();
+            $pdf = PDF::loadView('doc.formulir.index', $data)->setPaper('legal', 'potrait');    
+            return $pdf->stream();
             return view('doc.formulir.index',$data);
 
             

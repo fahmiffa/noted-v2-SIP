@@ -2,25 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Consultation;
-use Illuminate\Http\Request;
-use App\Models\Head;
-use App\Models\Role;
-use App\Models\User;
-use Mail;
+use App\Models\Document;
 use App\Mail\SipMail;
-use App\Models\Schedule;
-use PDF;
-use Illuminate\Support\Facades\Storage;
-use QrCode;
-use Exception;
-use setasign\Fpdi\Fpdi;
-use setasign\Fpdi\Fpdf;
-use App\Models\Signed;
+use App\Models\Consultation;
+use App\Models\Head;
 use App\Models\Links;
-use Illuminate\Support\Str;
-use App\Models\News;
 use App\Models\Meet;
+use App\Models\News;
+use App\Models\Role;
+use App\Models\Schedule;
+use App\Models\Signed;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Mail;
+use PDF;
+use QrCode;
+use setasign\Fpdi\Fpdi;
+use DB;
 
 class ConsultationController extends Controller
 {
@@ -34,10 +34,9 @@ class ConsultationController extends Controller
      */
     public function index()
     {
-        $val = Consultation::latest();
-        $da = $val->get();
+        $da = Consultation::latest()->get();
         $data = "Panugasan & Penjadwalan TPT/TPA";
-        return view('konsultasi.index',compact('da','data'));
+        return view('konsultasi.index', compact('da', 'data'));
     }
 
     /**
@@ -46,68 +45,77 @@ class ConsultationController extends Controller
     public function create()
     {
         $data = "Panugasan & Penjadwalan TPT TPA";
-        $doc  = head::doesnthave('kons')->where('grant',1)->latest()->get();
-        $user = Role::whereIn('kode',['TPT', 'TPA'])->get();       
-        return view('konsultasi.create',compact('data','user','doc'));
+        $doc = head::doesnthave('kons')->where('grant', 1)->latest()->get();
+        $user = Role::whereIn('kode', ['TPT', 'TPA'])->get();
+        return view('konsultasi.create', compact('data', 'user', 'doc'));
     }
-
 
     public function store(Request $request)
     {
 
-        $rule = [                   
-            'doc' => 'required',       
-            'notulen'=>'required',
-            'konsultan'=> 'required',            
-            'tanggal'   => 'required',   
-            'timeStart' => 'required',  
-            'timeEnd'      => 'required',   
-            'date'      => 'required',   
-            'jenis'      => 'required',   
-            'place'     => 'required',                                           
-            'pile' => 'nullable|file|mimes:pdf|max:2048',                          
-            ];
-        
+        $pile = $request->file('pile');
+
+        $rule = [
+            'doc' => 'required',
+            'notulen' => 'required',
+            'konsultan' => 'required',
+            'tanggal' => 'required',
+            'timeStart' => 'required',
+            'timeEnd' => 'required',
+            'date' => 'required',
+            'jenis' => 'required',
+            'place' => 'required',            
+        ];
+
+        if($pile)
+        {
+            $rule = array_merge(['pile' => 'file|mimes:pdf|max:2048'],$rule);
+        }
+
         $message = [
-            'required'=>'Field ini harus diisi',
+            'required' => 'Field ini harus diisi',
             'mimes' => 'Extension File invalid',
             'max' => 'File size max 2Mb',
-            ];
-        $request->validate($rule,$message);
+        ];
+        $request->validate($rule, $message);
 
-        if(count($request->notulen) > 2)
-        {
+        $intersection = array_intersect($request->notulen, $request->konsultan);
+
+        if (count($intersection) > 0) {
+            toastr()->error('Ada Ketua/Notulen di dalam input anggota konsultasi', ['timeOut' => 5000]);
+            return back()->withInput();
+        }
+
+        if (count($request->notulen) > 2) {
             toastr()->error('Notulen maksimal 2', ['timeOut' => 5000]);
             return back()->withInput();
         }
-        
+
         $path = null;
         $kons = new Consultation;
         $kons->head = $request->doc;
-        $kons->notulen = implode(",",$request->notulen);         
-        $pile = $request->file('pile'); 
-        if($pile)
-        {
+        $kons->notulen = implode(",", $request->notulen);      
+        if ($pile) {
             $ext = $pile->getClientOriginalExtension();
             $path = $pile->storeAs(
-                'assets/konsultasi/'.time().'_konsultasi.'.$ext, ['disk' => 'public']
-            );           
-        }         
+                'assets/konsultasi/' . time() . '_konsultasi.' . $ext, ['disk' => 'public']
+            );
+        }
 
-        $kons->konsultan = implode(",",$request->konsultan);              
-        $kons->save();        
-        
-        $ch             = new Schedule;
-        $ch->head       = $request->doc;
-        $ch->jenis      = $request->jenis;
-        $ch->tanggal    = $request->tanggal;
-        $ch->waktu      = $request->timeStart.'#'.$request->timeEnd.'#'.$request->date;
-        $ch->tempat     = $request->place.'#'.$request->place_des;
+        $kons->konsultan = implode(",", $request->konsultan);
+        $kons->files = $path;
+        $kons->save();
+
+        $ch = new Schedule;
+        $ch->head = $request->doc;
+        $ch->jenis = $request->jenis;
+        $ch->tanggal = $request->tanggal;
+        $ch->waktu = $request->timeStart . '#' . $request->timeEnd . '#' . $request->date;
+        $ch->tempat = $request->place . '#' . $request->place_des;
         $ch->keterangan = $request->content;
         $ch->save();
 
-        foreach($request->konsultan as $par)
-        {
+        foreach ($request->konsultan as $par) {
             $sign = new Signed;
             $sign->head = $request->doc;
             $sign->user = $par;
@@ -116,8 +124,7 @@ class ConsultationController extends Controller
             $sign->save();
         }
 
-        foreach($request->notulen as $var)
-        {
+        foreach ($request->notulen as $var) {
             $sign = new Signed;
             $sign->head = $request->doc;
             $sign->user = $var;
@@ -126,100 +133,34 @@ class ConsultationController extends Controller
             $sign->save();
         }
 
-        $merge = $this->genPDF($ch,$path);
-
-        $kons->files = $merge;
-        $kons->save();
-        
-        if(env('MAIL'))
-        {
-            $this->mail($request->konsultan,$kons->head);
+        if (env('MAIL')) {
+            $this->mail($request->konsultan, $kons->head);
         }
+
+        shortLink($request->doc,'surat_undangan');
 
         toastr()->success('Tambah Data berhasil', ['timeOut' => 5000]);
         return redirect()->route('consultation.index');
     }
 
-    private function genPDF($schedule,$lamp)
+    private function mail($var, $head)
     {
-        $name = 'surat_'.$schedule->head.'.pdf';
-        $dir = 'assets/data/';
-        $path = $dir.$name;
-        
-        $link =  $this->links($schedule->head);
-
-        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate(route('link',['id'=>$link->short])));
-        $data = compact('schedule','qrCode');
-        $pdf = PDF::loadView('schedule.letter', $data)->setPaper([0, 0, 330, 215], 'potrait');
-        Storage::disk('public')->put($path, $pdf->output());   
-
-        $pdf = new fpdi();
-        if($lamp)
-        {
-            $files = [
-                storage_path('app/public/'.$path),
-                storage_path('app/public/'.$lamp)
-            ];
-
-            foreach ($files as $file) {
-                $pageCount = $pdf->setSourceFile($file);
-                for ($page = 1; $page <= $pageCount; $page++) {
-                    $tplIdx = $pdf->importPage($page);
-                    $pdf->AddPage();
-                    $pdf->useTemplate($tplIdx);
-                }
-            }
-
-            $name = 'assets/surat_'.time().'.pdf';
-            $outputPath = Storage::disk('public')->path($name);
-            $pdf->Output($outputPath, 'F');
-
-            $link->files = $name;
-            $link->save();
-            return $name;    
-        }
-        else
-        {
-            $link->files = $path;
-            $link->save();
-        }
-
-    }
-
-    private function links($head)
-    {
-        $shortUrl = Str::random(6);
-        while (Links::where('short', $shortUrl)->exists()) {
-            $shortUrl = Str::random(6);
-        }
-
-        $link = new Links;
-        $link->head  = $head;
-        $link->ket   = 'surat_undangan';
-        $link->short = $shortUrl;
-        $link->save();
-
-        return $link;
-    }
-
-    private function mail($var,$head)
-    {
-        $doc  = head::where('id',$head)->first();
+        $doc = head::where('id', $head)->first();
 
         $header = json_decode($doc->header);
 
         foreach ($var as $value) {
-            $user = User::where('id',$value)->first();
+            $user = User::where('id', $value)->first();
 
             $mailData = [
-                'title' => 'Yth. '.$user->name,
-                'body' => 'Anda mendapatkan tugas untuk melakukan verifikasi terhadap permohonan PBG/SLF dengan Nomor Registrasi :'.$header[0],
-                'par' => 'Terimakasih'
+                'title' => 'Yth. ' . $user->name,
+                'body' => 'Anda mendapatkan tugas untuk melakukan verifikasi terhadap permohonan PBG/SLF dengan Nomor Registrasi :' . $header[0],
+                'par' => 'Terimakasih',
             ];
 
             Mail::to($user->email)->send(new SipMail($mailData));
         }
-         
+
     }
 
     /**
@@ -235,11 +176,11 @@ class ConsultationController extends Controller
      */
     public function edit(Consultation $consultation)
     {
-        $schedule  = Schedule::where('head',$consultation->head)->first();
+        $schedule = Schedule::where('head', $consultation->head)->first();
         $data = "Edit Konsultasi";
-        $doc  = head::where('grant',1)->latest()->get();
-        $user = Role::whereIn('kode',['TPT', 'TPA'])->get();       
-        return view('konsultasi.create',compact('data','user','doc','consultation','schedule'));
+        $doc = head::where('grant', 1)->latest()->get();
+        $user = Role::whereIn('kode', ['TPT', 'TPA'])->get();
+        return view('konsultasi.create', compact('data', 'user', 'doc', 'consultation', 'schedule'));
     }
 
     /**
@@ -247,55 +188,67 @@ class ConsultationController extends Controller
      */
     public function update(Request $request, Consultation $consultation)
     {
-        $rule = [                   
-            'doc' => 'required',       
-            'notulen'=>'required',
-            'konsultan'=> 'required',            
-            'tanggal'   => 'required',   
-            'timeStart' => 'required',  
-            'timeEnd'      => 'required',   
-            'date'      => 'required',   
-            'jenis'      => 'required',   
-            'place'     => 'required',                                           
-            'pile' => 'nullable|file|mimes:pdf|max:2048',                                       
-            ];
+        $rule = [
+            'doc' => 'required',
+            'notulen' => 'required',
+            'konsultan' => 'required',
+            'tanggal' => 'required',
+            'timeStart' => 'required',
+            'timeEnd' => 'required',
+            'date' => 'required',
+            'jenis' => 'required',
+            'place' => 'required',
+            'pile' => 'nullable|file|mimes:pdf|max:2048',
+        ];
 
-            $message = [
-                'required'=>'Field ini harus diisi',
-                'mimes' => 'Extension File invalid',
-                'max' => 'File size max 2Mb',
-                ];
-            $request->validate($rule,$message);
+        $message = [
+            'required' => 'Field ini harus diisi',
+            'mimes' => 'Extension File invalid',
+            'max' => 'File size max 2Mb',
+        ];
+        $request->validate($rule, $message);
+
+        $intersection = array_intersect($request->notulen, $request->konsultan);
+
+        if (count($intersection) > 0) {
+            toastr()->error('Ada Ketua/Notulen di dalam input anggota konsultasi', ['timeOut' => 5000]);
+            return back()->withInput();
+        }
+
+        if (count($request->notulen) > 2) {
+            toastr()->error('Notulen maksimal 2', ['timeOut' => 5000]);
+            return back()->withInput();
+        }
 
         $kons = $consultation;
-        $pile = $request->file('pile'); 
-        
-        if($pile)
-        {
+        $path = null;
+        $pile = $request->file('pile');
+
+        if ($pile) {
             $ext = $pile->getClientOriginalExtension();
             $path = $pile->storeAs(
-                'assets/konsultasi/'.time().'_konsultasi.'.$ext, ['disk' => 'public']
-            );        
-        }               
-        $kons->notulen = implode(",",$request->notulen);   
+                'assets/konsultasi/' . time() . '_konsultasi.' . $ext, ['disk' => 'public']
+            );
+        }
+        $kons->notulen = implode(",", $request->notulen);
         $kons->head = $request->doc;
-        $kons->konsultan = implode(",",$request->konsultan);              
+        $kons->konsultan = implode(",", $request->konsultan);
+        $kons->files = $path;
         $kons->save();
 
-        $ch  = Schedule::where('head',$consultation->head)->first();
-        $ch->head       = $request->doc;
-        $ch->nomor      = $request->nomor;
-        $ch->jenis      = $request->jenis;
-        $ch->tanggal    = $request->tanggal;
-        $ch->waktu      = $request->timeStart.'#'.$request->timeEnd.'#'.$request->date;
-        $ch->tempat     = $request->place.'#'.$request->place_des;
+        $ch = Schedule::where('head', $consultation->head)->first();
+        $ch->head = $request->doc;
+        $ch->nomor = $request->nomor;
+        $ch->jenis = $request->jenis;
+        $ch->tanggal = $request->tanggal;
+        $ch->waktu = $request->timeStart . '#' . $request->timeEnd . '#' . $request->date;
+        $ch->tempat = $request->place . '#' . $request->place_des;
         $ch->keterangan = $request->content;
         $ch->save();
 
-        Signed::where('task',$consultation->id)->where('type','member')->delete();
-        
-        foreach($request->konsultan as $par)
-        {
+        Signed::where('task', $consultation->id)->where('type', 'member')->delete();
+
+        foreach ($request->konsultan as $par) {
             $sign = new Signed;
             $sign->head = $request->doc;
             $sign->user = $par;
@@ -304,10 +257,9 @@ class ConsultationController extends Controller
             $sign->save();
         }
 
-        Signed::where('task',$consultation->id)->where('type','lead')->delete();
+        Signed::where('task', $consultation->id)->where('type', 'lead')->delete();
 
-        foreach($request->notulen as $var)
-        {
+        foreach ($request->notulen as $var) {
 
             $sign = new Signed;
             $sign->head = $request->doc;
@@ -317,12 +269,7 @@ class ConsultationController extends Controller
             $sign->save();
         }
 
-        if($pile)
-        {
-            $merge = $this->genPDF($ch,$path);
-            $kons->files = $merge;
-            $kons->save();
-        }
+        shortLink($request->doc,'surat_undangan');
 
         toastr()->success('Update Data berhasil', ['timeOut' => 5000]);
         return redirect()->route('consultation.index');
@@ -334,10 +281,10 @@ class ConsultationController extends Controller
     public function destroy(Consultation $consultation)
     {
         $consultation->delete();
-        Schedule::where('head',$consultation->head)->delete();
-        Signed::where('head',$consultation->head)->delete();
-        News::where('head',$consultation->head)->delete();
-        Meet::where('head',$consultation->head)->delete();
+        Schedule::where('head', $consultation->head)->delete();
+        Signed::where('head', $consultation->head)->delete();
+        News::where('head', $consultation->head)->delete();
+        Meet::where('head', $consultation->head)->delete();
         return back();
     }
 }

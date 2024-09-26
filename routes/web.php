@@ -21,6 +21,7 @@ Route::get('/reset-pass/{id}', [App\Http\Controllers\AuthController::class, 'res
 Route::get('/reload-captcha', [App\Http\Controllers\AuthController::class, 'reloadCaptcha']);
 Route::get('link/{id}', [App\Http\Controllers\HomeController::class, 'link'])->name('link');
 Route::get('/dokumene/{id}', [App\Http\Controllers\HomeController::class, 'dok'])->name('dok');
+Route::get('surat/{id}', [App\Http\Controllers\HomeController::class, 'surat'])->name('surat');  
 
 Route::group(['middleware' => 'auth'], function() {    
     
@@ -62,16 +63,22 @@ Route::group(['middleware' => 'auth'], function() {
         Route::resource('kecamatan', App\Http\Controllers\DistrictController::class);  
         Route::resource('desa', App\Http\Controllers\VillageController::class);  
     
-        // Route::group(['prefix'=>'formulir'],function() {   
-        //     Route::resource('document', App\Http\Controllers\DocumentController::class);  
-        //     Route::get('step/{id}', [App\Http\Controllers\DocumentController::class, 'step'])->name('step.index');    
-        //     Route::post('step-store/{id}', [App\Http\Controllers\DocumentController::class, 'steps'])->name('step.store');    
-        //     Route::post('step-destroy/{id}', [App\Http\Controllers\DocumentController::class, 'stepd'])->name('step.destroy');    
-        // });
+        Route::group(['prefix'=>'formulir'],function() {   
+            Route::resource('document', App\Http\Controllers\DocumentController::class);  
+            Route::get('step/{id}', [App\Http\Controllers\DocumentController::class, 'step'])->name('step.index');    
+            Route::post('step-store/{id}', [App\Http\Controllers\DocumentController::class, 'steps'])->name('step.store');    
+            Route::post('step-destroy/{id}', [App\Http\Controllers\DocumentController::class, 'stepd'])->name('step.destroy');    
+        });
     });
 
     Route::group(['prefix'=>'task'],function() {  
         
+        Route::get('bak-input/{id}', [App\Http\Controllers\SuperController::class, 'inputBak'])->name('super.bak'); 
+        Route::post('bak-destroy/{id}', [App\Http\Controllers\SuperController::class, 'destroyBak'])->name('super.bak.destroy'); 
+
+        Route::get('barp-input/{id}', [App\Http\Controllers\SuperController::class, 'inputBarp'])->name('super.barp'); 
+        Route::post('barp-destroy/{id}', [App\Http\Controllers\SuperController::class, 'destroyBarp'])->name('super.barp.destroy'); 
+
         Route::resource('verification', App\Http\Controllers\VerificationController::class);  
         Route::get('verifikasi', [App\Http\Controllers\VerificationController::class, 'index'])->name('verification.index'); 
         Route::get('verifikasi-step/{id}', [App\Http\Controllers\VerificationController::class, 'step'])->name('step.verifikasi');  
@@ -111,11 +118,14 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('retribusi', [App\Http\Controllers\AttachController::class, 'tax'])->name('tax.index');
         Route::post('retribusi/{id}', [App\Http\Controllers\AttachController::class, 'storeTax'])->name('tax.store');  
         Route::get('doc-retribusi/{id}', [App\Http\Controllers\AttachController::class, 'docs'])->name('doc.tax'); 
+        Route::get('bak-barp', [App\Http\Controllers\HeaderController::class, 'ba'])->name('ba.verifikasi');  
     });
     
     Route::group(['prefix'=>'dokumen'],function() {   
-
-        Route::get('bak-barp', [App\Http\Controllers\HeaderController::class, 'ba'])->name('ba.verifikasi');  
+      
+        Route::get('verifikasi/{id}', [App\Http\Controllers\HomeController::class, 'verifikasi'])->name('monitoring.doc'); 
+        Route::get('preview/{id}/{par}', [App\Http\Controllers\HomeController::class, 'preview'])->name('preview');    
+        
         Route::get('ba-sign/{id}', [App\Http\Controllers\HeaderController::class, 'baSign'])->name('ba.sign');
         Route::post('ba-sign/{id}', [App\Http\Controllers\HeaderController::class, 'baSigned'])->name('ba.signed');
         Route::post('ba-ver/{id}', [App\Http\Controllers\HeaderController::class, 'baVer'])->name('ba.ver');
@@ -136,13 +146,12 @@ Route::group(['middleware' => 'auth'], function() {
         Route::post('village', [App\Http\Controllers\HeadController::class, 'village'])->name('village');    
         Route::post('task', [App\Http\Controllers\HeadController::class, 'task'])->name('task');    
 
-        Route::get('verifikasi/{id}', [App\Http\Controllers\HomeController::class, 'docs'])->name('monitoring.doc');  
+    
         Route::post('doc-apporove/{id}', [App\Http\Controllers\HeadController::class, 'approve'])->name('doc.approve');  
         Route::post('doc-reject/{id}', [App\Http\Controllers\HeadController::class, 'reject'])->name('doc.reject');            
     });
 
     Route::resource('verifikasi', App\Http\Controllers\HeadController::class);      
-    Route::resource('schedule', App\Http\Controllers\ScheduleController::class);  
 });
 
 

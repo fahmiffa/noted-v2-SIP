@@ -84,7 +84,7 @@ class PermissionController extends Controller
         $item = $permission;        
         $item->name = $request->name;
         $item->parameter = $request->parameter;
-        // $item->save();
+        $item->save();
 
         return redirect()->route('permission.index');
     }

@@ -71,18 +71,6 @@ class LetterController extends Controller
                 throw new Exception("Dokumen item header belum di set", 1);                
             }
 
-            // $title = Document::has('footer')->where(DB::raw('md5(id)'),$id)->where('type','formulir')->first();
-            // if(!$title)
-            // {
-            //     throw new Exception("Dokumen item footer belum di set", 1);                
-            // }
-
-            // $title = Document::has('title')->where(DB::raw('md5(id)'),$id)->where('type','formulir')->first();
-            // if(!$title)
-            // {
-            //     throw new Exception("Dokumen item title belum di set", 1);                
-            // }     
-
             $form = $title;
             $qrCode = base64_encode(QrCode::format('png')->size(100)->generate('hello qrcode'));
             $data = compact('form','qrCode');

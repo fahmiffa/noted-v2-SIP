@@ -21,6 +21,6 @@ class IsPermission
         }
 
         toastr()->error('Unauthorized Access', ['timeOut' => 5000]);
-        return redirect()->route('home');
+        return redirect()->route('main');
     }
 }

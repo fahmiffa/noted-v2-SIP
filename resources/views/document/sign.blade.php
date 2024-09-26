@@ -49,7 +49,7 @@
                 <div class="col-md-12">
                     <button type="button"
                         class="btn btn-success btn-sm rounded-pill mx-auto d-block my-3 ver text-center">Verifikasi</button>
-                </div>    
+                </div>
             @endif
 
             <div class="modal fade sign" id="signature" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
@@ -138,27 +138,26 @@
     <script src="https://cdn.jsdelivr.net/npm/signature_pad"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.3.122/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.3.122/pdf_viewer.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 
     <script>
-        let uri = [];
+        let pilePDF = [];
 
         const pdfjsLib = window['pdfjs-dist/build/pdf'];
         pdfjsLib.GlobalWorkerOptions.workerSrc =
             'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.3.122/pdf.worker.min.js';
 
-        @if ($head->bak && $head->bak->status == 1)
-            uri.push("{{ route('bak.doc', ['id' => md5($head->bak->id)]) }}");
-        @endif
-
-        @if ($head->barp && $head->barp->status == 1)
-            uri.push("{{ route('barp.doc', ['id' => md5($head->barp->id)]) }}");
-        @endif
-
-
         window.addEventListener('DOMContentLoaded', function() {
-            uri.map(function(val, i) {
-                genPDF(val, i);
+
+            pile().then((res)=>{
+                console.log(res);
+                res.map(function(val, i) {
+                    genPDF(val, i);
+                });
+            }).catch((e)=>{
+                console.log(e);
             });
+
         });
 
         function genPDF(val, i) {
@@ -280,5 +279,45 @@
                 $('input[name="sign"]').attr('value', signatureData);
             }
         });
+
+        async function pile() {
+            let uri = [];            
+            const {
+                PDFDocument
+            } = PDFLib;
+
+            const mergedPdf = await PDFDocument.create();
+       
+            @if ($head->bak && $head->bak->status == 1)
+                @if ($head->bak->files)
+                    @php
+                        $uri = [route('bak.doc', ['id' => md5($head->bak->id)]), asset('storage/' . $head->bak->files)];
+                    @endphp
+
+                    const pdfUrls = @json($uri);
+                    
+                    for (const pdfUrl of pdfUrls) {
+                        const pdfBytes = await fetch(pdfUrl).then(res => res.arrayBuffer());
+                        const pdfDoc = await PDFDocument.load(pdfBytes);
+                        const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
+                        copiedPages.forEach(page => mergedPdf.addPage(page));
+                    }
+        
+                    const pdfDataUri = await mergedPdf.saveAsBase64({
+                        dataUri: true
+                    });
+
+                    uri.push(pdfDataUri);
+                @else
+                    uri.push("{{ route('bak.doc', ['id' => md5($head->bak->id)]) }}");
+                @endif
+            @endif
+
+            @if ($head->barp && $head->barp->status == 1)
+                uri.push("{{ route('barp.doc', ['id' => md5($head->barp->id)]) }}");
+            @endif
+            return uri;
+        }
+
     </script>
 @endpush

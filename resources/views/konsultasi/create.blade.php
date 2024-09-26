@@ -162,7 +162,7 @@
                                             <div class="col-md-4">
                                                 <label>Tanggal Acara</label>
                                                 <input type="date" name="date"
-                                                    value="{{ isset($schedule) ? $schedule->tanggal : old('date') }}"
+                                                    value="{{ isset($schedule) ? $time[2] : old('date') }}"
                                                     class="form-control">
                                                 @error('tanggal')
                                                     <div class='small text-danger text-left'>{{ $message }}</div>

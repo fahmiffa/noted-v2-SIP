@@ -2,9 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attach;
+use App\Models\Consultation;
 use App\Models\Formulir;
 use App\Models\Head;
 use App\Models\Links;
+use App\Models\Meet;
+use App\Models\News;
+use App\Models\Schedule;
+use App\Models\Signed;
+use App\Models\Step;
+use App\Models\Tax;
 use App\Models\User;
 use App\Models\Verifikator;
 use App\Rules\MatchOldPassword;
@@ -14,16 +22,6 @@ use DB;
 use Illuminate\Http\Request;
 use PDF;
 use QrCode;
-use setasign\Fpdi\Fpdi;
-use setasign\Fpdi\Fpdf;
-use App\Models\News;
-use App\Models\Meet;
-use App\Models\Signed;
-use App\Models\Step;
-use App\Models\Consultation;
-use App\Models\Schedule;
-use App\Models\Tax;
-use App\Models\Attach;
 
 class HomeController extends Controller
 {
@@ -91,10 +89,10 @@ class HomeController extends Controller
         if (Auth::user()->ijin('master_formulir')) {
 
             $chart = $this->chart();
-            $head  = Head::all();
-            $jadwal = Head::doesnthave('kons')->where('grant',1)->get()->count();
-            $verif = Head::doesnthave('kons')->where('grant',0)->get()->count();
-            $kons  = Head::has('kons')->where('do',0)->get()->count();
+            $head = Head::all();
+            $jadwal = Head::doesnthave('kons')->where('grant', 1)->get()->count();
+            $verif = Head::doesnthave('kons')->where('grant', 0)->get()->count();
+            $kons = Head::has('kons')->where('do', 0)->get()->count();
 
             $bak = Head::whereHas('bak', function ($q) {
                 $q->where('grant', 1);
@@ -104,11 +102,12 @@ class HomeController extends Controller
                 $q->where('grant', 1);
             })->get()->count();
 
-            return view('home', compact('head', 'verif', 'kons', 'bak', 'barp', 'chart','jadwal'));
+            return view('home', compact('head', 'verif', 'kons', 'bak', 'barp', 'chart', 'jadwal'));
         }
 
         // notulen (teknis)
         if (Auth::user()->ijin('bak')) {
+
             $comp = head::where('do', 1)->whereHas('notulen', function ($q) {
                 $q->where('users', Auth::user()->id);
             })->count();
@@ -117,8 +116,6 @@ class HomeController extends Controller
                 $q->where('users', Auth::user()->id);
             })->count();
 
-            // $comp  = head::has('tax')->count();
-            // $task  = head::doesntHave('tax')->count();
             return view('main', compact('task', 'comp'));
         }
 
@@ -137,8 +134,8 @@ class HomeController extends Controller
 
         // kabid
         if (Auth::user()->ijin('verifikasi_bak')) {
-            $task = head::whereHas('bak', function ($q) {$q->where('grant', 0);})->count();
-            $comp = head::whereHas('bak', function ($q) {$q->where('grant', 1);})->count();
+            $task = head::whereHas('bak', function ($q) {$q->where('do', 0);})->count();
+            $comp = head::whereHas('bak', function ($q) {$q->where('do', 1);})->count();
             return view('general', compact('task', 'comp'));
         }
 
@@ -184,86 +181,48 @@ class HomeController extends Controller
         return $no;
     }
 
-    public function docs($id)
-    {
-        $head = Head::where(DB::raw('md5(id)'), $id)->withTrashed()->first();
-        $num = $this->LogFix($head);
-        $docs = Formulir::where('name', $head->type)->first();
-
-        $step = $head->step == 1 ? 0 : 1;
-
-        if ($head->grant == 1) {
-            $link = $head->links->where('ket', 'verifikasi')->first();
-            $res = route('link', ['id' => $link->short]);
-        } else {
-            $res = $head->reg;
-        }
-
-        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($res));
-
-        $data = compact('qrCode', 'docs', 'head', 'step', 'num');
-
-        if ($head->step == 1) {
-            $pdf = PDF::loadView('verifikator.doc.index', $data)->setPaper('a4', 'potrait');
-            return $pdf->stream();
-            return view('verifikator.doc.index', $data);
-        } else {
-            $pdf = PDF::loadView('verifikator.doc.home', $data)->setPaper('a4', 'potrait');
-            return $pdf->stream();
-            return view('verifikator.doc.home', $data);
-        }
-    }
-
     public function doc($id)
     {
         $head = Head::where(DB::raw('md5(id)'), $id)->first();
-        return view('document.pdf',compact('head'));      
-    } 
+        return view('document.pdf', compact('head'));
+    }
 
-    public function dok($id,$par)
+    public function dok($id, $par)
     {
         $head = Head::where(DB::raw('md5(id)'), $id)->first();
 
-        if($par == 'bak')
-        {
+        if ($par == 'bak') {
             $news = $head->bak;
             $data = compact('news', 'head');
-    
+
             $pdf = PDF::loadView('document.bak.doc.index', $data)->setPaper('a4', 'potrait');
             return $pdf->stream();
-            return view('document.bak.doc.index', $data);  
-        }
-        else if($par == 'barp')
-        {
+            return view('document.bak.doc.index', $data);
+        } else if ($par == 'barp') {
             $meet = $head->barp;
             $news = $head->bak;
             $data = compact('news', 'head', 'meet');
-    
+
             $pdf = PDF::loadView('document.barp.doc.index', $data)->setPaper('a4', 'potrait');
             return $pdf->stream();
             return view('document.barp.doc.index', $data);
 
-        }   
-        else if($par == 'tax')
-        {
+        } else if ($par == 'tax') {
             $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
             $data = compact('qrCode', 'head');
-    
-            $pdf = PDF::loadView('document.tax.doc.index', $data)->setPaper('a4', 'potrait');        
+
+            $pdf = PDF::loadView('document.tax.doc.index', $data)->setPaper('a4', 'potrait');
             return $pdf->stream();
 
-        }   
-        else if($par == 'attach')
-        {
+        } else if ($par == 'attach') {
             $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
             $data = compact('qrCode', 'head');
-    
+
             $pdf = PDF::loadView('document.attach.doc.index', $data)->setPaper('a4', 'potrait');
             // return view('document.attach.doc.index', $data);
             return $pdf->stream();
-        }   
-    } 
- 
+        }
+    }
 
     public function view($id)
     {
@@ -283,18 +242,86 @@ class HomeController extends Controller
 
     public function link($id)
     {
+        $uri = [];
         $link = Links::where('short', $id)->first();
 
-        if ($link) {
-            $single = true;
-            $public = true;
-            $title = strtoupper(str_replace('_', ' ', $link->ket));
-            return view('embed', compact('single', 'link', 'public', 'title'));
-        } else {
-            toastr()->error('Surat Invalid', ['timeOut' => 5000]);
-            return redirect()->route('home');
+        $title = strtoupper(str_replace('_', ' ', $link->ket));
+        if ($link->ket == 'surat_undangan') {
+            $uri[] = route('surat', ['id' => splitChar($link->head)]);
+            if ($link->doc->kons->files) {
+                $uri[] = asset('storage/' . $link->doc->kons->files);
+            }
+        }
+        else if($link->ket == 'verifikasi')
+        {
+            $uri[] = asset('storage/' . $link->files);
         }
 
+        return view('document.embeds', compact('uri', 'title'));
+
+    }
+
+    // preview bak
+    public function preview($id,$par)
+    {    
+        $uri = [];
+        if($par == 'bak')
+        {
+            $news = News::where(DB::raw('md5(id)'), $id)->first();
+            $uri []= route('doc.news', ['id' => md5($news->id)]);            
+            if($news->files)
+            {
+                $uri[] = asset('storage/' . $news->files);
+            }
+
+            $title = $news->doc->numbDoc('bak');
+        }
+
+
+        return view('document.embeds', compact('uri', 'title'));
+
+    }
+
+    public function surat($id)
+    {
+        $id = str_replace('-', null, $id);
+        $schedule = Schedule::where(DB::raw('md5(head)'), $id)->first();
+        $link = Links::where('head', $schedule->head)->where('ket', 'surat_undangan')->first();
+        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate(route('link', ['id' => $link->short])));
+        $data = compact('schedule', 'qrCode');
+        $pdf = PDF::loadView('konsultasi.doc.index', $data)->setPaper('legal', 'potrait');
+        return $pdf->stream();
+        return view('konsultasi.doc.index', $data);
+    }
+
+    public function verifikasi($id)
+    {
+        $head = Head::where(DB::raw('md5(id)'), $id)->withTrashed()->first();
+        $num = $this->LogFix($head);
+        $docs = Formulir::where('name', $head->type)->first();
+
+        $step = $head->step == 1 ? 0 : 1;
+
+        if ($head->grant == 1) {
+            $link = $head->links->where('ket', 'verifikasi')->first();
+            $res = route('link', ['id' => $link->short]);
+        } else {
+            $res = $head->reg;
+        }
+
+        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($res));
+
+        $data = compact('qrCode', 'docs', 'head', 'step', 'num');
+        if ($head->step == 1) {
+            $pdf = PDF::loadView('verifikator.doc.index', $data)->setPaper('legal', 'potrait');
+            return $pdf->stream();
+            return view('verifikator.doc.index', $data);
+        } else {
+            $pdf = PDF::loadView('verifikator.doc.home', $data)->setPaper('legal', 'potrait');
+            return $pdf->stream();
+            return view('verifikator.doc.home', $data);
+        }
+        
     }
 
     public function store(Request $request)
@@ -324,6 +351,7 @@ class HomeController extends Controller
     public function truncate()
     {
         Head::truncate();
+        Consultation::truncate();
         Links::truncate();
         News::truncate();
         Meet::truncate();

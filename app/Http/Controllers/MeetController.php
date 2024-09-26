@@ -17,16 +17,23 @@ class MeetController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('IsPermission:baarp');
+        $this->middleware('IsPermission:barp');
     }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        if(Auth::user()->roles->kode == 'SU')
+        {
+            $val = Meet::latest();
+        }
+        else
+        {
+            $val = Signed::where('user', Auth::user()->id)->latest();
+        }
 
-        $val = Signed::where('user', Auth::user()->id);
-        $da = $val->latest()->get();
+        $da = $val->get();
 
         $data = "Berita Acara Rapat Pleno";
         $ver = false;
@@ -158,7 +165,7 @@ class MeetController extends Controller
         $head = $meet->doc;
         $data = compact('news', 'head', 'meet');
 
-        $pdf = PDF::loadView('document.barp.doc.index', $data)->setPaper('a4', 'potrait');
+        $pdf = PDF::loadView('document.barp.doc.index', $data)->setPaper('legal', 'potrait');
         // return view('document.barp.doc.index', $data);
         return $pdf->stream();
     }

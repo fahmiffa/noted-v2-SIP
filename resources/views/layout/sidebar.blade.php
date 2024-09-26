@@ -14,17 +14,22 @@
             </a>
             <ul class="submenu submenu-{{ Request::segment(1) == 'task' ? 'open' : 'closed' }}"
                 style="--submenu-height: 86px;">
-                <li class="submenu-item {{ request()->routeIs('news.index') ? 'active' : null }} {{ Request::segment(2) == 'input-bak' ? 'active' : null }}">
+                <li
+                    class="submenu-item {{ request()->routeIs('news.index') ? 'active' : null }} {{ Request::segment(2) == 'input-bak' ? 'active' : null }}">
                     <a href="{{ route('news.index') }}" class="submenu-link"><i class="bi bi-file-post"></i> BAK</a>
                 </li>
-                <li class="submenu-item {{ request()->routeIs('meet.index') ? 'active' : null }} {{ Request::segment(2) == 'input-barp' ? 'active' : null }}">
-                    <a href="{{ route('meet.index') }}" class="submenu-link"><i class="bi bi-file-post-fill"></i>  BARP</a>
+                <li
+                    class="submenu-item {{ request()->routeIs('meet.index') ? 'active' : null }} {{ Request::segment(2) == 'input-barp' ? 'active' : null }}">
+                    <a href="{{ route('meet.index') }}" class="submenu-link"><i class="bi bi-file-post-fill"></i>
+                        BARP</a>
                 </li>
-                <li class="submenu-item {{ request()->routeIs('attach.index') ? 'active' : null }} {{ Request::segment(2) == 'attach-step' ? 'active' : null }}">
-                     <a href="{{ route('attach.index') }}" class="submenu-link"><i class="bi bi-files-alt"></i> Lampiran</a>
+                <li
+                    class="submenu-item {{ request()->routeIs('attach.index') ? 'active' : null }} {{ Request::segment(2) == 'attach-step' ? 'active' : null }}">
+                    <a href="{{ route('attach.index') }}" class="submenu-link"><i class="bi bi-files-alt"></i>
+                        Lampiran</a>
                 </li>
                 <li class="submenu-item {{ request()->routeIs('tax.index') ? 'active' : null }}">
-                    <a href="{{ route('tax.index') }}" class="submenu-link"><i class="bi bi-cash"></i>  Retribusi</a>
+                    <a href="{{ route('tax.index') }}" class="submenu-link"><i class="bi bi-cash"></i> Retribusi</a>
                 </li>
             </ul>
         </li>
@@ -45,7 +50,18 @@
                 <i class="bi bi-file-earmark-text"></i>
                 <span>BAK-BARP</span>
             </a>
-        </li>  
+        </li>
+        @if(auth()->user()->roles->kode != 'SU')
+            <li
+                class="sidebar-item {{ request()->routeIs('attach.index') ? 'active' : null }} {{ Request::segment(2) == 'attach-step' ? 'active' : null }}">
+                <a href="{{ route('attach.index') }}" class="sidebar-link"><i class="bi bi-files-alt"></i>
+                    <span>Lampiran</span></a>
+            </li>
+            <li class="sidebar-item {{ request()->routeIs('tax.index') ? 'active' : null }}">
+                <a href="{{ route('tax.index') }}" class="sidebar-link"><i class="bi bi-cash"></i>
+                    <span>Retribusi</span></a>
+            </li>
+        @endif
     @endif
 
     @if (auth()->user()->ijin('master_formulir'))
@@ -75,7 +91,7 @@
         </li>
         <li class="sidebar-item {{ Request::segment(1) == 'dokumen' ? 'active' : null }}">
             <a href="{{ route('consultation.index') }}" class="sidebar-link">
-                <i class="bi bi-send"></i>                
+                <i class="bi bi-send"></i>
                 <span>Penugasan TPT/TPA</span>
             </a>
         </li>
@@ -87,7 +103,7 @@
             <span>Permohonan</span>
         </a>
     </li>
-    
+
     <li class="sidebar-item {{ request()->routeIs('monitoring') ? 'active' : null }}">
         <a href="{{ route('monitoring') }}" class="sidebar-link">
             <i class="bi bi-tv"></i>
@@ -95,11 +111,37 @@
         </a>
     </li>
 
-    <li class="sidebar-item {{ request()->routeIs('profile') ? 'active' : null }} d-none">      
+    <li class="sidebar-item {{ request()->routeIs('profile') ? 'active' : null }} d-none">
         <span>All</span>
     </li>
 
     @if (auth()->user()->ijin('master'))
+        <li class="sidebar-item has-sub {{ Request::segment(1) == 'task' ? 'active' : null }}">
+            <a href="#" class="sidebar-link">
+                <i class="bi bi-file-earmark-text"></i>
+                <span>Formulir</span>
+            </a>
+            <ul class="submenu submenu-{{ Request::segment(1) == 'task' ? 'open' : 'closed' }}"
+                style="--submenu-height: 86px;">
+                <li
+                    class="submenu-item {{ request()->routeIs('news.index') ? 'active' : null }} {{ Request::segment(2) == 'input-bak' ? 'active' : null }}">
+                    <a href="{{ route('news.index') }}" class="submenu-link"><i class="bi bi-file-post"></i> BAK</a>
+                </li>
+                <li
+                    class="submenu-item {{ request()->routeIs('meet.index') ? 'active' : null }} {{ Request::segment(2) == 'input-barp' ? 'active' : null }}">
+                    <a href="{{ route('meet.index') }}" class="submenu-link"><i class="bi bi-file-post-fill"></i>
+                        BARP</a>
+                </li>
+                <li
+                    class="submenu-item {{ request()->routeIs('attach.index') ? 'active' : null }} {{ Request::segment(2) == 'attach-step' ? 'active' : null }}">
+                    <a href="{{ route('attach.index') }}" class="submenu-link"><i class="bi bi-files-alt"></i>
+                        Lampiran</a>
+                </li>
+                <li class="submenu-item {{ request()->routeIs('tax.index') ? 'active' : null }}">
+                    <a href="{{ route('tax.index') }}" class="submenu-link"><i class="bi bi-cash"></i> Retribusi</a>
+                </li>
+            </ul>
+        </li>
         <li class="sidebar-item has-sub {{ Request::segment(1) == 'master' ? 'active' : null }}">
             <a href="#" class="sidebar-link">
                 <i class="bi bi-grid-fill"></i>

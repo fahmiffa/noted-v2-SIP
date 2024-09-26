@@ -12,6 +12,28 @@ use Illuminate\Support\Str;
 use App\Models\Formulir;
 
 
+
+function splitChar($id)
+{
+    return rtrim(preg_replace('/(\w{4})/', '$1-', md5($id)), '-');
+}
+
+function shortLink($head,$par)
+{
+    $link = Links::where('ket',$par)->where('head',$head)->first();
+
+    $shortUrl = Str::random(6);
+    while (Links::where('short', $shortUrl)->exists()) {
+        $shortUrl = Str::random(6);
+    }
+
+    $link = $link ? $link : new Links;
+    $link->head = $head;
+    $link->ket = $par;
+    $link->short = $shortUrl;
+    $link->save();
+}
+
 function genPDF($id,$par)
 {
     $head = Head::where('id',$id)->first();     

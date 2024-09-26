@@ -37,14 +37,14 @@
                 </td>
             </tr>
             <tr>
-                <td width="30%" style="border:none">Luas Tanah</td>
+                <td width="40%" style="border:none">Luas Tanah</td>
                 <td width="30%" style="border:none">: {{ $head->attach->luas }}</td>
                 @if ($head->attach->persil)
                     <td width="30%" style="border:none">Luas Persil</td>
-                    <td width="30%" style="border:none">: {{ $head->attach->persil }}</td>
+                    <td width="40%" style="border:none">: {{ $head->attach->persil }}</td>
                 @endif
-                <td width="40%" style="border:none">Bukti Kepemilikan Tanah</td>
-                <td width="60%" style="border:none">: {{ $head->attach->bukti }}</td>
+                <td width="80%" style="border:none">Bukti Kepemilikan Tanah</td>
+                <td width="40%" style="border:none">: {{ $head->attach->bukti }}</td>
             </tr>
         </tbody>
     </table>
@@ -113,8 +113,10 @@
                     </li>
                 </ol>
             </td>
-            <td style="border:none">
-                <img src="data:image/png;base64, {{ $head->qr }}" width="75%">
+            <td style="border:none;vertical-align-middle">
+                <center>
+                    <img src="data:image/png;base64, {{ $head->qr }}" width="75%">
+                </center>
             </td>
         </tr>
     </table>
@@ -123,8 +125,8 @@
         @php  $header = (array) json_decode($head->header); @endphp
         if (isset($pdf)) { 
             //Shows number center-bottom of A4 page with $x,$y values
-            $x = 270;  //X-axis vertical position 
-            $y = 820; //Y-axis horizontal position
+            $x = 375;  //X-axis vertical position 
+            $y = 990; //Y-axis horizontal position
             $text = "Lembar Lampiran PBG No. Registrasi {{$header[0]}}  | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
             $font =  $fontMetrics->get_font("helvetica", "bold");
             $size = 7;
