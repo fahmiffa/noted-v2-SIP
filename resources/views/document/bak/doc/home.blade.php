@@ -112,7 +112,7 @@
 @for ($i = 0; $i < count($bangunan); $i++)
 <tr>
     @isset($umum[$i])
-        <td>&nbsp;&nbsp;{{ $umum[$i]->uraian }}</td>
+        <td align="center">&nbsp;&nbsp;{{ $umum[$i]->uraian }}</td>
         <td align="center">&nbsp;&nbsp;{{ $umum[$i]->value }}</td>
     @else
         <td></td>
@@ -137,6 +137,8 @@
 @endforeach
 @endif
 </table>
+
+
 <table style="width:100%;">
 <tr>
 <td style="border: none">Informasi Dimensi Bangunan dan Prasarana :</td>
@@ -148,7 +150,7 @@
 </tr>
 <tr>
 <td>&nbsp;&nbsp;{!! $item['idb'][1] !!}</td>
-<td align="center">&nbsp;&nbsp;{!! $item['idp'][1] !!}</td>
+<td>&nbsp;&nbsp;{!! $item['idp'][1] !!}</td>
 </tr>
 </table>
 <br>
@@ -281,7 +283,7 @@ Saran :<br>
     <script type="text/php"> 
         if (isset($pdf)) { 
             //Shows number center-bottom of A4 page with $x,$y values
-            $x = 370;  //X-axis vertical position 
+            $x = 350;  //X-axis vertical position 
             $y = 990; //Y-axis horizontal position
             $text = "Lembar BAK No. {{ str_replace('SPm', 'BAK', str_replace('600.1.15', '600.1.15/PBLT', $head->nomor)) }} | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
             $font =  $fontMetrics->get_font("helvetica", "bold");
