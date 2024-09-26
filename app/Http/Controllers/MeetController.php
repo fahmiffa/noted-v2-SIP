@@ -166,7 +166,7 @@ class MeetController extends Controller
         $data = compact('news', 'head', 'meet');
 
         $pdf = PDF::loadView('document.barp.doc.index', $data)->setPaper('legal', 'potrait');
-        return view('document.barp.doc.index', $data);
+        // return view('document.barp.doc.index', $data);
         return $pdf->stream();
     }
 
