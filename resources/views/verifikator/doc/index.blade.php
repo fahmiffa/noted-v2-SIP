@@ -116,7 +116,7 @@
                                                 &nbsp;{{ abjad($indeks++) }}. </td>
                                             <td style="border-left:0px">&nbsp;{{ $sub->name }}</td>
                                             <td align="center">{{ status($subDa[$item->id]['value'][$sub->id]) }}</td>
-                                            <td style="text-align: left;padding:0.1rem">{{ $subDa[$item->id]['saran'][$sub->id] }}</td>
+                                            <td style="text-align: left;padding:0.2rem">{{ $subDa[$item->id]['saran'][$sub->id] }}</td>
                                         </tr>
                                     @else
                                         @php $indeks -= $indeks; @endphp
@@ -128,7 +128,7 @@
                                         <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
                                         <td colspan="2">&nbsp;{{ $item->name }}
                                         <td align="center">{{ status($itemDa[$item->id]) }}</td>
-                                        <td align="left">{{ $saranItemDa[$item->id] }}</td>
+                                        <td style="text-align: left;padding:0.2rem">{{ $saranItemDa[$item->id] }}</td>
                                     </tr>
                                 @endif
                             @endif
@@ -164,7 +164,7 @@
                                                 &nbsp;{{ abjad($indeks++) }}. </td>
                                             <td style="border-left:0px">&nbsp;{{ $sub->name }}</td>
                                             <td align="center">{{ status($subDt[$item->id]['value'][$sub->id]) }}</td>
-                                            <td align="left">{{ $subDt[$item->id]['saran'][$sub->id] }}</td>
+                                            <td style="text-align: left;padding:0.2rem">{{ $subDt[$item->id]['saran'][$sub->id] }}</td>
                                         </tr>
                                     @else
                                         @php $indeks -= $indeks; @endphp
@@ -176,7 +176,7 @@
                                         <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
                                         <td colspan="2">&nbsp;{{ $item->name }}
                                         <td align="center">{{ status($itemPt[$item->id]) }}</td>
-                                        <td align="left">{{ $saranItemPt[$item->id] }}</td>
+                                        <td style="text-align: left;padding:0.2rem">{{ $saranItemPt[$item->id] }}</td>
                                     </tr>
                                 @endif
                             @endif
@@ -211,7 +211,7 @@
                                                     &nbsp;{{ abjad($indeks++) }}. </td>
                                                 <td style="border-left:0px">&nbsp;{{ $sub->name }}</td>
                                                 <td align="center">{{ status($subDpl[$item->id]['value'][$sub->id]) }}</td>
-                                                <td align="left">{{ $subDpl[$item->id]['saran'][$sub->id] }}</td>
+                                                <td style="text-align: left;padding:0.2rem">{{ $subDpl[$item->id]['saran'][$sub->id] }}</td>
                                             </tr>
                                         @else
                                             @php $indeks -= $indeks; @endphp
@@ -224,7 +224,7 @@
                                         <td style="text-align: right; vertical-align:top">{{ $no++ }}&nbsp;</td>
                                         <td colspan="2">&nbsp;{{ $item->name }}
                                         <td align="center">{{ status($itemDpl[$item->id]) }}</td>
-                                        <td align="left">{{ $saranItemDpl[$item->id] }}</td>
+                                        <td style="text-align: left;padding:0.2rem">{{ $saranItemDpl[$item->id] }}</td>
                                     </tr>
                                 @endif
                             @endif
@@ -245,7 +245,7 @@
                                     &nbsp;{{ abjad($i) }}. </td>
                                 <td style="border-left:0px">&nbsp;{{ $other[$i]->name }}</td>
                                 <td align="center">{{ status($other[$i]->value) }}</td>
-                                <td align="center">{{ $other[$i]->saran }}</td>
+                                <td style="text-align: left;padding:0.2rem">{{ $other[$i]->saran }}</td>
                             </tr>
                         @endif
                     @endfor
