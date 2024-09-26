@@ -83,11 +83,11 @@
                                     <label>Kondisi</label>
                                     <select class="form-control" name="kondisi" placeholder="kondisi">
                                         <option value="">Pilih kondisi</option>
-                                        <option value="belum_bangun" @selected(old('kondisi') == 'belum_bangun')
-                                            @selected(isset($news) && $header->kondisi == 'belum_bangun')>
+                                        <option value="belum_dibangun" @selected(old('kondisi') == 'belum_dibangun')
+                                            @selected(isset($news) && $header->kondisi == 'belum_dibangun')>
                                             Belum Dibangun</option>
-                                        <option value="sedang_bangun" @selected(old('kondisi') == 'sedang_bangun')
-                                            @selected(isset($news) && $header->kondisi == 'sedang_bangun')>
+                                        <option value="sedang_dibangun" @selected(old('kondisi') == 'sedang_dibangun')
+                                            @selected(isset($news) && $header->kondisi == 'sedang_dibangun')>
                                             Sedang Dibangun</option>
                                         <option value="sudah_dibangun" @selected(old('kondisi') == 'sudah_dibangun')
                                             @selected(isset($news) && $header->kondisi == 'sudah_dibangun')>Sudah Dibangun</option>
