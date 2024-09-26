@@ -72,9 +72,6 @@
         border: none;        
     }
 
-    @page {
-        margin-bottom: 20mm;
-    }
 </style>
 
 <body>
