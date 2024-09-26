@@ -235,9 +235,9 @@ Saran :<br>
                 <td width="40%" style="border: none">
                     {{ $val->users->name }}
                 </td>
-                <td style="border: none;vertical-align:middle">
+                <td style="border: none;vertical-align:top">
                     @if ($val->bak)
-                        <center><img src="{{ $val->bak }}" width="50%"></center>
+                        <img src="{{ $val->bak }}" width="55%">
                     @endif
                 </td>
             </tr>
