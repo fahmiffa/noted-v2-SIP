@@ -123,8 +123,8 @@
         @for ($i = 0; $i < count($other); $i++)
             <tr>
                 <td style="padding: 0.3rem">{{ $other[$i]->uraian }}</td>
-                <td style="padding: 0.3rem">{{ $other[$i]->pengajuan }}</td>
-                <td style="padding: 0.3rem">{{ $other[$i]->disetujui }}</td>
+                <td align="center" style="padding: 0.3rem">{{ $other[$i]->pengajuan }}</td>
+                <td align="center" style="padding: 0.3rem">{{ $other[$i]->disetujui }}</td>
                 <td style="padding: 0.3rem">{{ $other[$i]->keterangan }}</td>
             </tr>
         @endfor
@@ -153,7 +153,7 @@
     <p>Demikian hasil konsultasi TPT/TPA yang dihadiri oleh:</p>
     @if ($head->sign)
         <table style="width:35%;">
-            @foreach ($head->sign as $val)
+            @foreach (collect($head->sign)->sortBy('type') as $val)
                 <tr>
                     <td width="2%" style="border: none">
                         {{ $loop->iteration }}.
