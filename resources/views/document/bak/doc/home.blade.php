@@ -227,7 +227,12 @@ Saran :<br>
 <p>Demikian hasil konsultasi TPT/TPA yang dihadiri oleh:</p>
 @if ($head->sign)
     <table style="width:35%;">
-        @foreach ($head->sign->orderBy('type', 'asc')->get() as $val)
+        @php
+            $ttd = collect($head->sign)->sortBy('id');
+            dd($ttd);
+
+        @endphp
+        @foreach ($head->sign as $val)
             <tr>
                 <td width="2%" style="border: none">
                     {{ $loop->iteration }}.
