@@ -41,7 +41,7 @@ class SuperController extends Controller
     public function destroyBak(Request $request, $id)
     {
         $item = News::where(DB::raw('md5(id)'), $id)->first();
-        Signed::where('head', $item->head)->update(['bak' => null, 'barp' => null]);
+        Signed::where('head', $item->head)->update(['bak' => null]);
         Head::where('head', $item->head)->update(['do' => 0]);
         Meet::where('head', $item->head)->forceDelete();
         Attach::where('head', $item->head)->forceDelete();
@@ -72,7 +72,6 @@ class SuperController extends Controller
         $item = Meet::where(DB::raw('md5(id)'), $id)->first();
         Signed::where('head', $item->head)->update(['bak' => null, 'barp' => null]);
         Head::where('head', $item->head)->update(['do' => 0]);
-        Meet::where('head', $item->head)->forceDelete();
         Attach::where('head', $item->head)->forceDelete();
         Tax::where('head', $item->head)->forceDelete();
         $item->forceDelete();
