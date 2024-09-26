@@ -113,7 +113,7 @@
 <tr>
     @isset($umum[$i])
         <td>&nbsp;&nbsp;{{ $umum[$i]->uraian }}</td>
-        <td>&nbsp;&nbsp;{{ $umum[$i]->value }}</td>
+        <td align="center">&nbsp;&nbsp;{{ $umum[$i]->value }}</td>
     @else
         <td></td>
         <td></td>
