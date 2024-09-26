@@ -207,7 +207,7 @@ class NewsController extends Controller
         $data = compact('news', 'head');
 
         if ($news->type == 'konsultasi') {
-            $pdf = PDF::loadView('document.bak.doc.index', $data)->setPaper('legal', 'potrait');
+            $pdf = PDF::loadView('document.bak.doc.index', $data)->setPaper('legal', 'potrait')->setOption('margin-bottom', '20mm');
             return $pdf->stream();
             return view('document.bak.doc.index', $data);
         } else {
