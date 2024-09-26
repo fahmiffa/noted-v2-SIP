@@ -64,6 +64,10 @@
         color: black;
     }
 
+    .table-bordered{
+        border: none;
+    }
+
     @page {
         margin-bottom: 20mm;
     }
