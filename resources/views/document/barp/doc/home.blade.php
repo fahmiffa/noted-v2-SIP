@@ -178,8 +178,12 @@
                 <p>Mengetahui,<br>
                     Ketua Rapat Pleno TPT/TPA
                 </p>
-                @if ($head->barp->sign)
-                    <img src="{{ $head->barp->sign }}" width="50%" style="margin: auto">
+                @if ($head->barp->grant == 1)
+                    @if($head->barp->primary == 'TPT')
+                        <img src="{{ $head->sign->where('type','lead')->first()->barp }}" width="50%" style="margin: auto">
+                    @else
+                        <img src="{{ $head->barp->sign }}" width="50%" style="margin: auto">
+                    @endif
                     <br>
                 @else
                     <br><br><br><br>
