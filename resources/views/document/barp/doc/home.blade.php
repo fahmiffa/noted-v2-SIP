@@ -180,9 +180,9 @@
                 </p>
                 @if ($head->barp->grant == 1)
                     @if($head->barp->primary == 'TPT')
-                        <img src="{{ $head->sign->where('type','lead')->first()->barp }}" width="50%" style="margin: auto">
-                    @else
                         <img src="{{ $head->barp->sign }}" width="50%" style="margin: auto">
+                    @else
+                        <img src="{{ $head->sign->where('type','lead')->first()->barp }}" width="50%" style="margin: auto">
                     @endif
                     <br>
                 @else
@@ -197,7 +197,7 @@
         <script type="text/php"> 
         if (isset($pdf)) { 
             //Shows number center-bottom of A4 page with $x,$y values
-            $x = 350;  //X-axis vertical position 
+            $x = 300;  //X-axis vertical position 
             $y = 990; //Y-axis horizontal position
             $text = "Lembar BARP No. {{ str_replace('SPm', 'BARP', str_replace('600.1.15', '600.1.15/PBLT', $head->nomor)) }} | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
             $font =  $fontMetrics->get_font("helvetica", "bold");
