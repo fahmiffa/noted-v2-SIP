@@ -34,28 +34,33 @@
     <tbody>
         <tr>
             <td width="40%" style="border:none">No. Registrasi </td>
-            <td width="60%" style="border:none">: {{ $header[0] }} </td>
+            <td width="1%" style="border:none">:</td>
+            <td width="60%" style="border:none">{{ $header[0] }} </td>
             <td width="40%" style="border:none">Pengajuan </td>
             <td width="60%" style="border:none">: {{ strtoupper($header[1]) }}</td>
         </tr>
         <tr>
             <td width="40%" style="border:none">Nama Pemohon </td>
-            <td width="60%" style="border:none">: {{ $header[2] }}</td>
+            <td width="1%" style="border:none">:</td>
+            <td width="60%" style="border:none">{{ $header[2] }}</td>
             <td width="40%" style="border:none">No. Telp. / HP </td>
             <td width="60%" style="border:none">: {{ $header[3] }}</td>
         </tr>
         <tr>
             <td width="40%" style="border:none">Alamat Pemohon </td>
-            <td colspan="3" style="border:none">: {{ $header[4] }}</td>
+            <td width="1%" style="border:none">:</td>
+            <td colspan="3" style="border:none">{{ $header[4] }}</td>
         </tr>
         <tr>
             <td width="40%" style="border:none">Nama Bangunan </td>
-            <td width="60%" style="border:none">: {{ $header[5] }}</td>
+            <td width="1%" style="border:none">:</td>
+            <td width="60%" style="border:none">{{ $header[5] }}</td>
             <td width="40%" style="border:none">Fungsi </td>
             <td width="60%" style="border:none">: {{ $header[6] }}</td>
         </tr>
         <tr>
             <td width="40%" style="border:none;vertical-align:top">Alamat Bangunan </td>
+            <td width="1%" style="border:none;vertical-align:top">:</td>
             <td colspan="3" style="border:none;vertical-align:top">
                 {{ $header[7] }}, Desa/Kel. {{ $head->region->name }}, Kec. {{ $head->region->kecamatan->name }}<br>
                 Kab. Tegal, Prov. Jawa Tengah             
