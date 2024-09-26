@@ -120,8 +120,8 @@
 @endif
 <td style="border: none"></td>
 <td>&nbsp;&nbsp;{{ ucwords(str_replace('_', ' ', $bangunan[$i]->uraian)) }}</td>
-<td>&nbsp;&nbsp;{{ $bangunan[$i]->dimensi }}</td>
-<td>&nbsp;&nbsp;{{ $bangunan[$i]->note }}</td>
+<td align="center">&nbsp;&nbsp;{{ $bangunan[$i]->dimensi }}</td>
+<td align="center">&nbsp;&nbsp;{{ $bangunan[$i]->note }}</td>
 </tr>
 @endfor
 @if ($head->bak->ibg)

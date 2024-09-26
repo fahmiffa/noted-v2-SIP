@@ -452,7 +452,7 @@
         $('#add').on('click', function() {
             var clonedDiv = '<div class="form-group row mb-3">\
                                                 <div class="col-md-4">\
-                                                    <input type="text" class="form-control" name="par[]" placeholder="paramter">\
+                                                    <input type="text" class="form-control" name="par[]" placeholder="Parameter">\
                                                 </div>\
                                                 <div class="col-md-4">\
                                                    <input type="text" class="form-control" name="par_d[]" placeholder="Dimensi">\
