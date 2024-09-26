@@ -116,7 +116,7 @@
                                                 &nbsp;{{ abjad($indeks++) }}. </td>
                                             <td style="border-left:0px">&nbsp;{{ $sub->name }}</td>
                                             <td align="center">{{ status($subDa[$item->id]['value'][$sub->id]) }}</td>
-                                            <td align="left">{{ $subDa[$item->id]['saran'][$sub->id] }}</td>
+                                            <td style="text-align: left;padding:0.1rem">{{ $subDa[$item->id]['saran'][$sub->id] }}</td>
                                         </tr>
                                     @else
                                         @php $indeks -= $indeks; @endphp
