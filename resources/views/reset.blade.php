@@ -73,31 +73,30 @@
                                     </h2>
                                     <img src="{{ asset('assets/logo.png') }}" style="height: 2.5rem; width:2.5rem;">
                                 </div>                                
-                                <h6 class="px-3">Lupa Password</h6>                          
-                                <form action="{{ route('forget') }}" method="post">
+                                <h6 class="px-3">Reset Password</h6>                          
+                                <form action="{{ route('preset',['id'=>$res]) }}" method="post">
                                     @csrf
-                                    <div class="form-group position-relative has-icon-left mb-4">
-                                        <input type="email" class="form-control form-control-xl"
-                                            value="{{ old('email') }}" name="email" placeholder="Email">
+                                    <div class="form-group position-relative has-icon-left mb-1">
+                                        <input type="password" class="form-control form-control-xl"
+                                            value="{{ old('password') }}" name="password" placeholder="Password Baru">
                                         <div class="form-control-icon">
-                                            <i class="bi bi-envelope"></i>
+                                            <i class="bi bi-shield-lock"></i>
                                         </div>
-                                        @error('email')
+                                        @error('password')
                                             <div class='small text-danger text-left'>{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="col-12">                
-                                        <div class="captcha">
-                                          <span class="w-100">{!! captcha_img() !!}</span>
-                                          <button type="button" class="btn btn-danger btn-sm" class="reload" id="reload"><i class="bi bi-arrow-clockwise"></i></button>                                      
+                                    <div class="form-group position-relative has-icon-left mb-4">
+                                        <input type="password" class="form-control form-control-xl"
+                                            value="{{ old('password') }}" name="password_confirmation" placeholder="Konfirmasi Password">
+                                        <div class="form-control-icon">
+                                            <i class="bi bi-shield-lock"></i>
                                         </div>
-                                        <input type="text" name="captcha" placeholder="Enter Captcha" class="form-control my-3" id="captcha" required>
-                                        @error('captcha')<div class='small text-danger text-left'>{{$message}}</div>@enderror
-                                    </div>             
-                                    <p>Sudah punya akun ?&nbsp;
-                                        <a href="{{route('login')}}" class="badge bg-dark rounded-pill">Login</a>
-                                    </p>                 
-                                    <button class="btn btn-warning rounded-pill fw-bold">Submit</button>
+                                        @error('password_confirmation')
+                                            <div class='small text-danger text-left'>{{ $message }}</div>
+                                        @enderror
+                                    </div>                                        
+                                    <button class="btn btn-warning rounded-pill fw-bold btn-sm">Submit</button>
                                 </form>
                             </div>
                         </div>

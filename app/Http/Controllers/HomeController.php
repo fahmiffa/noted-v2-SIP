@@ -22,6 +22,8 @@ use DB;
 use Illuminate\Http\Request;
 use PDF;
 use QrCode;
+use App\Exports\HeadExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class HomeController extends Controller
 {
@@ -29,6 +31,20 @@ class HomeController extends Controller
     {
         $data = "Data Profil";
         return view('profile', compact('data'));
+    }
+
+    public function export(Request $request)
+    {
+        $rule = [
+            'startDate' => 'required',
+            'endDate' => 'required'
+        ];
+        $message = [
+            'required' => 'Field ini harus diisi',     
+        ];
+        $request->validate($rule, $message);
+        return Excel::download(new HeadExport([$request->startDate,$request->endDate]), 'export.xlsx');
+
     }
 
     public function profiled(Request $request)

@@ -44,8 +44,41 @@ class AuthController extends Controller
 
     public function reset($id)
     {
+        $id = str_replace('-',null,$id);
         $user = User::where(DB::raw('md5(req)'), $id)->first();
-        dd($user);
+        $res = splitChar($user->id);
+        $date = Carbon::createFromTimestamp($user->req); 
+        if($user && $date->isFuture())
+        {
+            $data = 'Halaman Reset Password';
+            return view('reset', compact('data','res'));
+        }
+        else
+        {
+            toastr()->error('link tidak ditemukan, atau kadaluarsa', ['timeOut' => 5000]);
+            return Redirect()->route('login');
+        }
+    }
+
+    public function preset(Request $request, $id)
+    {
+        $rule = [
+            'password' => 'required|confirmed|regex:/^(?=.*[a-zA-Z])(?=.*\d).+$/',
+            'password_confirmation' => 'required',
+        ];
+        $message = [
+            'required' => 'Field ini harus diisi',
+            'confirmed' => 'Field :attribute Konfirm tidak valid',
+            'regex' => 'Password harus kombinasi Huruf dan Angka',
+        ];
+        $request->validate($rule, $message);
+        $id = str_replace('-',null,$id);
+        $user = User::where(DB::raw('md5(id)'), $id)->first();
+        $user->password = bcrypt($request->password);
+        $user->save();
+
+        toastr()->success('Update Berhasil', ['timeOut' => 5000]);
+        return Redirect()->route('login');
     }
 
     public function forget(Request $request)
@@ -65,13 +98,13 @@ class AuthController extends Controller
         $request->validate($rule, $messages);
 
         $user = User::where('email', $request->email)->first();
-        $exp = Carbon::now()->addHour(env('EXP'))->timestamp;
+        $exp = Carbon::now('Asia/Jakarta')->addHour(env('EXP'))->timestamp;        
         $user->req = $exp;
         $user->save();
 
 
         if (env('MAIL')) {
-            $link = route('reset', ['id' => md5($exp)]);
+            $link = route('reset', ['id' => splitChar($exp)]);
 
             $details = [
                 'title' => 'Reset Password',

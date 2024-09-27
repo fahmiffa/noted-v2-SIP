@@ -25,62 +25,69 @@
     <p>Sehubungan telah dilakukannya Konsultasi dengan TPT/TPA DPUPR Kabupaten Tegal pada :</p>
     <table style="width:100%" align="center">
         <tr>
-            <td width="40%" style="border:none">Hari / Tanggal</td>
-            <td width="60%" style="border:none">: {{ dateID($head->barp->tanggal) }} </td>
-            <td width="40%" style="border:none">Permohonan </td>
-            <td width="60%" style="border:none">: {{ strtoupper($header[1]) }}</td>
+            <td width="10%" style="border:none">Hari / Tanggal</td>
+            <td width="1%" style="border:none">:</td>
+            <td width="20%" style="border:none">{{ dateID($head->surat->tanggal) }} </td>
+            <td width="10%" style="border:none">Permohonan </td>
+            <td width="1%" style="border:none">:</td>
+            <td width="20%" style="border:none">{{ strtoupper($header[1]) }}</td>
         </tr>
         <tr>
-            <td width="40%" style="border:none">No. Registrasi PBG</td>
-            <td width="60%" style="border:none">: {{ $header[0] }}</td>
-            <td width="40%" style="border:none"></td>
-            <td width="60%" style="border:none"></td>
+            <td width="10%" style="border:none">No. Registrasi PBG</td>
+            <td width="1%" style="border:none">:</td>
+            <td colspan="3" style="border:none">{{ $header[0] }}</td>      
         </tr>
     </table>
     <p>Atas pengajuan Persetujuan Bangunan Gedung :</p>
     <table style="width:100%;" align="center">
         <tbody>
             <tr>
-                <td width="40%" style="border:none">Nama Pemohon </td>
-                <td width="60%" style="border:none">: {{ $header[2] }}</td>
-                <td width="40%" style="border:none">No. Telp. / HP </td>
-                <td width="60%" style="border:none">: {{ $header[3] }}</td>
+                <td width="10%" style="border:none">Nama Pemohon </td>
+                <td width="1%" style="border:none">:</td>
+                <td width="20%" style="border:none">{{ $header[2] }}</td>
+                <td width="10%" style="border:none">No. Telp. / HP </td>
+                <td width="1%" style="border:none">:</td>
+                <td width="20%" style="border:none">{{ $header[3] }}</td>
             </tr>
             <tr>
-                <td width="40%" style="border:none">Alamat Pemohon </td>
-                <td width="60%" style="border:none">: {{ $header[4] }}</td>
+                <td width="10%" style="border:none">Alamat Pemohon </td>
+                <td width="1%" style="border:none">:</td>
+                <td colspan="4" style="border:none">{{ $header[4] }}</td>
             </tr>
             <tr>
-                <td width="40%" style="border:none">Nama Bangunan </td>
-                <td width="60%" style="border:none">: {{ $header[5] }}</td>
-                <td width="40%" style="border:none">Fungsi </td>
-                <td width="60%" style="border:none">: {{ $header[6] }}</td>
+                <td width="10%" style="border:none">Nama Bangunan </td>
+                <td width="1%"  style="border:none">:</td>
+                <td width="20%" style="border:none">{{ $header[5] }}</td>
+                <td width="10%" style="border:none">Fungsi </td>
+                <td width="1%"  style="border:none">:</td>
+                <td width="20%" style="border:none">{{ $header[6] }}</td>
             </tr>
             <tr>
-                <td width="40%" style="border:none;vertical:align:top">Alamat Bangunan </td>
-                <td colspan="3" style="border:none;vertical-align:top">
-                    : {{ $header[7] }}, Desa/Kel. {{ $head->region->name }}, Kec.
+                <td width="10%" style="border:none;vertical:align:top">Alamat Bangunan </td>
+                <td width="1%"  style="border:none;vertical-align:top">:</td>
+                <td colspan="4" style="border:none;vertical-align:top">
+                    {{ $header[7] }}, Desa/Kel. {{ $head->region->name }}, Kec.
                     {{ $head->region->kecamatan->name }}
                     Kab. Tegal, Prov. Jawa Tengah
                 </td>
             </tr>
             <tr>
-                <td width="40%" style="border:none">Status Kepemilikan</td>
-                <td width="60%" style="border:none">: {{ ucwords($mheader->status) }}</td>
-                <td width="40%" style="border:none">NIB </td>
-                <td width="60%" style="border:none">: {{ $mheader->nib }}</td>
+                <td width="10%" style="border:none">Status Kepemilikan</td>
+                <td width="1%" style="border:none">:</td>
+                <td width="20%" style="border:none">{{ ucwords($mheader->status) }}</td>
+                <td width="10%" style="border:none">NIB </td>
+                <td width="1%" style="border:none">:</td>
+                <td width="20%" style="border:none">{{ $mheader->nib }}</td>
             </tr>
             <tr>
-                <td width="40%" style="border:none">Jenis Permohonan</td>
-                <td width="60%" style="border:none">: {{ ucwords($mheader->jenis) }}</td>
-                <td width="40%" style="border:none"></td>
-                <td width="60%" style="border:none"></td>
+                <td width="10%" style="border:none">Jenis Permohonan</td>
+                <td width="1%" style="border:none">:</td>
+                <td colspan="4" style="border:none">{{ ucwords($mheader->jenis) }}</td>              
             </tr>
             <tr>
-                <td width="40%" style="border:none">Fungsi Bangunan</td>
-                <td width="60%" style="border:none">: {{ ucwords($mheader->fungsi) }}</td>
-                <td width="40%" style="border:none"></td>
-                <td width="60%" style="border:none"></td>
+                <td width="10%" style="border:none">Fungsi Bangunan</td>
+                <td width="1%" style="border:none">:</td>
+                <td colspan="4" style="border:none">{{ ucwords($mheader->fungsi) }}</td>     
             </tr>
 
 
@@ -175,6 +182,7 @@
             <td width="60%" style="border: none" align="center">
             </td>
             <td style="border: none" align="center">
+                Slawi, {{ dateID($head->surat->tanggal) }}
                 <p>Mengetahui,<br>
                     Ketua Rapat Pleno TPT/TPA
                 </p>

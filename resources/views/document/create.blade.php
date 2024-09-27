@@ -85,7 +85,7 @@
                                         <div class="col-md-6 mb-3 d-none" id="ver2">
                                             <label>Verifikator Tahap 2</label>
                                             <select class="select-field" name="verifikator[]" id="task2">
-                                                <option value="">Pilih Verifikator</option>                                  
+                                                <option value="">Pilih Verifikator</option>
                                             </select>
                                             @error('verifikator')
                                                 <div class='small text-danger text-left'>{{ $message }}</div>
@@ -115,13 +115,29 @@
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
         <script>
+            @if (old('type') == 'menara')
+                $('#con').html('Koordinat');
+                $('#koor').removeClass('d-none');
+                $('#fung').addClass('d-none');
+            @endif
+
+            @if (old('type') == 'umum')
+                $('#con').html('Fungsi');
+                $('#koor').addClass('d-none');
+                $('#fung').removeClass('d-none');
+            @endif
+
             $('#type').on('change', function() {
                 var tipe = $(this).val();
 
                 if (tipe == 'umum') {
                     $('#con').html('Fungsi');
+                    $('#koor').addClass('d-none');
+                    $('#fung').removeClass('d-none');
                 } else {
                     $('#con').html('Koordinat');
+                    $('#koor').removeClass('d-none');
+                    $('#fung').addClass('d-none');
                 }
             });
 
@@ -168,7 +184,8 @@
                         },
                         success: function(data) {
                             $.each(data.satu, function(key, value) {
-                                $('#task1').append('<option value="' + key + '">' + value.toUpperCase() +
+                                $('#task1').append('<option value="' + key + '">' + value
+                                    .toUpperCase() +
                                     '</option>');
                             });
                         }
@@ -190,11 +207,13 @@
                         success: function(data) {
 
                             $.each(data.satu, function(key, value) {
-                                $('#task1').append('<option value="' + key + '">' + value.toUpperCase() +
+                                $('#task1').append('<option value="' + key + '">' + value
+                                    .toUpperCase() +
                                     '</option>');
                             });
                             $.each(data.dua, function(key, value) {
-                                $('#task2').append('<option value="' + key + '">' + value.toUpperCase() +
+                                $('#task2').append('<option value="' + key + '">' + value
+                                    .toUpperCase() +
                                     '</option>');
                             });
                         }

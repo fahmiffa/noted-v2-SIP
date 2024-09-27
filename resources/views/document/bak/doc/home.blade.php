@@ -62,7 +62,7 @@
             <td width="40%" style="border:none;vertical-align:top">Alamat Bangunan </td>
             <td width="1%" style="border:none;vertical-align:top">:</td>
             <td colspan="3" style="border:none;vertical-align:top">
-                {{ $header[7] }}, Desa/Kel. {{ $head->region->name }}, Kec. {{ $head->region->kecamatan->name }}<br>
+                {{ $header[7] }}, Desa/Kel. {{ $head->region->name }}, Kec. {{ $head->region->kecamatan->name }}
                 Kab. Tegal, Prov. Jawa Tengah             
             </td>
         </tr>

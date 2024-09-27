@@ -11,7 +11,7 @@ use QrCode;
 
 class Head extends Model
 {
-    protected $appends = ['verif', 'task', 'dokumen', 'qr'];
+    // protected $appends = ['verif', 'task', 'dokumen', 'qr'];
 
     use HasFactory, SoftDeletes;
 

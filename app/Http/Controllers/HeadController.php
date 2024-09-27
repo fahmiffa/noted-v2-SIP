@@ -102,14 +102,15 @@ class HeadController extends Controller
             'namaBangunan'=> 'required',                                    
             'alamatBangunan'=> 'required', 
             'pengajuan'=> 'required', 
-            'fungsi'=> 'required', 
+            'fungsi'=> 'required_if:type,umum', 
+            'koordinat'=> 'required_if:type,menara', 
             'noreg'=> 'required|unique:heads,reg', 
             'email'=> 'required|unique:heads,reg', 
             'dis'=> 'required', 
             'des'=> 'required', 
             'hp'=> 'required',                                           
             ];
-        $message = ['required'=>'Field ini harus diisi','unique'=>'Field ini sudah ada'];
+        $message = ['required'=>'Field ini harus diisi','unique'=>'Field ini sudah ada', 'required_if'=> 'Field :attribute harus diisi'];
         $request->validate($rule,$message);
 
         // validasi tahap
@@ -119,7 +120,9 @@ class HeadController extends Controller
             return back()->withInput();
         }
 
-        $header = [$request->noreg, $request->pengajuan, $request->namaPemohon, $request->hp, $request->alamatPemohon, $request->namaBangunan, $request->fungsi, $request->alamatBangunan];                
+        $tipe = $request->type == 'umum' ? $request->fungsi : $request->koordinat;
+
+        $header = [$request->noreg, $request->pengajuan, $request->namaPemohon, $request->hp, $request->alamatPemohon, $request->namaBangunan, $tipe, $request->alamatBangunan];                
 
         $head = new Verifikasi;
         $head->village = $request->des;
@@ -247,7 +250,9 @@ class HeadController extends Controller
         }
 
 
-        $header= [$request->noreg, $request->pengajuan, $request->namaPemohon, $request->hp, $request->alamatPemohon, $request->namaBangunan, $request->fungsi, $request->alamatBangunan];                
+        $tipe = $request->type == 'umum' ? $request->fungsi : $request->koordinat;
+        $header = [$request->noreg, $request->pengajuan, $request->namaPemohon, $request->hp, $request->alamatPemohon, $request->namaBangunan, $tipe, $request->alamatBangunan];                
+
         $verifikasi->village = $request->des;
         $verifikasi->header = json_encode($header);     
         $verifikasi->type = $request->type;

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Account\UserController;
+use App\Exports\HeadExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 Route::get('/clear', function () {       
@@ -16,8 +18,9 @@ Route::post('/', [App\Http\Controllers\HomeController::class, 'store'])->name('s
 Route::post('/login', [App\Http\Controllers\AuthController::class, 'log'])->name('sign');
 Route::get('/forgot', [App\Http\Controllers\AuthController::class, 'forgot'])->name('forgot');
 Route::post('/forgot', [App\Http\Controllers\AuthController::class, 'forget'])->name('forget');
+Route::post('/reset/{id}', [App\Http\Controllers\AuthController::class, 'preset'])->name('preset');
 Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
-Route::get('/reset-pass/{id}', [App\Http\Controllers\AuthController::class, 'reset'])->name('reset');
+Route::get('/recovery/{id}', [App\Http\Controllers\AuthController::class, 'reset'])->name('reset');
 Route::get('/reload-captcha', [App\Http\Controllers\AuthController::class, 'reloadCaptcha']);
 Route::get('link/{id}', [App\Http\Controllers\HomeController::class, 'link'])->name('link');
 Route::get('/dokumene/{id}', [App\Http\Controllers\HomeController::class, 'dok'])->name('dok');
@@ -26,6 +29,7 @@ Route::get('surat/{id}', [App\Http\Controllers\HomeController::class, 'surat'])-
 Route::group(['middleware' => 'auth'], function() {    
     
     Route::group(['prefix'=>'home'],function() {
+        Route::post('/export', [App\Http\Controllers\HomeController::class, 'export'])->name('export');
         Route::get('/profile', [App\Http\Controllers\HomeController::class, 'profile'])->name('profile');
         Route::post('/profile', [App\Http\Controllers\HomeController::class, 'profiled'])->name('profiled');
         Route::post('/image', [App\Http\Controllers\HomeController::class, 'image'])->name('image');

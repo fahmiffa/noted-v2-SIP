@@ -15,6 +15,28 @@
                         <div class="p-1">
                         </div>
                     </div>
+                    @if (auth()->user()->roles->kode != 'TPA')
+                        <form class="my-3" action="{{ route('export') }}" method="post">
+                            @csrf
+                            <div class="row">
+                                <div class="col">
+                                    <input type="date" class="form-control" name="startDate">
+                                    @error('startDate')
+                                        <div class='small text-danger text-left'>{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col">
+                                    <input type="date" class="form-control" name="endDate">
+                                    @error('endDate')
+                                        <div class='small text-danger text-left'>{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="col">
+                                    <button class="btn btn-primary btn-sm">Export</button>
+                                </div>
+                            </div>
+                        </form>
+                    @endif
                 </div>
                 <div class="card-body p-5">
                     <div class="table-responsive">
@@ -58,11 +80,6 @@
                                             {{ $item->dokumen }}
                                         </td>
                                         <td class="text-center">
-                                            {{-- @if($item->do == 1)
-                                                <a target="_blank" href="{{ route('req.doc', ['id' => md5($item->id)]) }}"
-                                                    class="btn btn-sm btn-danger"><i class="bi bi-file-pdf"></i></a>
-                                            @endif --}}
-
                                             <button type="button"
                                                 class="btn {{ $item->head->count() > 0 ? 'btn-warning' : 'btn-dark' }} btn-sm"
                                                 data-toggle="tooltip" data-placement="top" title="Dokumen Detail"
@@ -106,7 +123,7 @@
                                                 <h6>Tipe</h6>
                                                 {{ ucfirst($item->type) }}
                                             </div>
-                                        </div>                        
+                                        </div>
                                         @if ($item->head->count() > 0)
                                             <h6>Dokumen Perbaikan</h6>
                                             <ul>
@@ -136,7 +153,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>        
+                        </div>
                     @endforeach
                 </diV>
             </div>
