@@ -106,7 +106,7 @@ Route::group(['middleware' => 'auth'], function() {
 
         Route::resource('meet', App\Http\Controllers\MeetController::class);  
         Route::get('barp', [App\Http\Controllers\MeetController::class, 'index'])->name('meet.index'); 
-        Route::get('rapat-pleno/{id}', [App\Http\Controllers\MeetController::class, 'doc'])->name('doc.meet'); 
+        Route::get('doc-barp/{id}', [App\Http\Controllers\MeetController::class, 'doc'])->name('doc.meet'); 
         Route::get('meet-sign/{id}', [App\Http\Controllers\MeetController::class, 'sign'])->name('sign.meet');  
         Route::post('meet-sign/{id}', [App\Http\Controllers\MeetController::class, 'signed'])->name('signed.meet');  
         Route::post('pub-barp/{id}', [App\Http\Controllers\MeetController::class, 'pub'])->name('pub.barp'); 

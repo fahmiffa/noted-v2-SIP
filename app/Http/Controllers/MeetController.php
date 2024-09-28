@@ -76,7 +76,7 @@ class MeetController extends Controller
         $request->validate($rule, $message);
 
         $input = $request->input();
-        $filter = ['jenis', '_token', 'fungsi', 'status', 'nib', 'doc', 'date', 'val0', 'val1', 'val2', 'val3', 'uraian', 'pengajuan', 'disetujui', 'keterangan'];
+        $filter = ['jenis', '_token', 'fungsi', 'status', 'nib', 'doc', 'date', 'val0', 'val1', 'val2', 'val3', 'uraian', 'pengajuan', 'disetujui', 'keterangan','tang','place'];
         $input = Arr::except($input, $filter);
 
         $da[] = $request->has('val0') ? 1 : 0;
@@ -112,11 +112,16 @@ class MeetController extends Controller
         $item = $head->barp ? $head->barp : new Meet;
         $item->head = $head->id;
         $item->tanggal = $request->date;
+        $item->place = $request->place;
+        $item->date = $request->tang;
         $item->header = json_encode($header);
         $item->item = json_encode($input);
         $item->other = json_encode($other);
         $item->type = 'pleno';
-        $item->status = 2;
+        if(!Auth::user()->ijin('master'))
+        {
+            $item->status = 2;
+        }        
         $item->save();
 
         toastr()->success('Tambah Data berhasil', ['timeOut' => 5000]);
@@ -153,7 +158,7 @@ class MeetController extends Controller
             }
         }
 
-        $data = "Dokumen " . $head->number;
+        $data = "Formulir Berita Acara Rapat Pleno (BARP) <br>No. " .$head->number;
         return view('document.barp.create', compact('data', 'head', 'meet'));
 
     }

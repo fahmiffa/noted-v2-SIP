@@ -60,7 +60,7 @@ class AttachController extends Controller
         $attach = Attach::where(DB::raw('md5(head)'), $id)->first();
         $head = Head::where(DB::raw('md5(id)'), $id)->first();
 
-        $data = "Dokumen " . $head->number;
+        $data = "Lampiran PBG dan/atau SLF No. " . $head->number;
         return view('document.attach.create', compact('data', 'head', 'attach'));
 
     }

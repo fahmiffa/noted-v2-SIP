@@ -1,9 +1,8 @@
 @if ($level == 'VL2')
     @php
-    $VL2 = $head->steps->where('kode', 'VL2')->first();
-    $head = $VL2 && $head->parent != null ? $head->old : $head;
-    $old = $head->steps->where('kode', 'VL2')->first();
-    $remain = $old ? true : false;
+        $remain = $head->parent ? true : false;
+        $head = $remain ? $head->old : $head;
+        $old = $head->steps->where('kode', 'VL2')->first();
     @endphp
     @if ($head->type == 'umum')
         @php
@@ -20,7 +19,7 @@
                 foreach ($sub as $key => $value) {
                     $subdl[$value->title] = ['saran' => (array) $value->saran, 'value' => (array) $value->value];
                 }
-            } 
+            }
         @endphp
         @foreach ($doc->title as $row)
             @if ($row->name == doc(3, $head->type))
@@ -272,7 +271,7 @@
             </div>
         </div>
     @else
-        @php              
+        @php
             if ($remain) {
                 $da = json_decode($old->item);
                 $itemPt = (array) $da->persyaratan_teknis->item;
@@ -375,10 +374,9 @@
     @endif
 @else
     @php
-        $VL3 = $head->steps->where('kode', 'VL3')->first();
-        $head = $VL3 && $head->parent != null ? $head->old : $head;     
+        $remain = $head->parent ? true : false;
+        $head = $remain ? $head->old : $head;
         $old = $head->steps->where('kode', 'VL3')->first();
-        $remain = $old ? true : false;
         if ($remain) {
             $da = json_decode($old->item);
             $itemDa = (array) $da->dokumen_administrasi->item;
@@ -387,7 +385,7 @@
             foreach ($sub as $key => $value) {
                 $subDa[$value->title] = ['saran' => (array) $value->saran, 'value' => (array) $value->value];
             }
-        } 
+        }
     @endphp
     @foreach ($doc->title as $row)
         @if ($row->name == doc(5, $head->type))

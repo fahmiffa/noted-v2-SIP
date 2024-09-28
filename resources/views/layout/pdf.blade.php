@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
     <title>{{ env('APP_NAME') }} | {{ env('APP_TAG') }}</title>
 </head>
 <style>
@@ -29,6 +30,7 @@
         overflow-wrap: break-word;
         word-break: break-all;
         white-space: normal;
+        font-family:DejaVu Sans;
     }
 
     .img {
@@ -65,7 +67,7 @@
     }
 
     .table-bordered{        
-        width: 30%;
+        width: 100%;
     }
 
     .table-bordered td{

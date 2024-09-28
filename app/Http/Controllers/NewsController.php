@@ -126,11 +126,12 @@ class NewsController extends Controller
         $da['informasi_umum'] = $iu;
 
         $input = $request->input();
-        $filter = ['note', '_token', 'idb', 'idp', 'doc', 'north', 'east', 'west', 'south', 'val', 'width', 'kondisi', 'build', 'permanensi', 'files', 'par', 'par_d', 'par_c'];
+        $filter = ['note', '_token', 'idb', 'idp', 'doc', 'north', 'east', 'west', 'south', 'val', 'width', 'kondisi', 'build', 'permanensi', 'files', 'par', 'par_d', 'par_c','place'];
         if ($state) {
             $filter = array_merge(['state'], $filter);
         }
         $input = Arr::except($input, $filter);
+
 
         foreach ($input as $key => $value) {
             $ibg[] = ['uraian' => $value[0], 'dimensi' => $value[1], 'note' => $value[2]];
@@ -139,13 +140,16 @@ class NewsController extends Controller
 
         $da['idb'] = $request->idb;
         $da['idp'] = $request->idp;
+
         $item->item = json_encode($da);
         $item->note = $request->note;
+        $item->place = $request->place;
         // bypass root
         if(!Auth::user()->ijin('master'))
         {
             $item->status = 2;
         }        
+
         if($pile)
         {
             $item->files = $path;
@@ -186,7 +190,7 @@ class NewsController extends Controller
                 toastr()->success('Dokumen selesai', ['timeOut' => 5000]);
                 return back();
             }
-            $data = "Dokumen " . $news->doc->nomor;
+            $data = "Formulir Berita Acara Konsultasi (BAK)";
             return view('document.bak.create', compact('data', 'news', 'head'));
         } else {
             $his = $head->bakTemp->whereNotNull('deleted_at');
@@ -305,9 +309,9 @@ class NewsController extends Controller
                 return back();
             } else {
                 $news->status = 1;
-                if ($val->user->roles->kode == 'TPA') {
-                    $news->grant = 1;
-                }
+                // if ($val->user->roles->kode == 'TPA') {
+                //     $news->grant = 1;
+                // }
                 $news->save();
                 toastr()->success('Publish  berhasil, Complete', ['timeOut' => 5000]);
                 return redirect()->route('news.index');

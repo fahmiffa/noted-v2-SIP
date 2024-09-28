@@ -82,7 +82,7 @@
             <a class="text-white" href="{{route('login')}}"><i class="bi bi-box-arrow-in-right"></i></a>
         </button>
         <div class="row justify-content-center vertical-center">
-            <div class="col-md-6 col-lg-8 col-sm-12">
+            <div class="col-md-12 col-lg-8 col-sm-12">
                 <div class="row mx-3">
                     <div class="col-md-6 d-none d-md-block d-lg-block bg-dark opacity-75 round-left shadow">
                         <div class="d-flex flex-column p-3">

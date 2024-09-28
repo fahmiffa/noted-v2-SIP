@@ -10,7 +10,7 @@
 
                 <div class="card-header">
                     <div class="divider">
-                        <div class="divider-text">{{ $data }}</div>
+                        <div class="divider-text">{!! $data !!}</div>
                     </div>
                     @include('document.pemohon')
                 </div>
@@ -228,6 +228,25 @@
                                         / ditolak
                                     </label>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label>Ditetapkan</label>
+                                <input type="text" name="place"
+                                    value="{{ isset($meet) ? $meet->place : old('place') }}" class="form-control">
+                                @error('place')
+                                    <div class='small text-danger text-left'>{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="form-group mb-3">
+                                <label>Tanggal</label>
+                                <input type="date" name="tang"
+                                    value="{{ isset($meet) ? $meet->date : old('tang') }}" class="form-control">
+                                @error('tang')
+                                    <div class='small text-danger text-left'>{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
 

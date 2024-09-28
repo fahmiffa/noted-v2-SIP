@@ -67,9 +67,9 @@
 <body>
     <div id="bg">
         <div class="row justify-content-center vertical-center">
-            <div class="col-md-6 col-lg-8 col-sm-12">
+            <div class="col-md-12 col-lg-8 col-sm-12">
                 <div class="row mx-3">
-                    <div class="col-md-6 d-none d-md-block d-lg-block bg-dark opacity-75 round-left shadow">
+                    <div class="col-md-6 col-sm-6 d-none d-md-block d-lg-block bg-dark opacity-75 round-left shadow">
                         <div class="pt-3 px-3">
                             <h5 class="my-3 text-white">Sistem Informasi Penyelenggaraan Bangunan Gedung</h5>
                             <br><br>
@@ -80,7 +80,7 @@
                             <h5 class="my-3 text-white">Dinas Pekerjaan Umum dan Penataan Ruang Kabupaten Tegal</h5>
                         </div>
                     </div>
-                    <div class="col-md-6 bg-white round-right shadow round-left-m">
+                    <div class="col-md-6 col-sm-6 bg-white round-right shadow round-left-m">
                         <div class="p-3">
                             <div class="d-flex justify-content-between px-3 py-3">
                                 <img src="{{ asset('kab.png') }}" style="height: 2.5rem; width:2.5rem;">
@@ -88,18 +88,7 @@
                                 </h2>
                                 <img src="{{ asset('assets/logo.png') }}" style="height: 2.5rem; width:2.5rem;">
                             </div>
-                            <!-- <p class="text-muted">Sistem Informasi Penyelenggaraan Bangunan Gedung</p> -->
-                            <h6 class="px-3">Login</h6>
-                            @if (session('error'))
-                                <div class="alert alert-danger" id="timeoutAlert" role="alert">
-                                    {{ session('error') }}
-                                </div>
-                            @endif
-                            @if (session('info'))
-                                <div class="alert alert-success" id="timeoutAlert" role="alert">
-                                    {{ session('info') }}
-                                </div>
-                            @endif
+                            <h6 class="px-3">Login</h6>            
                             <form action="{{ route('sign') }}" method="post">
                                 @csrf
                                 <div class="form-group position-relative has-icon-left mb-4">

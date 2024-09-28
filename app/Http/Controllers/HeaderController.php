@@ -116,11 +116,12 @@ class HeaderController extends Controller
         if($request->type == 0)
         {
             $bak = News::where(DB::raw('md5(head)'), $id)->first();
+            $barp = Meet::where('head', $bak->head)->first();
+
             $bak->reason = $request->noted;
             $bak->save();            
 
             $bak->delete();
-            $barp = Meet::where(DB::raw('md5(head)'), $bak->head)->first();
             $barp->delete();            
             Signed::where(DB::raw('md5(head)'),$id)->update(['bak' => null, 'barp'=>null]);
         }
@@ -153,7 +154,7 @@ class HeaderController extends Controller
         $head = $news->doc;
         $data = compact('news','head');
 
-        $pdf = PDF::loadView('document.bak.doc.index', $data)->setPaper('a4', 'potrait');    
+        $pdf = PDF::loadView('document.bak.doc.index', $data)->setPaper('legal', 'potrait');    
         return $pdf->stream();
 
         return view('document.bak.doc.index',$data);    
@@ -199,7 +200,7 @@ class HeaderController extends Controller
         $head = $meet->doc;
         $data = compact('news','head','meet');
 
-        $pdf = PDF::loadView('document.barp.doc.index', $data)->setPaper('a4', 'potrait');   
+        $pdf = PDF::loadView('document.barp.doc.index', $data)->setPaper('legal', 'potrait');   
         // return view('document.barp.doc.index', $data);
         return $pdf->stream();    
     }

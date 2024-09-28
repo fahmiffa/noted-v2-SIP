@@ -52,7 +52,7 @@
 <body>
     <div id="bg">
         <div class="row justify-content-center vertical-center">
-            <div class="col-md-6 col-lg-8 col-sm-12">
+            <div class="col-md-12 col-lg-8 col-sm-12">
                 <div class="mt-5">
                     <div class="row mx-3">
                         <div class="col-md-6 d-none d-md-block d-lg-block bg-dark opacity-75 round-left shadow">

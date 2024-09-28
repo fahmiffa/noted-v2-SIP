@@ -21,13 +21,14 @@
         $other = json_decode($head->barp->other);
         $umum = $item['informasi_umum'];
         $bangunan = $item['informasi_bangunan_gedung'];
+        $surat = explode('#', $head->surat->waktu);
     @endphp
     <p>Sehubungan telah dilakukannya Konsultasi dengan TPT/TPA DPUPR Kabupaten Tegal pada :</p>
     <table style="width:100%" align="center">
         <tr>
             <td width="10%" style="border:none">Hari / Tanggal</td>
             <td width="1%" style="border:none">:</td>
-            <td width="20%" style="border:none">{{ dateID($head->surat->tanggal) }} </td>
+            <td width="20%" style="border:none">{{ dateID($surat[2]) }} </td>
             <td width="10%" style="border:none">Permohonan </td>
             <td width="1%" style="border:none">:</td>
             <td width="20%" style="border:none">{{ strtoupper($header[1]) }}</td>
@@ -182,7 +183,7 @@
             <td width="60%" style="border: none" align="center">
             </td>
             <td style="border: none" align="center">
-                Slawi, {{ dateID($head->surat->tanggal) }}
+            <p>{{ $head->barp->place }}, {{ dateID($head->barp->date) }}</p>           
                 <p>Mengetahui,<br>
                     Ketua Rapat Pleno TPT/TPA
                 </p>

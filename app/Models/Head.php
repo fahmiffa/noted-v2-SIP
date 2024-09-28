@@ -142,9 +142,9 @@ class Head extends Model
 
     public function numbDoc($par)
     {
-        if ($par == 'bak') {
+        if ($par == 'bak' && $this->bak()->exists()) {
             return str_replace('SPm', 'BAK', str_replace('600.1.15', '600.1.15/PBLT', $this->nomor));
-        } else if ($par == 'barp') {
+        } else if ($par == 'barp' && $this->barp()->exists()) {
             return str_replace('SPm', 'BARP', str_replace('600.1.15', '600.1.15/PBLT', $this->nomor));
         } else {
             return null;

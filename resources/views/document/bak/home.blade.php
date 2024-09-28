@@ -102,7 +102,7 @@
                                                     @endif
                                                 @else
                                                     @if ($item->doc->bak)
-                                                        @if ($item->doc->bak->grant == 0)
+                                                        @if ($item->doc->bak->grant == 0 && $item->doc->bak->status == 2)
                                                             <button data-toggle="tooltip" data-placement="top"
                                                                 title="Tanda Tangan Dokumen"
                                                                 onclick="location.href='{{ route('sign.news', ['id' => md5($item->doc->bak->id)]) }}'"

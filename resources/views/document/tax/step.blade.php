@@ -28,10 +28,7 @@
             <div class="card">
 
                 <div class="card-header">
-                    <h5 class="card-title">Perhitungan Retribusi</h5>
-                    <div class="divider">
-                        <div class="divider-text">{{ $data }}</div>
-                    </div>
+                    <h5 class="card-title mb-3">Simulasi Perhitungan Retribusi</h5>  
                     @include('document.pemohon')
                 </div>
 

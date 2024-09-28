@@ -14,37 +14,45 @@
     <table style="width:100%; margin-top: 1rem" align="center">
         <tbody>
             <tr>
-                <td width="40%" style="border:none">No. Registrasi </td>
-                <td colspan="5" style="border:none">: {{ $header[0] }} </td>
+                <td width="15%" style="border:none">No. Registrasi </td>
+                <td width="1%" style="border:none">:</td>
+                <td colspan="5" style="border:none">{{ $header[0] }} </td>
             </tr>
             <tr>
-                <td width="40%" style="border:none">Nama Pemohon </td>
-                <td colspan="5" style="border:none">: {{ $header[2] }}</td>
+                <td width="15%" style="border:none">Nama Pemohon </td>
+                <td width="1%" style="border:none">:</td>
+                <td colspan="5" style="border:none">{{ $header[2] }}</td>
             </tr>
             <tr>
-                <td width="40%" style="border:none">Alamat Pemohon </td>
-                <td colspan="5" style="border:none">: {{ $header[4] }}</td>
+                <td width="15%" style="border:none">Alamat Pemohon </td>
+                <td width="1%" style="border:none">:</td>
+                <td colspan="6" style="border:none">{{ $header[4] }}</td>
             </tr>
             <tr>
-                <td width="40%" style="border:none">Nama Bangunan </td>
-                <td colspan="5" style="border:none">: {{ $header[5] }}</td>
+                <td width="15%" style="border:none">Nama Bangunan </td>
+                <td width="1%" style="border:none">:</td>
+                <td colspan="5" style="border:none">{{ $header[5] }}</td>
             </tr>
             <tr>
-                <td width="40%" style="border:none;vertical:align:top">Alamat Bangunan </td>
+                <td width="15%" style="border:none;vertical:align:top">Alamat Bangunan </td>
+                <td width="1%" style="border:none;vertical-align:top">:</td>
                 <td colspan="5" style="border:none;vertical-align:top">
-                    : {{ $header[7] }}, Desa/Kel. {{ $head->region->name }}, Kec. {{ $head->region->kecamatan->name }},
+                    {{ $header[7] }}, Desa/Kel. {{ $head->region->name }}, Kec. {{ $head->region->kecamatan->name }},
                     Kab. Tegal, Prov. Jawa Tengah
                 </td>
             </tr>
             <tr>
-                <td width="40%" style="border:none">Luas Tanah</td>
-                <td width="30%" style="border:none">: {{ $head->attach->luas }}</td>
+                <td width="15%" style="border:none">Luas Tanah</td>
+                <td width="1%" style="border:none">:</td>
+                <td width="20%" style="border:none">{{ $head->attach->luas }}</td>
                 @if ($head->attach->persil)
-                    <td width="30%" style="border:none">Luas Persil</td>
-                    <td width="40%" style="border:none">: {{ $head->attach->persil }}</td>
+                    <td width="15%" style="border:none">Luas Persil</td>
+                    <td width="1%" style="border:none">:</td>
+                    <td width="20%" style="border:none">{{ $head->attach->persil }}</td>
                 @endif
-                <td width="80%" style="border:none">Bukti Kepemilikan Tanah</td>
-                <td width="40%" style="border:none">: {{ $head->attach->bukti }}</td>
+                <td width="25%" style="border:none">Bukti Kepemilikan Tanah</td>
+                <td width="1%" style="border:none">:</td>
+                <td width="20%" style="border:none">{{ $head->attach->bukti }}</td>
             </tr>
         </tbody>
     </table>
@@ -61,7 +69,7 @@
                     <td colspan="2" style="padding: 0.5rem;">
                         <center>
                             <img src="data:image/png;base64,{{ base64_encode(file_get_contents(public_path('storage/' . $key))) }}"
-                                style="width:90%;object-fit:cover;object-position:center;margin:auto;display:block;padding:0.3rem">
+                                style="width:100%;object-fit:cover;object-position:center;margin:auto;display:block;padding:0.3rem">
                         </center>
                     </td>
                 </tr>
@@ -125,7 +133,7 @@
         @php  $header = (array) json_decode($head->header); @endphp
         if (isset($pdf)) { 
             //Shows number center-bottom of A4 page with $x,$y values
-            $x = 375;  //X-axis vertical position 
+            $x = 330;  //X-axis vertical position 
             $y = 990; //Y-axis horizontal position
             $text = "Lembar Lampiran PBG No. Registrasi {{$header[0]}}  | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
             $font =  $fontMetrics->get_font("helvetica", "bold");

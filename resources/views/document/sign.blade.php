@@ -23,7 +23,7 @@
             @endphp
 
             @foreach ($uri as $val)
-                <div class="col-md-6">
+                <div class="col-md-6 col-sm-12">
                     <div class="mx-auto text-center my-1" id="toolbar{{ $val }}">
                         <button id="prev{{ $val }}" class="btn btn-dark btn-sm">Previous</button>
                         <span>Page: <span id="page-num{{ $val }}"></span> / <span
@@ -35,7 +35,7 @@
                             <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
-                    <canvas id="pdf-canvas{{ $val }}" style="display: none;" class="border border-light"></canvas>
+                    <canvas id="pdf-canvas{{ $val }}" style="display: none;" class="border border-light w-100 mb-3"></canvas>
 
                     @if ($head->bak->primary == 'TPT' && $head->do == 0)
                         <button type="button" data-val="{{ $val }}"
@@ -189,7 +189,6 @@
 
                 }
                 canvas.style.display = 'block';
-                canvas.style.height = '800px';
             }, function(reason) {
                 console.log(reason);
                 document.getElementById('loading' + i).textContent = "Failed to load Data.";

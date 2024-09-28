@@ -55,7 +55,7 @@
             <td width="40%" style="border:none">Nama Bangunan </td>
             <td width="1%" style="border:none">:</td>
             <td width="60%" style="border:none">{{ $header[5] }}</td>
-            <td width="40%" style="border:none">Fungsi </td>
+            <td width="40%" style="border:none">{{ $head->type == 'umum' ? 'Fungsi' : 'Koordinat' }} </td>
             <td width="60%" style="border:none">: {{ $header[6] }}</td>
         </tr>
         <tr>
@@ -154,8 +154,8 @@
 <td align="center">Prasarana</td>
 </tr>
 <tr>
-<td>&nbsp;&nbsp;{!! $item['idb'][1] !!}</td>
-<td>&nbsp;&nbsp;{!! $item['idp'][1] !!}</td>
+<td width="50%">{!! $item['idb'][1] !!}</td>
+<td width="50%">{!! $item['idp'][1] !!}</td>
 </tr>
 </table>
 <br>
@@ -272,7 +272,9 @@ Saran :<br>
         @endif
         {{ $head->bak->primary == 'TPT' ? $head->bak->kabid : $head->kons->not->name }}
     </td>
-    <td style="border: none" align="center">Setuju hasil pemeriksaan<br>Pemohon PBG<br>
+    <td style="border: none" align="center">
+    {{$head->bak->place}}, {{ dateID($head->surat->tanggal) }}<br>
+    Setuju hasil pemeriksaan<br>Pemohon PBG<br>
         @if ($head->bak->signs)
             <img src="{{ $head->bak->signs }}" width="50%" style="margin: auto">
             <br>

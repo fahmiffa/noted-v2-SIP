@@ -16,31 +16,33 @@
     <h4>A. INFORMASI UMUM</h4>
     <table style="width:95%;" align="center">
         <tr>
-            <td width="40%" style="border:none">No. Registrasi PBG </td>
-            <td width="60%" style="border:none">: {{ $header[0] }} </td>
-            <td width="40%" style="border:none">Tanggal</td>
-            <td width="60%" style="border:none">: {{ dateID($head->tax->tanggal) }}</td>
+            <td width="30%" style="border:none">No. Registrasi PBG </td>
+            <td width="1%" style="border:none">:</td>
+            <td width="60%" style="border:none">{{ $header[0] }} </td>
+            <td width="20%" style="border:none">Tanggal</td>
+            <td width="1%" style="border:none">:</td>
+            <td width="60%" style="border:none">{{ dateID($head->tax->tanggal) }}</td>
         </tr>
         <tr>
-            <td width="40%" style="border:none">Nama Pemohon </td>
-            <td width="60%" style="border:none">: {{ $header[2] }}</td>
-            <td width="40%" style="border:none"></td>
-            <td width="60%" style="border:none"></td>
+            <td width="20%" style="border:none">Nama Pemohon </td>
+            <td width="1%" style="border:none">:</td>
+            <td colspan="3" style="border:none">{{ $header[2] }}</td>
         </tr>
         <tr>
-            <td width="40%" style="border:none">Alamat Pemohon </td>
-            <td width="60%" style="border:none">: {{ $header[4] }}</td>
+            <td width="20%" style="border:none;vertical-align:top">Alamat Pemohon </td>
+            <td width="1%" style="border:none;vertical-align:top">:</td>
+            <td colspan="4" style="border:none;vertical-align:top">{{ $header[4] }}</td>
         </tr>
         <tr>
-            <td width="40%" style="border:none">Nama Bangunan </td>
-            <td width="60%" style="border:none">: {{ $header[5] }}</td>
-            <td width="40%" style="border:none"></td>
-            <td width="60%" style="border:none"></td>
+            <td width="25%" style="border:none">Nama Bangunan </td>
+            <td width="1%" style="border:none">:</td>
+            <td colspan="3" style="border:none">{{ $header[5] }}</td>          
         </tr>
         <tr>
-            <td width="40%" style="border:none;vertical:align:top">Alamat Bangunan </td>
-            <td colspan="3" style="border:none;vertical-align:top">
-                : {{ $header[7] }}, Kec. {{ $head->region->name }}, Kab. {{ $head->region->kecamatan->name }}
+            <td width="20%" style="border:none;vertical:align:top">Alamat Bangunan </td>
+            <td width="1%" style="border:none;vertical-align:top">:</td>
+            <td colspan="4" style="border:none;vertical-align:top">
+                {{ $header[7] }}, Kec. {{ $head->region->name }}, Kab. {{ $head->region->kecamatan->name }}
             </td>
         </tr>
     </table>
@@ -185,7 +187,7 @@
             @php  $header = (array) json_decode($head->header); @endphp
             <script type="text/php"> 
             if (isset($pdf)) { 
-                $x = 340;  //X-axis vertical position 
+                $x = 290;  //X-axis vertical position 
                 $y = 990; //Y-axis horizontal position
                 $text = "Simulasi Perhitungan Retribusi No. Registrasi {{$header[0]}} | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
                 $font =  $fontMetrics->get_font("helvetica", "bold");

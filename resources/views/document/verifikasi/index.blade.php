@@ -96,7 +96,7 @@
             [{
                 'align': []
             }],
-            ['clean']
+            ['clean'],            
         ];
 
         var quill = new Quill('#snow', {

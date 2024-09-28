@@ -1,12 +1,13 @@
 @extends('layout.base')
 @push('css')
-    <link rel="stylesheet" href="{{ asset('assets/extensions/choices.js/public/assets/styles/choices.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.rtl.min.css" />
     <link rel="stylesheet" href="{{ asset('assets/extensions/summernote/summernote-lite.css') }}">
+    <style>
+        .symbol-btn {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+    </style>
 @endpush
 @section('main')
     <div class="page-heading">
@@ -139,16 +140,15 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group mb-3">
-                                    <label>Lebar saluran</label>
-                                    <input type="hidden" name="val[]" value="Lebar Saluran" class="form-control">
+                                    <label>Lebar Sungai</label>
+                                    <input type="hidden" name="val[]" value="Lebar Sungai" class="form-control">
                                     <textarea class="form-control" name="width[]" rows="2">{{ isset($news) ? $iu[1]->value : null }}</textarea>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group mb-3">
                                     <label>Lebar Saluran/Irigasi</label>
-                                    <input type="hidden" name="val[]" value="Lebar Saluran/Irigasi"
-                                        class="form-control">
+                                    <input type="hidden" name="val[]" value="Lebar Saluran/Irigasi" class="form-control">
                                     <textarea class="form-control" name="width[]" rows="2">{{ isset($news) ? $iu[2]->value : null }}</textarea>
                                 </div>
                             </div>
@@ -414,56 +414,54 @@
                             </div>
                         </div>
 
+                        <div class="col-md-6">
+                            <div class="form-group mb-3">
+                                <label>Ditetapkan</label>
+                                <input type="text" name="place"
+                                    value="{{ isset($news) ? $news->place : old('place') }}" class="form-control">
+                                @error('place')
+                                    <div class='small text-danger text-left'>{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
                         <div class="d-flex justify-content-between" id="load">
                             <button type="submit" class="btn btn-dark rounded-pill"><i class="bi bi-archive"></i>
                                 Draft</button>
                         </div>
                 </div>
             </div>
-    </div>
-
-    </section>
+   
+        </section>
 
     </div>
 @endsection
 
 @push('js')
     <script src="{{ asset('assets/extensions/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
-    <script src="{{ asset('assets/static/js/pages/form-element-select.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="{{ asset('assets/extensions/summernote/summernote-lite.min.js') }}"></script>
+    <script src="{{ asset('assets/summernote.min.js') }}"></script>
+    <script src="{{ asset('assets/editor.js') }}"></script>
 
     <script>
-        $(".summernote").summernote({
-            tabsize: 2,
-            height: 120,
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
-            ]
-        });
-
         function remove(e) {
             e.parentNode.remove();
         }
 
         $('#add').on('click', function() {
-            var clonedDiv = '<div class="form-group row mb-3">\
-                                                <div class="col-md-4">\
-                                                    <input type="text" class="form-control" name="par[]" placeholder="Parameter">\
-                                                </div>\
-                                                <div class="col-md-4">\
-                                                   <input type="text" class="form-control" name="par_d[]" placeholder="Dimensi">\
-                                                </div>\
-                                                <div class="col-md-3">\
-                                                   <input type="text" class="form-control" name="par_c[]" placeholder="Catatan">\
-                                                </div>\
-                                                <button class="btn btn-danger btn-sm my-auto" style="width:fit-content;height:fit-content" onclick="remove(this)"  type="button"><i class="bi bi-trash"></i></button>\
-                                            </div>\
-                                            ';
+            var
+                clonedDiv = '<div class="form-group row mb-3">\
+                                                                            <div class="col-md-4">\
+                                                                                <input type="text" class="form-control" name="par[]" placeholder="Parameter">\
+                                                                            </div>\
+                                                                            <div class="col-md-4">\
+                                                                               <input type="text" class="form-control" name="par_d[]" placeholder="Dimensi">\
+                                                                            </div>\
+                                                                            <div class="col-md-3">\
+                                                                               <input type="text" class="form-control" name="par_c[]" placeholder="Catatan">\
+                                                                            </div>\
+                                                                            <button class="btn btn-danger btn-sm my-auto" style="width:fit-content;height:fit-content" onclick="remove(this)"  type="button"><i class="bi bi-trash"></i></button>\
+                                                                        </div>\
+                                                                        ';
             $('#input').append(clonedDiv);
         });
     </script>
