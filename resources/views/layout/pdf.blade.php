@@ -29,7 +29,9 @@
         word-wrap: break-word;
         overflow-wrap: break-word;
         word-break: break-all;
-        white-space: normal;
+        white-space: normal;      
+    }
+    .simbol{
         font-family:DejaVu Sans;
     }
 

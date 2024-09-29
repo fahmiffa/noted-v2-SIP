@@ -124,12 +124,13 @@ class HomeController extends Controller
         // notulen (teknis)
         if (Auth::user()->ijin('bak')) {
 
-            $comp = head::where('do', 1)->whereHas('notulen', function ($q) {
-                $q->where('users', Auth::user()->id);
+            $comp = head::where('do', 1)->whereHas('sign', function ($q) {
+                $q->where('user', Auth::user()->id)->where('type','lead');
+
             })->count();
 
-            $task = head::where('do', 0)->whereHas('notulen', function ($q) {
-                $q->where('users', Auth::user()->id);
+            $task = head::where('do', 0)->whereHas('sign', function ($q) {
+                $q->where('user', Auth::user()->id)->where('type','lead');
             })->count();
 
             return view('main', compact('task', 'comp'));

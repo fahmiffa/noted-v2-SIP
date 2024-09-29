@@ -18,7 +18,7 @@ $(document).ready(function() {
                         const summernoteInstance = $(this).closest('.note-editor')
                             .prev('.summernote');
 
-                        summernoteInstance.summernote('insertText', '≤');
+                        summernoteInstance.summernote('code', '<span class="simbol">≤</span>');
                     }
                 });
                 return button.render();
@@ -32,7 +32,7 @@ $(document).ready(function() {
                         const summernoteInstance = $(this).closest('.note-editor')
                             .prev('.summernote');
 
-                        summernoteInstance.summernote('insertText', '≥');
+                        summernoteInstance.summernote('code', '<span class="simbol">≥</span>');
                     }
                 });
                 return button.render();
@@ -46,7 +46,7 @@ $(document).ready(function() {
                         const summernoteInstance = $(this).closest('.note-editor')
                             .prev('.summernote');
 
-                        summernoteInstance.summernote('insertText', '≠');
+                        summernoteInstance.summernote('code', '<span class="simbol">≠</span>');
                     }
                 });
                 return button.render();
