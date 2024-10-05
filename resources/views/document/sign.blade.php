@@ -37,40 +37,37 @@
                     </div>
                     <canvas id="pdf-canvas{{ $val }}" style="display: none;" class="border border-light w-100 mb-3"></canvas>
 
-                    @if ($head->bak->primary == 'TPT' && $head->do == 0)
+                    @if ($head->do == 0)
                         <button type="button" data-val="{{ $val }}"
-                            class="btn btn-primary btn-sm rounded-pill mx-auto d-block my-3 signs">Tanda
-                            Tangan</button>
+                            class="btn btn-primary btn-sm rounded-pill mx-auto d-block my-3 signs">
+                           {{$head->bak->primary == 'TPT' ? 'Tanda Tangan' : 'Verifikasi'}}</button>
                     @endif
                 </div>
             @endforeach
-
-            @if ($head->do == 0 && $head->bak->primary == 'TPA')
-                <div class="col-md-12">
-                    <button type="button"
-                        class="btn btn-success btn-sm rounded-pill mx-auto d-block my-3 ver text-center">Verifikasi</button>
-                </div>
-            @endif
-
+        
             <div class="modal fade sign" id="signature" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                 aria-labelledby="staticBackdropLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="staticBackdropLabel">Tanda Tangan</h5>
+                            <h5 class="modal-title" id="staticBackdropLabel">{{$head->bak->primary == 'TPT' ? 'Tanda Tangan' : 'Verifikasi'}}</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
                             <form action="{{ route('ba.signed', ['id' => md5($head->id)]) }}" method="post">
                                 @csrf
-                                <canvas class="border border-light mx-auto d-block canvas" width="450"
-                                    height="200"></canvas>
+                                    <canvas class="border border-light mx-auto d-block canvas {{$head->bak->primary == 'TPT' ? null : 'd-none'}}" width="450"
+                                        height="200"></canvas>
                                 <input type="hidden" name="sign">
                                 <input type="hidden" name="type" id="type">
 
-                                <button type="button" id="clear"
-                                    class="btn btn-dark btn-sm my-3 rounded-pill clear">Clear</button>
-                                <button type="submit" class="btn btn-success rounded-pill btn-sm save">Approve</button>
+                                @if($head->bak->primary == 'TPT')
+                                    <button type="button" id="clear"
+                                        class="btn btn-dark btn-sm my-3 rounded-pill clear">Clear</button>
+                                        <button type="submit" class="btn btn-success rounded-pill btn-sm save">Approve</button>
+                                @else
+                                    <button type="submit" class="btn btn-success rounded-pill btn-sm">Approve</button>
+                                @endif
                                 <button type="button" class="btn btn-danger rounded-pill btn-sm" data-bs-toggle="modal"
                                     data-bs-target="#reject">Reject</button>
                             </form>
@@ -80,7 +77,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>      
 
             <div class="modal fade" id="verifikasi">
                 <div class="modal-dialog">
@@ -150,7 +147,6 @@
         window.addEventListener('DOMContentLoaded', function() {
 
             pile().then((res)=>{
-                console.log(res);
                 res.map(function(val, i) {
                     genPDF(val, i);
                 });
@@ -194,31 +190,38 @@
                 document.getElementById('loading' + i).textContent = "Failed to load Data.";
             });
 
-            function renderPage(num, canvas, i, ctx) {
-                pageRendering = true;
-                pdfDoc.getPage(num, canvas).then(function(page) {
-                    const viewport = page.getViewport({
-                        scale: scale
-                    });
+            async function renderPage(num, canvas, i, ctx) {
+
+                try {
+                    pageRendering = true;
+                    const page = await pdfDoc.getPage(num); // Get the page without passing `canvas`
+
+                    // Create the viewport
+                    const viewport = page.getViewport({ scale: scale });
+
+                    // Set canvas dimensions
                     canvas.height = viewport.height;
                     canvas.width = viewport.width;
 
+                    // Prepare the context for rendering
                     const renderContext = {
                         canvasContext: ctx,
                         viewport: viewport
                     };
+
                     const renderTask = page.render(renderContext);
+                    await renderTask.promise;
 
-                    renderTask.promise.then(function() {
-                        pageRendering = false;
-                        if (pageNumPending !== null) {
-                            renderPage(pageNumPending);
-                            pageNumPending = null;
-                        }
-                    });
-                });
+                    pageRendering = false;
+                    if (pageNumPending !== null) {
+                        renderPage(pageNumPending, canvas, i, ctx);
+                        pageNumPending = null;
+                    }
 
-                document.getElementById('page-num' + i).textContent = num;
+                    document.getElementById('page-num' + i).textContent = num;
+                } catch (error) {
+                    console.error(`Error rendering page ${num} for index ${i}:`, error);
+                }
             }
 
             function queueRenderPage(num, canvas, i, ctx) {
@@ -288,9 +291,24 @@
             const mergedPdf = await PDFDocument.create();
        
             @if ($head->bak && $head->bak->status == 1)
-                @if ($head->bak->files)
                     @php
-                        $uri = [route('bak.doc', ['id' => md5($head->bak->id)]), asset('storage/' . $head->bak->files)];
+                        if($head->bak->files)
+                        {
+                            $uri = [
+                                        route('bak.doc', ['id' => md5($head->bak->id)]), 
+                                        asset('storage/' . $head->bak->files),
+                                        route('doc.attach', ['id' => md5($head->id)]),
+                                        route('doc.tax', ['id' => md5($head->id)])
+                                    ];
+                        }   
+                        else
+                        {
+                            $uri = [
+                                        route('bak.doc', ['id' => md5($head->bak->id)]), 
+                                        route('doc.attach', ['id' => md5($head->id)]),
+                                        route('doc.tax', ['id' => md5($head->id)])
+                                    ];
+                        }                  
                     @endphp
 
                     const pdfUrls = @json($uri);
@@ -301,15 +319,12 @@
                         const copiedPages = await mergedPdf.copyPages(pdfDoc, pdfDoc.getPageIndices());
                         copiedPages.forEach(page => mergedPdf.addPage(page));
                     }
-        
+
                     const pdfDataUri = await mergedPdf.saveAsBase64({
                         dataUri: true
                     });
 
-                    uri.push(pdfDataUri);
-                @else
-                    uri.push("{{ route('bak.doc', ['id' => md5($head->bak->id)]) }}");
-                @endif
+                    uri.push(pdfDataUri);            
             @endif
 
             @if ($head->barp && $head->barp->status == 1)

@@ -1,10 +1,10 @@
 @if ($head->do == 1 && $head->bak->primary == 'TPA')
-    <table style="width:30%;" class="footer">
+    <table style="width:30%" class="footer">
         <tr>
             <td style="padding:0.2rem;font-size:7;font-weight:bold">
-                Mengetahui Kepala Bidang
+                Mengetahui Kepala Bidang PBLTaru
             </td>
-            <td style="padding:0.2rem;font-size:7;font-weight:bold">
+            <td align="center" style="padding:0.2rem;font-size:7;font-weight:bold">
                 OK
             </td>
         </tr>
@@ -17,7 +17,7 @@
             <td width="100%" style="border:none; text-align:center">
                 <p>
                     <span style="font-weight: bold; font-size:rem;text-wrap:none">BERITA ACARA KONSULTASI (BAK)</span>
-                    <br>No.&nbsp;&nbsp;{{ str_replace('SPm', 'BAK', str_replace('600.1.15', '600.1.15/PBLT', $head->nomor)) }}
+                    <br>No.&nbsp;&nbsp;{{ $head->numbDoc('bak') }}
                 </p>
             </td>
             <td style="border:none"><img class="img" src="{{ gambar('logo.png') }}" /></td>
@@ -37,14 +37,16 @@
             <td width="1%" style="border:none">:</td>
             <td width="60%" style="border:none">{{ $header[0] }} </td>
             <td width="40%" style="border:none">Pengajuan </td>
-            <td width="60%" style="border:none">: {{ strtoupper($header[1]) }}</td>
+            <td width="1%" style="border:none;vertical-align:top">:</td>
+            <td width="60%" style="border:none">{{ strtoupper($header[1]) }}</td>
         </tr>
         <tr>
             <td width="40%" style="border:none">Nama Pemohon </td>
             <td width="1%" style="border:none">:</td>
             <td width="60%" style="border:none">{{ $header[2] }}</td>
             <td width="40%" style="border:none">No. Telp. / HP </td>
-            <td width="60%" style="border:none">: {{ $header[3] }}</td>
+            <td width="1%" style="border:none;vertical-align:top">:</td>
+            <td width="60%" style="border:none">{{ $header[3] }}</td>
         </tr>
         <tr>
             <td width="40%" style="border:none">Alamat Pemohon </td>
@@ -52,16 +54,19 @@
             <td colspan="3" style="border:none">{{ $header[4] }}</td>
         </tr>
         <tr>
-            <td width="40%" style="border:none">Nama Bangunan </td>
+            <td width="40%" style="border:none;">Nama Bangunan </td>
             <td width="1%" style="border:none">:</td>
             <td width="60%" style="border:none">{{ $header[5] }}</td>
             <td width="40%" style="border:none">{{ $head->type == 'umum' ? 'Fungsi' : 'Koordinat' }} </td>
-            <td width="60%" style="border:none">: {{ $header[6] }}</td>
+            <td width="1%" style="border:none;vertical-align:top">:</td>
+            <td style="border:none;">
+                {{ $head->type == 'umum' ? ucfirst($header[6]) : $header[8] }}
+            </td>
         </tr>
         <tr>
             <td width="40%" style="border:none;vertical-align:top">Alamat Bangunan </td>
             <td width="1%" style="border:none;vertical-align:top">:</td>
-            <td colspan="3" style="border:none;vertical-align:top">
+            <td colspan="4" style="border:none;vertical-align:top">
                 {{ $header[7] }}, Desa/Kel. {{ $head->region->name }}, Kec. {{ $head->region->kecamatan->name }}
                 Kab. Tegal, Prov. Jawa Tengah             
             </td>
@@ -126,7 +131,7 @@
 <td style="border: none"></td>
 <td>&nbsp;&nbsp;{{ ucwords(str_replace('_', ' ', $bangunan[$i]->uraian)) }}</td>
 <td align="center">&nbsp;&nbsp;{{ $bangunan[$i]->dimensi }}</td>
-<td align="center">&nbsp;&nbsp;{{ $bangunan[$i]->note }}</td>
+<td align="center">&nbsp;&nbsp;{!! $bangunan[$i]->note !!}</td>
 </tr>
 @endfor
 @if ($head->bak->ibg)
@@ -137,7 +142,7 @@
         <td style="border: none"></td>
         <td>&nbsp;&nbsp;{{ $fa[0] }}</td>
         <td align="center">&nbsp;&nbsp;{{ $fa[1] }}</td>
-        <td align="center">&nbsp;&nbsp;{{ $fa[2] }}</td>
+        <td align="center" class="warp">&nbsp;&nbsp;{!! $fa[2] !!}</td>
     </tr>
 @endforeach
 @endif
@@ -221,6 +226,7 @@
 </tr>
 </table>
 <br>
+
 Saran :<br>
 @if ($head->bak->note)
     <div class="warp">
@@ -229,9 +235,10 @@ Saran :<br>
 @else
     <br>
 @endif
+
 <p>Demikian hasil konsultasi TPT/TPA yang dihadiri oleh:</p>
 @if ($head->sign)
-    <table style="width:35%;">   
+    <table style="width:35%">   
         @foreach (collect($head->sign)->sortBy('type') as $val)
             <tr>
                 <td width="2%" style="border: none">
@@ -249,44 +256,50 @@ Saran :<br>
         @endforeach
     </table>
 @endif
-<table style="width:100%;">
-<tr>
-    <td style="border: none" align="center">
-        <p>Mengetahui,<br>
-            Ketua TPT/TPA Kab. Tegal
-        </p>
-        @if ($head->bak)
-            @if ($head->bak->primary == 'TPT')
-                <img src="{{ $head->bak->sign }}" width="50%" style="margin: auto">
-            @endif
 
-            @if ($head->bak->primary == 'TPA')
-                @php
-                    $sign = $head->sign->where('type','lead')->first();
-                @endphp
-                <img src="{{ $sign->bak }}" width="50%" style="margin: auto">
-            @endif
-            <br>
-        @else
-            <br><br><br><br>
-        @endif
-        {{ $head->bak->primary == 'TPT' ? $head->bak->kabid : $head->kons->not->name }}
-    </td>
-    <td style="border: none" align="center">
-    {{$head->bak->place}}, {{ dateID($head->surat->tanggal) }}<br>
-    Setuju hasil pemeriksaan<br>Pemohon PBG<br>
-        @if ($head->bak->signs)
-            <img src="{{ $head->bak->signs }}" width="50%" style="margin: auto">
-            <br>
-        @else
-            <br><br><br><br>
-        @endif
-        {{ $header[2] }}
-    </td>
-</tr>
-</table>
+<center>
+    <table style="width:100%;">
+        <tr>
+            <td width="50%" style="border: none" align="center">
+                <p>Mengetahui,<br>
+                    Ketua TPT/TPA Kab. Tegal
+                </p>
+                @if ($head->bak)
+                    @if ($head->bak->primary == 'TPT')
+                        <img src="{{ $head->bak->sign }}" width="50%" style="margin: auto">
+                    @endif
+    
+                    @if ($head->bak->primary == 'TPA')    
+                        <img src="{{ $head->sign->where('type','lead')->first()->bak }}" width="50%" style="margin: auto">
+                    @endif
+                    <br>
+                @else
+                    <br><br><br><br>
+                @endif
+                {{ $head->bak->primary == 'TPT' ? $head->bak->kabid : $head->kons->not->name }}
+            </td>
+            <td style="border: none" align="center">
+    
+            @php
+                $time = explode('#', $head->surat->waktu);
+            @endphp
+            {{$head->bak->place}}, {{ dateID($time[2]) }}<br>
+            Setuju hasil pemeriksaan<br>Pemohon PBG<br>
+                @if ($head->bak->signs)
+                    <img src="{{ $head->bak->signs }}" width="50%">
+                    <br>
+                @else
+                    <br><br><br><br>
+                @endif
+                {{ $header[2] }}
+            </td>
+        </tr>
+    </table>
+</center>
+
+
 @if ($head->grant == 1)
-    @php  $header = (array) json_decode($head->header); @endphp
+    @php  $header = (array) json_decode($head->header) @endphp
     <script type="text/php"> 
         if (isset($pdf)) { 
             //Shows number center-bottom of A4 page with $x,$y values

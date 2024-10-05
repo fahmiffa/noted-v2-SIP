@@ -26,7 +26,8 @@ class HeadExport implements FromArray, WithHeadings, WithEvents
             $vill = $val->region ? $val->region->name : null;
             $dis = $val->region ? $val->region->kecamatan->name : null;
 
-            $header = json_decode($val->header);
+            $header  = json_decode($val->header);
+            $mheader = $val->barp ? json_decode($val->barp->header) : null;
 
             if ($val->tax) {
                 $tax = (object) json_decode($val->tax->parameter);
@@ -41,14 +42,17 @@ class HeadExport implements FromArray, WithHeadings, WithEvents
                 $header ? $header[3] : null,
                 $header ? $header[5] : null,
                 $header ? ucwords(str_replace('_', ' ', $header[6])) : null,
+                $header && isset($header[8]) ? $header[8] : null,
                 $header ? $header[7] : null,
                 $vill,
                 $dis,
+                $header && isset($header[9] ) ? $header[9] : null,
                 $val->dokumen,
                 $val->numbDoc('barp'),
                 $val->tax ? $tax->totRetri : 0,
             ];
         }
+
         return $da;
     }
 
@@ -63,10 +67,12 @@ class HeadExport implements FromArray, WithHeadings, WithEvents
                 'Email Pemohon',
                 'Nomor HP Pemohon',
                 'Nama Bangunan',
-                'Fungsi Bangunan', //8
+                'Fungsi Bangunan', 
+                'Koordinat', 
                 'Lokasi Bangunan',       
                 '',
                 '',         
+                'No. Dokumen Tanah',
                 'Status',
                 'No. BARP',
                 'Retribusi'
@@ -79,10 +85,12 @@ class HeadExport implements FromArray, WithHeadings, WithEvents
                 '',
                 '',
                 '',           
+                '',                
                 '',                            
                 'Alamat',
                 'Desa',
                 'Kecamatan',
+                '',
                 '',
                 '',
                 ''                
@@ -103,15 +111,17 @@ class HeadExport implements FromArray, WithHeadings, WithEvents
                 $event->sheet->mergeCells('F1:F2'); 
                 $event->sheet->mergeCells('G1:G2'); 
                 $event->sheet->mergeCells('H1:H2'); 
+                $event->sheet->mergeCells('I1:I2'); 
 
-                $event->sheet->mergeCells('I1:K1');                 
+                $event->sheet->mergeCells('J1:L1');                 
           
-                $event->sheet->mergeCells('L1:L2');
                 $event->sheet->mergeCells('M1:M2');
                 $event->sheet->mergeCells('N1:N2'); 
+                $event->sheet->mergeCells('O1:O2'); 
+                $event->sheet->mergeCells('P1:P2'); 
 
                 // Menetapkan gaya untuk header
-                $event->sheet->getStyle('A1:N2')->applyFromArray([
+                $event->sheet->getStyle('A1:P2')->applyFromArray([
                     'font' => [
                         'bold' => true,
                     ],

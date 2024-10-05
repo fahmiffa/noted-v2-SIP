@@ -69,6 +69,40 @@ class HomeController extends Controller
         return back();
     }
 
+    public function image(Request $request)
+    {
+        $rule = [
+           'image' => 'required|mimes:png,jpg,jpeg|max:2048'
+        ];
+
+        $message = [
+            'required' => 'Field ini harus diisi',
+            'mimes' => 'Field :attribute ektensi tidak valid',
+            'max' => 'ukuran maksimal 2MB',
+        ];
+
+        $request->validate($rule, $message);
+
+        $pile = $request->file('image');
+        $path = null;
+        
+        $user = User::where('id', Auth::user()->id)->first();      
+
+        if ($pile) {
+            $ext = $pile->getClientOriginalExtension();
+            $path = $pile->storeAs(
+                'assets/user/' .md5($user->id). '_user.' . $ext, ['disk' => 'public']
+            );
+        }
+
+        $user->img = $path;
+        $user->save();
+
+
+        toastr()->success('Update Berhasil', ['timeOut' => 5000]);
+        return back();
+    }
+
     private function chart()
     {
         $currentYear = Carbon::now()->year;
@@ -98,26 +132,41 @@ class HomeController extends Controller
         ];
     }
 
+    private function summmary()
+    {
+        $barp = Meet::where('grant', 1)->get();
+        
+        $res = [];
+        foreach($barp as $val)
+        {
+            $item = (object) json_decode($val->item);            
+            $val = $item->val;
+            foreach ($val as $key => $value) {
+                $res[$key] = $value + $val[$key];
+            }
+        }
+        return $res;
+    }
+
     public function index()
     {
+        $this->summmary();
+        $chart = $this->chart();
+        $head = Head::all();
+        $jadwal = Head::doesnthave('kons')->where('grant', 1)->get()->count();
+        $verif = Head::doesnthave('kons')->where('grant', 0)->get()->count();
+        $kons = Head::has('kons')->where('do', 0)->get()->count();
+
+        $bak = Head::whereHas('bak', function ($q) {
+            $q->where('grant', 1);
+        })->get()->count();
+
+        $barp = Head::whereHas('barp', function ($q) {
+            $q->where('grant', 1);
+        })->get()->count();
 
         // admin, sekretariat
         if (Auth::user()->ijin('master_formulir')) {
-
-            $chart = $this->chart();
-            $head = Head::all();
-            $jadwal = Head::doesnthave('kons')->where('grant', 1)->get()->count();
-            $verif = Head::doesnthave('kons')->where('grant', 0)->get()->count();
-            $kons = Head::has('kons')->where('do', 0)->get()->count();
-
-            $bak = Head::whereHas('bak', function ($q) {
-                $q->where('grant', 1);
-            })->get()->count();
-
-            $barp = Head::whereHas('barp', function ($q) {
-                $q->where('grant', 1);
-            })->get()->count();
-
             return view('home', compact('head', 'verif', 'kons', 'bak', 'barp', 'chart', 'jadwal'));
         }
 
@@ -125,15 +174,14 @@ class HomeController extends Controller
         if (Auth::user()->ijin('bak')) {
 
             $comp = head::where('do', 1)->whereHas('sign', function ($q) {
-                $q->where('user', Auth::user()->id)->where('type','lead');
-
+                $q->where('user', Auth::user()->id);
             })->count();
 
             $task = head::where('do', 0)->whereHas('sign', function ($q) {
-                $q->where('user', Auth::user()->id)->where('type','lead');
+                $q->where('user', Auth::user()->id);
             })->count();
 
-            return view('main', compact('task', 'comp'));
+            return view('main', compact('task', 'comp','verif', 'kons', 'bak', 'barp', 'chart', 'jadwal','head'));
         }
 
         // verifikator
@@ -146,14 +194,14 @@ class HomeController extends Controller
                 ->whereHas('doc', function ($q) {
                     $q->where('grant', 0);
                 })->count();
-            return view('main', compact('task', 'comp'));
+            return view('main', compact('head', 'verif', 'kons', 'bak', 'barp', 'chart', 'jadwal','task','comp'));
         }
 
         // kabid
         if (Auth::user()->ijin('verifikasi_bak')) {
             $task = head::whereHas('bak', function ($q) {$q->where('do', 0);})->count();
             $comp = head::whereHas('bak', function ($q) {$q->where('do', 1);})->count();
-            return view('general', compact('task', 'comp'));
+            return view('general', compact('task', 'comp','head', 'verif', 'kons', 'bak', 'barp', 'chart', 'jadwal'));
         }
 
     }
@@ -187,12 +235,12 @@ class HomeController extends Controller
 
             if (count($val) > 0) {
                 $keys = array_keys($val)[0];
-                $no = $keys + 2;
+                $no = $keys + 1;
             } else {
                 $no = 0;
             }
         } else {
-            $no = 1;
+            $no = null;
         }
 
         return $no;
@@ -212,7 +260,7 @@ class HomeController extends Controller
             $news = $head->bak;
             $data = compact('news', 'head');
 
-            $pdf = PDF::loadView('document.bak.doc.index', $data)->setPaper('a4', 'potrait');
+            $pdf = PDF::loadView('document.bak.doc.index', $data)->setPaper('legal', 'potrait');
             return $pdf->stream();
             return view('document.bak.doc.index', $data);
         } else if ($par == 'barp') {
@@ -220,7 +268,7 @@ class HomeController extends Controller
             $news = $head->bak;
             $data = compact('news', 'head', 'meet');
 
-            $pdf = PDF::loadView('document.barp.doc.index', $data)->setPaper('a4', 'potrait');
+            $pdf = PDF::loadView('document.barp.doc.index', $data)->setPaper('legal', 'potrait');
             return $pdf->stream();
             return view('document.barp.doc.index', $data);
 
@@ -228,16 +276,19 @@ class HomeController extends Controller
             $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
             $data = compact('qrCode', 'head');
 
-            $pdf = PDF::loadView('document.tax.doc.index', $data)->setPaper('a4', 'potrait');
+            $pdf = PDF::loadView('document.tax.doc.index', $data)->setPaper('legal', 'potrait');
             return $pdf->stream();
 
         } else if ($par == 'attach') {
-            $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
+            $link = $head->links->where('ket', 'lampiran')->first();
+            $qrCode = base64_encode(QrCode::format('png')->size(200)->generate(route('link', ['id' => $link->short])));
             $data = compact('qrCode', 'head');
 
-            $pdf = PDF::loadView('document.attach.doc.index', $data)->setPaper('a4', 'potrait');
+            $pdf = PDF::loadView('document.attach.doc.index', $data)->setPaper('legal', 'potrait');
             // return view('document.attach.doc.index', $data);
             return $pdf->stream();
+        } else if ($par == 'verifikasi') {
+            return  $this->verifikasi($id);
         }
     }
 
@@ -271,7 +322,13 @@ class HomeController extends Controller
         }
         else if($link->ket == 'verifikasi')
         {
-            $uri[] = asset('storage/' . $link->files);
+            // $uri[] = asset('storage/' . $link->files);
+
+            $uri[] = route('req.dok', ['id' => md5($link->head), 'par'=>'verifikasi']);
+        }
+        else if($link->ket == 'lampiran')
+        {
+            $uri[] = route('req.dok', ['id' => md5($link->head), 'par'=>'attach']);
         }
 
         return view('document.embeds', compact('uri', 'title'));
@@ -319,12 +376,8 @@ class HomeController extends Controller
 
         $step = $head->step == 1 ? 0 : 1;
 
-        if ($head->grant == 1) {
-            $link = $head->links->where('ket', 'verifikasi')->first();
-            $res = route('link', ['id' => $link->short]);
-        } else {
-            $res = $head->reg;
-        }
+        $link = $head->links->where('ket', 'verifikasi')->first();
+        $res = route('link', ['id' => $link->short]);
 
         $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($res));
 

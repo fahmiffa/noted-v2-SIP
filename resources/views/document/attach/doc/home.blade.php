@@ -3,8 +3,8 @@
             <td style="border:none"><img class="img" src="{{ gambar('kab.png') }}" /></td>
             <td width="100%" style="border:none; text-align:center">
                 <p>
-                    <span style="font-weight: bold; font-size:0.8rem;text-wrap:none">LAMPIRAN DOKUMEN PBG</span>
-                    <br>No.&nbsp;&nbsp;{{ str_replace('SPm', 'LDP', str_replace('600.1.15', '600.1.15/PBLT', $head->nomor)) }}
+                    <span style="font-weight: bold; font-size:0.8rem;text-wrap:none">LAMPIRAN DOKUMEN PBG DAN/ATAU SLF</span>
+                    <br>No.&nbsp;&nbsp;{{ $head->numbDoc('lampiran') }}
                 </p>
             </td>
             <td style="border:none"><img class="img" src="{{ gambar('logo.png') }}" /></td>
@@ -14,7 +14,7 @@
     <table style="width:100%; margin-top: 1rem" align="center">
         <tbody>
             <tr>
-                <td width="15%" style="border:none">No. Registrasi </td>
+                <td width="20%" style="border:none">No. Registrasi </td>
                 <td width="1%" style="border:none">:</td>
                 <td colspan="5" style="border:none">{{ $header[0] }} </td>
             </tr>
@@ -49,10 +49,12 @@
                     <td width="15%" style="border:none">Luas Persil</td>
                     <td width="1%" style="border:none">:</td>
                     <td width="20%" style="border:none">{{ $head->attach->persil }}</td>
-                @endif
-                <td width="25%" style="border:none">Bukti Kepemilikan Tanah</td>
+                @endif        
+            </tr>
+            <tr>
+                <td width="15%" style="border:none">Bukti Kepemilikan Tanah </td>
                 <td width="1%" style="border:none">:</td>
-                <td width="20%" style="border:none">{{ $head->attach->bukti }}</td>
+                <td colspan="6" style="border:none">{{ $head->attach->bukti }}</td>
             </tr>
         </tbody>
     </table>
@@ -110,8 +112,8 @@
             <td style="border:none">
                 <p>Catatan :</p>
                 <ol>
-                    <li>Lampiran ini merupakan bagian yang tidak terpisahkan dari Berita Acara Rapat Pleno (BARP) <br> No.
-                        {{ $head->number }}
+                    <li>Lampiran ini merupakan bagian yang tidak terpisahkan dari Berita Acara Konsultasi (BAK) <br> No.
+                        {{ $head->numbDoc('bak') }}
                     </li>
                     <li>Pemilik bangunan tidak diperkenankan mengembangkan bangunan diluar ketentuan yang berlaku.
                     </li>
@@ -123,7 +125,7 @@
             </td>
             <td style="border:none;vertical-align-middle">
                 <center>
-                    <img src="data:image/png;base64, {{ $head->qr }}" width="75%">
+                    <img src="data:image/png;base64, {{ $qrCode }}" width="75%">
                 </center>
             </td>
         </tr>
@@ -135,7 +137,7 @@
             //Shows number center-bottom of A4 page with $x,$y values
             $x = 330;  //X-axis vertical position 
             $y = 990; //Y-axis horizontal position
-            $text = "Lembar Lampiran PBG No. Registrasi {{$header[0]}}  | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
+            $text = "Lembar Lampiran No. Registrasi {{$header[0]}}  | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
             $font =  $fontMetrics->get_font("helvetica", "bold");
             $size = 7;
             $color = array(0,0,0);

@@ -22,6 +22,7 @@ use QrCode;
 use setasign\Fpdi\Fpdi;
 use DB;
 
+
 class ConsultationController extends Controller
 {
 
@@ -233,6 +234,10 @@ class ConsultationController extends Controller
         $kons->notulen = implode(",", $request->notulen);
         $kons->head = $request->doc;
         $kons->konsultan = implode(",", $request->konsultan);
+        // if($pile)
+        // {
+        //     $kons->files = $path;
+        // }
         $kons->files = $path;
         $kons->save();
 
@@ -281,6 +286,11 @@ class ConsultationController extends Controller
     public function destroy(Consultation $consultation)
     {
         $consultation->delete();
+
+        $old = Head::where('id',$consultation->head)->first();     
+        $old->grant = 0;
+        $old->save();
+
         Schedule::where('head', $consultation->head)->delete();
         Signed::where('head', $consultation->head)->delete();
         News::where('head', $consultation->head)->delete();

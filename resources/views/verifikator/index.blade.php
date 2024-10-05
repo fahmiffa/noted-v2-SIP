@@ -57,7 +57,7 @@
                                                 {{ $item->region ? 'Kec. ' . $item->region->kecamatan->name : null }}
                                             </td>
                                             <td class="text-center">
-                                                {{ $item->nomor }}
+                                                {{ $item->numbDoc('verifikasi') }}
                                             </td>
                                             <td class="text-center">
                                                 {{ $item->dokumen }}
@@ -70,10 +70,13 @@
                                                             class="btn btn-sm btn-danger"><i
                                                                 class="bi bi-file-pdf"></i></a>
                                                     @else
-                                                        <a href="{{ route('step.verifikasi', ['id' => md5($item->id)]) }}"
-                                                            data-toggle="tooltip" data-placement="top"
-                                                            title="Form Dokumen verifikasi"
-                                                            class="btn btn-sm btn-primary me-1"><i class="bi bi-pencil"></i></a>
+
+                                                        @if($item->open == 1)
+                                                            <a href="{{ route('step.verifikasi', ['id' => md5($item->id)]) }}"
+                                                                data-toggle="tooltip" data-placement="top"
+                                                                title="Form Dokumen verifikasi"
+                                                                class="btn btn-sm btn-primary me-1"><i class="bi bi-pencil"></i></a>
+                                                        @endif
 
                                                         @if ($item->steps->count() > 0)
                                                             <a target="_blank"
@@ -119,19 +122,20 @@
                                     <ul>
                                         @if ($item->parents)
                                             <li class="text-wrap text-break">{{ $item->parents->reg }}
-                                                ({{ $item->parents->nomor }})
+                                                ({{ $item->parents->numbDoc('verifikasi') }})
                                                 <a target="_blank"
                                                     href="{{ route('monitoring.doc', ['id' => md5($item->parents->id)]) }}"
-                                                    class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>
-                                                {{ $item->parents->note }}
+                                                    class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>                                                    
+                                                <p>{{ $item->parents->note }}</p>
                                             </li>
                                         @endif
                                         @foreach ($item->parents->tmp->whereNotNull('deleted_at') as $val)
-                                            <li class="text-wrap text-break">{{ $val->reg }} ({{ $val->nomor }}) <a
+                                            <li class="text-wrap text-break">{{ $val->reg }} ({{ $val->numbDoc('verifikasi') }}) <a
                                                     target="_blank"
                                                     href="{{ route('monitoring.doc', ['id' => md5($val->id)]) }}"
                                                     class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>
-                                                ({{ $val->note }})
+                                                    <br>
+                                                <p>({{ $val->note }})</p>
                                             </li>
                                         @endforeach
                                     </ul>

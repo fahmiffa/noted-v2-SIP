@@ -67,7 +67,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-between align-items-center">
-                                                <form onsubmit="return confirm('Apakah Anda Yakin Menghapus ?');"
+                                                <form onsubmit="return myConfirm('rollback ?');"
                                                     action="{{ route('consultation.destroy', $item->id) }}" method="POST">
                                                     <a href="{{ route('consultation.edit', $item->id) }}"
                                                         class="btn btn-sm btn-primary mb-1"><i class="bi bi-pencil"></i></a>

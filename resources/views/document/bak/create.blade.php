@@ -174,6 +174,34 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group row mb-3">
+                            <div class="col-md-4">
+                                <input type="text" value="{{ isset($news) && isset($iu[6]->uraian) ? $iu[6]->uraian : null }}"  class="form-control" name="val[]" placeholder="Parameter">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" value="{{ isset($news) && isset($iu[6]->value) ? $iu[6]->value : null }}"  class="form-control" name="width[]" placeholder="Nilai">
+                            </div>
+                        </div> 
+                        
+                        <div class="form-group row mb-3">
+                            <div class="col-md-4">
+                                <input type="text"  value="{{ isset($news) && isset($iu[7]->uraian) ? $iu[7]->uraian : null }}" class="form-control" name="val[]" placeholder="Parameter">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" value="{{ isset($news) && isset($iu[7]->value) ? $iu[7]->value : null }}" class="form-control" name="width[]" placeholder="Nilai">
+                            </div>
+                        </div> 
+
+                        <div class="form-group row mb-3">
+                            <div class="col-md-4">
+                                <input type="text" value="{{ isset($news) && isset($iu[8]->uraian) ? $iu[8]->uraian : null }}" class="form-control" name="val[]" placeholder="Parameter">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" value="{{ isset($news) && isset($iu[8]->value) ? $iu[8]->value : null }}" class="form-control" name="width[]" placeholder="Nilai">
+                            </div>
+                        </div> 
+
                         <div class="row">
                             <h6>Informasi Bangunan Gedung :</h6>
                             <div class="col-md-4 my-auto">
@@ -439,7 +467,7 @@
 
 @push('js')
     <script src="{{ asset('assets/extensions/jquery/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/summernote.min.js') }}"></script>
+    <script src="{{ asset('assets/extensions/summernote/summernote-lite.min.js') }}"></script>
     <script src="{{ asset('assets/editor.js') }}"></script>
 
     <script>
@@ -464,5 +492,6 @@
                                                                         ';
             $('#input').append(clonedDiv);
         });
+
     </script>
 @endpush

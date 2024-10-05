@@ -39,6 +39,10 @@
                                 @foreach ($da as $item)
                                     @php
                                         $header = (array) json_decode($item->header);
+                                        $numb = '62' . ltrim($header[3], 0);                                                                                
+                                        $link = $item->old ? $item->old->links->where('ket', 'verifikasi')->first() : $item->links->where('ket', 'verifikasi')->first();                                        
+                                        $uri = route('link', ['id' => $link->short]);
+                                        $reg = $item->reg;
                                     @endphp
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
@@ -58,7 +62,7 @@
                                             {{ $item->region ? 'Kec. ' . $item->region->kecamatan->name : null }}
                                         </td>
                                         <td class="text-center">
-                                            {{ $item->nomor }}
+                                            {{ $item->numbDoc('verifikasi') }}
                                         </td>
                                         <td class="text-center">
                                             @if ($item->tang)
@@ -70,17 +74,39 @@
                                         </td>
                                         <td>
                                             <div class="d-flex justify-content-center align-items-center">
+                                                @if ($item->open == 0 && $item->grant == 0)
+                                                    <form onsubmit="return confirm('Anda akan membuka formulir ke verifikator ?');"
+                                                        action="{{ route('doc.status', md5($item->id)) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm btn-primary me-1"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            title="Open Dokumen">
+                                                            <i class="bi bi-send"></i>
+                                                        </button>
+                                                    </form>
+
+                                                    @php
+                                                        $psn = "Yth. Bapak/Ibu $header[2] dengan Nomor Registrasi $reg Kelengkapan Dokumen Permohonan PBG dan/atau SLF anda telah dilakukan verifikasi dan terdapat Perbaikan Dokumen. Detail catatan dan perbaikan dokumen dapat dilihat melalui tautan berikut : $uri \nTerima Kasih #DPUPRKabTegal";
+                                                    @endphp
+
+                                                    <a target="_blank"
+                                                        href="https://wa.me/{{ $numb }}?text={{ urlencode($psn) }}"
+                                                        class="btn btn-sm btn-success my-1 me-1"><i class="bi bi-whatsapp"></i>
+                                                    </a>
+                                                @endif
+
                                                 @if ($item->status == 5 && $item->parent == null)
-                                                    <a href="{{ route('verifikasi.edit', $item->id) }}"
-                                                        data-toggle="tooltip" data-placement="top" title="Edit Dokumen"
+                                                    <a href="{{ route('verifikasi.edit', $item->id) }}"                                                        
+                                                        data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Edit Dokumen"
                                                         class="btn btn-sm btn-primary me-1">Edit</a>
                                                 @endif
 
                                                 @if ($item->status == 1)
                                                     @if ($item->grant == 0)
-                                                        <button type="button" class="btn btn-info btn-sm mx-2"
-                                                            data-toggle="tooltip" data-placement="top"
-                                                            title="Dokumen belum diverifikasi" data-bs-toggle="modal"
+                                                        <button type="button" class="btn btn-info btn-sm mx-2"                                            
+                                                            data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Dokumen belum diverifikasi"
+                                                            data-bs-toggle="modal"
                                                             data-bs-target="#ver{{ $item->id }}">
                                                             Verifikasi
                                                         </button>
@@ -88,29 +114,29 @@
                                                 @endif
 
                                                 <button type="button"
-                                                    class="btn {{ $item->head->count() > 0 ? 'btn-warning' : 'btn-dark' }} btn-sm"
-                                                    data-toggle="tooltip" data-placement="top" title="Dokumen Detail"
+                                                    class="btn {{ $item->head->count() > 0 ? 'btn-warning' : 'btn-dark' }} btn-sm"                                                    
+                                                    data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Dokumen Detail"
                                                     data-bs-toggle="modal" data-bs-target="#det{{ $item->id }}">
                                                     Detail
                                                 </button>
 
-                                                @if ($item->status == 5)
-                                                    <form onsubmit="return confirm('Apakah Anda Yakin Menghapus ?');"
+                                                @if ($item->status == 5 && auth()->user()->roles->kode == 'SU')
+                                                    <form onsubmit="return myConfirm('hapus');"
                                                         action="{{ route('verifikasi.destroy', $item->id) }}"
                                                         method="POST">
                                                         @method('DELETE')
                                                         @csrf
-                                                        <button type="submit" class="btn btn-sm btn-danger mx-2"
-                                                            data-toggle="tooltip" data-placement="top"
-                                                            title="Hapus Dokumen">
+                                                        <button type="submit" class="btn btn-sm btn-danger mx-2"                                                            
+                                                            data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Hapus Dokumen">
+                                                            
                                                             <i class="bi bi-trash"></i>
                                                         </button>
                                                     </form>
                                                 @endif
 
                                                 @if ($item->status == 1)
-                                                    <a target="_blank" data-toggle="tooltip" data-placement="top"
-                                                        title="Dokumen PDF"
+                                                    <a target="_blank" 
+                                                    data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Dokumen PDF"
                                                         href="{{ route('monitoring.doc', ['id' => md5($item->id)]) }}"
                                                         class="btn btn-sm btn-danger mx-2"><i
                                                             class="bi bi-file-pdf"></i></a>
@@ -161,18 +187,18 @@
                                     <ul>
                                         @if ($item->parents)
                                             <li class="text-wrap text-break">{{ $item->parents->reg }}
-                                                ({{ $item->parents->nomor }}) <a target="_blank"
+                                                ({{ $item->parents->numbDoc('verifikasi') }}) <a target="_blank"
                                                     href="{{ route('monitoring.doc', ['id' => md5($item->parents->id)]) }}"
                                                     class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>
-                                                ({{ $item->parents->note }})
+                                                <p>({{ $item->parents->note }})</p>
                                             </li>
                                         @endif
                                         @foreach ($item->parents->tmp->whereNotNull('deleted_at') as $val)
-                                            <li class="text-wrap text-break">{{ $val->reg }} ({{ $val->nomor }}) <a
+                                            <li class="text-wrap text-break">{{ $val->reg }} ({{ $val->numbDoc('verifikasi') }}) <a
                                                     target="_blank"
                                                     href="{{ route('monitoring.doc', ['id' => md5($val->id)]) }}"
                                                     class="btn btn-sm btn-danger mb-2"><i class="bi bi-file-pdf"></i></a>
-                                                ({{ $val->note }})
+                                                <p>({{ $val->note }})</p>
                                             </li>
                                         @endforeach
                                     </ul>

@@ -19,17 +19,17 @@
                     <a href="{{ route('news.index') }}" class="submenu-link"><i class="bi bi-file-post"></i> BAK</a>
                 </li>
                 <li
-                    class="submenu-item {{ request()->routeIs('meet.index') ? 'active' : null }} {{ Request::segment(2) == 'input-barp' ? 'active' : null }}">
-                    <a href="{{ route('meet.index') }}" class="submenu-link"><i class="bi bi-file-post-fill"></i>
-                        BARP</a>
-                </li>
-                <li
                     class="submenu-item {{ request()->routeIs('attach.index') ? 'active' : null }} {{ Request::segment(2) == 'attach-step' ? 'active' : null }}">
                     <a href="{{ route('attach.index') }}" class="submenu-link"><i class="bi bi-files-alt"></i>
                         Lampiran</a>
                 </li>
                 <li class="submenu-item {{ request()->routeIs('tax.index') ? 'active' : null }}">
                     <a href="{{ route('tax.index') }}" class="submenu-link"><i class="bi bi-cash"></i> Retribusi</a>
+                </li>
+                <li
+                    class="submenu-item {{ request()->routeIs('meet.index') ? 'active' : null }} {{ Request::segment(2) == 'input-barp' ? 'active' : null }}">
+                    <a href="{{ route('meet.index') }}" class="submenu-link"><i class="bi bi-file-post-fill"></i>
+                        BARP</a>
                 </li>
             </ul>
         </li>

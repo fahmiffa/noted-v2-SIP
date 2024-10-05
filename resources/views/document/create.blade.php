@@ -1,6 +1,5 @@
 @extends('layout.base')
 @push('css')
-    <link rel="stylesheet" href="{{ asset('assets/extensions/choices.js/public/assets/styles/choices.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
     <link rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
@@ -35,7 +34,7 @@
 
                                         <div class="col-md-6">
                                             <label>Jenis</label>
-                                            <select class="choices form-select" name="type" id="type">
+                                            <select class="form-select" name="type" id="type">
                                                 <option value="">Pilih Jenis</option>
                                                 @php $doc = baseDoc();  @endphp
                                                 @foreach ($doc as $item)
@@ -73,19 +72,46 @@
                                     </div>
 
                                     <div class="form-group row mb-3">
-                                        <div class="col-md-6 mb-3 d-none" id="ver1">
+                                        <div class="col-md-6 mb-3 {{isset($verifikasi) && $verifikasi->step == 1 ? null : 'd-none' }} step">
                                             <label>Verifikator Tahap 1</label>
-                                            <select class="select-field" name="verifikator[]" id="task1">
+                                            <select class="select-field form-select" name="verifikator[]" id="task1">
                                                 <option value="">Pilih Verifikator</option>
+                                                @if(isset($verifikasi) && $verifikasi->step == 1)                                     
+                                                @foreach($user->where('role',$role['VL1']) as $ver)
+                                                 <option value="{{$ver->id}}" @selected($ver->id == $verifikasi->verifikator) >{{$ver->name}}</option>
+                                                 @endforeach
+                                                @endif
                                             </select>
                                             @error('verifikator')
                                                 <div class='small text-danger text-left'>{{ $message }}</div>
                                             @enderror
                                         </div>
-                                        <div class="col-md-6 mb-3 d-none" id="ver2">
-                                            <label>Verifikator Tahap 2</label>
-                                            <select class="select-field" name="verifikator[]" id="task2">
+                                        <div class="col-md-6 mb-3 {{isset($verifikasi) && $verifikasi->step == 2 ? null : 'd-none' }} steps">
+                                            <label>Verifikator Tahap 1</label>
+                                            <select class="select-field form-select" name="verifikator[]" id="task2">
                                                 <option value="">Pilih Verifikator</option>
+                                                @if(isset($verifikasi) && $verifikasi->step == 2)
+                                                @php
+                                                $verif = explode(',',$verifikasi->verifikator);
+                                                @endphp
+                                                @foreach($user->where('role',$role['VL2']) as $ver)
+                                                 <option value="{{$ver->id}}" @selected($ver->id == $verif[0]) >{{$ver->name}}</option>
+                                                 @endforeach
+                                                @endif
+                                            </select>
+                                            @error('verifikator')
+                                                <div class='small text-danger text-left'>{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6 mb-3 {{isset($verifikasi) && $verifikasi->step == 2 ? null : 'd-none' }} steps">
+                                            <label>Verifikator Tahap 2</label>
+                                            <select class="select-field form-select" name="verifikator[]" id="task3">
+                                                <option value="">Pilih Verifikator</option>
+                                                @if(isset($verifikasi) && $verifikasi->step == 2)                                         
+                                                @foreach($user->where('role',$role['VL3']) as $ver)
+                                                 <option value="{{$ver->id}}" @selected($ver->id == $verif[1]) >{{$ver->name}}</option>
+                                                 @endforeach
+                                                @endif
                                             </select>
                                             @error('verifikator')
                                                 <div class='small text-danger text-left'>{{ $message }}</div>
@@ -110,11 +136,10 @@
 
     @push('js')
         <script src="{{ asset('assets/extensions/jquery/jquery.min.js') }}"></script>
-        <script src="{{ asset('assets/extensions/choices.js/public/assets/scripts/choices.js') }}"></script>
-        <script src="{{ asset('assets/static/js/pages/form-element-select.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
         <script>
+
             @if (old('type') == 'menara')
                 $('#con').html('Koordinat');
                 $('#koor').removeClass('d-none');
@@ -126,20 +151,6 @@
                 $('#koor').addClass('d-none');
                 $('#fung').removeClass('d-none');
             @endif
-
-            $('#type').on('change', function() {
-                var tipe = $(this).val();
-
-                if (tipe == 'umum') {
-                    $('#con').html('Fungsi');
-                    $('#koor').addClass('d-none');
-                    $('#fung').removeClass('d-none');
-                } else {
-                    $('#con').html('Koordinat');
-                    $('#koor').removeClass('d-none');
-                    $('#fung').addClass('d-none');
-                }
-            });
 
             $('.select-field').select2({
                 theme: 'bootstrap-5'
@@ -170,9 +181,10 @@
                 e.preventDefault();
                 $('#task1').empty();
                 $('#task2').empty();
+                $('#task3').empty();
                 if (par == 1) {
-                    $('#ver1').removeClass('d-none');
-                    $('#ver2').addClass('d-none');
+                    $('.step').removeClass('d-none');
+                    $('.steps').addClass('d-none');
                     $.ajax({
                         type: 'POST',
                         headers: {
@@ -193,8 +205,8 @@
 
                 } else {
 
-                    $('#ver2').removeClass('d-none');
-                    $('#ver1').removeClass('d-none');
+                    $('.steps').removeClass('d-none');
+                    $('.step').addClass('d-none');
                     $.ajax({
                         type: 'POST',
                         headers: {
@@ -207,12 +219,12 @@
                         success: function(data) {
 
                             $.each(data.satu, function(key, value) {
-                                $('#task1').append('<option value="' + key + '">' + value
+                                $('#task2').append('<option value="' + key + '">' + value
                                     .toUpperCase() +
                                     '</option>');
                             });
                             $.each(data.dua, function(key, value) {
-                                $('#task2').append('<option value="' + key + '">' + value
+                                $('#task3').append('<option value="' + key + '">' + value
                                     .toUpperCase() +
                                     '</option>');
                             });
@@ -221,5 +233,7 @@
 
                 }
             });
+
+
         </script>
     @endpush

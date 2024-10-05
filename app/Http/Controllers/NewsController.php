@@ -121,7 +121,10 @@ class NewsController extends Controller
         $val = $request->val;
         $width = $request->width;
         for ($i = 0; $i < count($val); $i++) {
-            $iu[] = ['uraian' => $val[$i], 'value' => $width[$i]];
+            if($val[$i])
+            {
+                $iu[] = ['uraian' => $val[$i], 'value' => $width[$i]];
+            }
         }
         $da['informasi_umum'] = $iu;
 
@@ -150,10 +153,11 @@ class NewsController extends Controller
             $item->status = 2;
         }        
 
-        if($pile)
-        {
-            $item->files = $path;
-        }
+        // if($pile)
+        // {
+        //     $item->files = $path;
+        // }
+        $item->files = $path;
         $item->signs = $old ? $old->signs : null;
         $item->save();
 

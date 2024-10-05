@@ -15,9 +15,9 @@
                         <h5 class="card-title">Data {{$data}}</h5>
                     </div>
                     <div class="p-2">
-                        <a href="{{route('kecamatan.create')}}" class="btn btn-primary btn-sm">Tambah {{$data}}</a>
+                        <a href="{{route('kecamatan.create')}}" class="btn btn-primary btn-sm">Tambah {{$data}}</a>                
                     </div>
-                </div>       
+                </div>           
             </div>
             <div class="card-body">
                 <div class="table-responsive">

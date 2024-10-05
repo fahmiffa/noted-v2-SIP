@@ -83,10 +83,23 @@ class HeadController extends Controller
         $head->sekretariat = Auth::user()->id;
         $head->save();
 
+        shortLink($head->id,'verifikasi');
+
         $old->delete();
 
         toastr()->success('Verifikasi Data berhasil', ['timeOut' => 5000]);
         return back();     
+    }
+
+    public function open(Request $request, $id)
+    {
+        $old = Verifikasi::where(DB::raw('md5(id)'),$id)->first(); 
+        $old->open = 1;
+        $old->save();   
+
+        toastr()->success('Open berhasil', ['timeOut' => 5000]);
+        return back();   
+     
     }
 
     /**
@@ -108,21 +121,55 @@ class HeadController extends Controller
             'email'=> 'required|unique:heads,reg', 
             'dis'=> 'required', 
             'des'=> 'required', 
-            'hp'=> 'required',                                           
+            'hp'=> 'required',    
+            'task'=> 'required', 
             ];
         $message = ['required'=>'Field ini harus diisi','unique'=>'Field ini sudah ada', 'required_if'=> 'Field :attribute harus diisi'];
         $request->validate($rule,$message);
 
+        $ver = $request->verifikator;
+        $ver = array_filter($ver, function($value) {
+            return !is_null($value);
+        });
+
         // validasi tahap
-        if(count($request->verifikator) > 2)
+        if(count($ver) > 2)
         {
             toastr()->error('Verifikator maksimal 2', ['timeOut' => 5000]);
             return back()->withInput();
         }
+    
+        // validasi 2 tahap
+        if(count($ver) > 1)
+        {
+            // case 1
+            $VL2 = User::where('id',$ver[0])->where('role',Role::select('id')->where('kode','VL2')->pluck('id'))->exists();              
+            $VL3 = User::where('id',$ver[1])->where('role',Role::select('id')->where('kode','VL3')->pluck('id'))->exists();  
+            $case1 = ($VL2 && $VL3) ? true : false;
+            // case 2
+            $VL2s = User::where('id',$ver[1])->where('role',Role::select('id')->where('kode','VL2')->pluck('id'))->exists();              
+            $VL3s = User::where('id',$ver[0])->where('role',Role::select('id')->where('kode','VL3')->pluck('id'))->exists();  
+            $case2 = ($VL2s && $VL3s) ? true : false;
 
-        $tipe = $request->type == 'umum' ? $request->fungsi : $request->koordinat;
+            if(!$case1 && !$case2)
+            {
+                toastr()->error('Invalid verifikator', ['timeOut' => 5000]);
+                return back()->withInput();
+            } 
 
-        $header = [$request->noreg, $request->pengajuan, $request->namaPemohon, $request->hp, $request->alamatPemohon, $request->namaBangunan, $tipe, $request->alamatBangunan];                
+        }
+        // verifikator 1 tahap
+        else
+        {
+            $VL1 = User::where('id',$ver[0])->where('role',Role::select('id')->where('kode','VL1')->pluck('id'))->exists();  
+            if(!$VL1)
+            {
+                toastr()->error('Invalid verifikator', ['timeOut' => 5000]);
+                return back()->withInput();
+            }                 
+        }        
+
+        $header = [$request->noreg, $request->pengajuan, $request->namaPemohon, $request->hp, $request->alamatPemohon, $request->namaBangunan, $request->fungsi, $request->alamatBangunan, $request->koordinat, $request->land];                
 
         $head = new Verifikasi;
         $head->village = $request->des;
@@ -132,10 +179,13 @@ class HeadController extends Controller
         $head->type = $request->type;
         $head->email = $request->email;
         $head->status = 5;
-        $head->verifikator = implode(",",$request->verifikator);
+        $head->open = 1;
+        $head->verifikator = implode(",",$ver);
         $head->step = $request->task;
         $head->sekretariat = Auth::user()->id;
         $head->save();
+
+        shortLink($head->id,'verifikasi');
 
         toastr()->success('Tambah Data berhasil', ['timeOut' => 5000]);
         return redirect()->route('verifikasi.index');
@@ -181,10 +231,11 @@ class HeadController extends Controller
      */
     public function edit(Verifikasi $verifikasi)
     {
-        $user = Role::whereIn('kode',['VL1', 'VL2', 'VL3'])->get(); 
+        $role = Role::whereIn('kode',['VL1', 'VL2', 'VL3'])->pluck('id','kode')->toArray(); 
+        $user = User::whereIn('role',array_values($role))->get(); 
         $dis  = District::all();
         $data = "Edit Verifikasi";
-        return view('document.create',compact('data','verifikasi','user','dis'));
+        return view('document.create',compact('data','verifikasi','user','dis','role'));
     }
 
     /**
@@ -205,20 +256,24 @@ class HeadController extends Controller
             'email'=> 'required|unique:heads,email,'.$verifikasi->id,             
             'dis'=> 'required', 
             'des'=> 'required', 
+            'task'=> 'required', 
             'hp'=> 'required',                                           
             ];
         $message = ['required'=>'Field ini harus diisi','unique'=>'Field ini sudah ada'];
         $request->validate($rule,$message);
 
+        $ver = $request->verifikator;
+        $ver = array_filter($ver, function($value) {
+            return !is_null($value);
+        });
+
         // validasi tahap
-        if(count($request->verifikator) > 2)
+        if(count($ver) > 2)
         {
             toastr()->error('Verifikator maksimal 2', ['timeOut' => 5000]);
             return back()->withInput();
         }
-
-        $ver = $request->verifikator;
-
+    
         // validasi 2 tahap
         if(count($ver) > 1)
         {
@@ -241,7 +296,7 @@ class HeadController extends Controller
         // verifikator 1 tahap
         else
         {
-            $VL1 = User::where('id',$ver)->where('role',Role::select('id')->where('kode','VL1')->pluck('id'))->exists();  
+            $VL1 = User::where('id',$ver[0])->where('role',Role::select('id')->where('kode','VL1')->pluck('id'))->exists();  
             if(!$VL1)
             {
                 toastr()->error('Invalid verifikator', ['timeOut' => 5000]);
@@ -249,17 +304,17 @@ class HeadController extends Controller
             }                 
         }
 
-
-        $tipe = $request->type == 'umum' ? $request->fungsi : $request->koordinat;
-        $header = [$request->noreg, $request->pengajuan, $request->namaPemohon, $request->hp, $request->alamatPemohon, $request->namaBangunan, $tipe, $request->alamatBangunan];                
+        $tipe = $request->type == 'umum' ? $request->fungsi : $request->koordinat;        
+        $header = [$request->noreg, $request->pengajuan, $request->namaPemohon, $request->hp, $request->alamatPemohon, $request->namaBangunan, $request->fungsi, $request->alamatBangunan, $request->koordinat, $request->land];                
+        
 
         $verifikasi->village = $request->des;
         $verifikasi->header = json_encode($header);     
         $verifikasi->type = $request->type;
         $verifikasi->reg = $request->noreg;
         $verifikasi->email = $request->email;
-        $verifikasi->verifikator = implode(",",$request->verifikator);
-        $verifikasi->step = count($request->verifikator);
+        $verifikasi->verifikator = implode(",",$ver);
+        $verifikasi->step = count($ver);
         $verifikasi->save();
 
         toastr()->success('Update Data berhasil', ['timeOut' => 5000]);

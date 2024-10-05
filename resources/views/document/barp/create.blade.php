@@ -57,9 +57,9 @@
                                     <select class="form-control" name="status" placeholder="status">
                                         <option value="">Pilih Status</option>
                                         <option value="perorangan" @selected(old('status') == 'perorangan')
-                                            @selected(isset($meet) && $header->status == 'perorangan')>Perorangan / Badan Usaha</option>
+                                            @selected(isset($meet) && $header->status == 'perorangan')>Perorangan / Badan Usaha / Badan Hukum</option>
                                         <option value="pemerintah" @selected(old('status') == 'pemerintah')
-                                            @selected(isset($meet) && $header->status == 'pemerintah')>Pemerintah</option>
+                                            @selected(isset($meet) && $header->status == 'pemerintah')>Pemerintah / Negara</option>
                                     </select>
                                     @error('status')
                                         <div class='small text-danger text-left'>{{ $message }}</div>
@@ -268,18 +268,8 @@
 @push('js')
     <script src="{{ asset('assets/extensions/jquery/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/extensions/summernote/summernote-lite.min.js') }}"></script>
+    <script src="{{ asset('assets/editor.js') }}"></script>
     <script>
-        $(".summernote").summernote({
-            tabsize: 2,
-            height: 120,
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['table', ['table']],
-            ]
-        });
-
         function remove(e) {
             e.parentNode.remove();
         }

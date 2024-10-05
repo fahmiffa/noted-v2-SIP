@@ -45,7 +45,7 @@
                                     class="bi bi-chevron-left"></i></a>
                         @endisset
                     @endisset
-                    <a class="navbar-brand ms-4 d-inline fw-bold" href="{{ route('main') }}">
+                    <a class="navbar-brand ms-4 d-inline fw-bold ttd" href="{{ route('main') }}">
                         {{ $title }}
                     </a>
                 </div>
@@ -125,7 +125,11 @@
                                             </div>
                                             <div class="user-img d-flex align-items-center">
                                                 <div class="avatar avatar-md">
-                                                    <img src="{{ asset('assets/compiled/jpg/2.jpg') }}">
+                                                    @if(auth()->user()->img)
+                                                        <img src="{{ asset('storage/'.auth()->user()->img) }}">
+                                                    @else
+                                                        <img src="{{ asset('assets/compiled/jpg/2.jpg') }}">
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -165,12 +169,32 @@
     @stack('js')
 
     <script>
+
+            document.addEventListener('DOMContentLoaded', function () {
+                    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                        return new bootstrap.Tooltip(tooltipTriggerEl)
+                    })
+                }, false);
+
         function goBack() {
             window.history.back()
         }
 
         function prev() {
             document.getElementById('back').submit();
+        }
+
+        function myConfirm(par) {
+            let person = prompt("Apakah Anda Yakin "+par+" Data ? silahkan ketikan OK");
+            if(person === 'ok')
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     </script>
 </body>

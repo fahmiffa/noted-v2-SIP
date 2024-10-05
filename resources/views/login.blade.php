@@ -22,7 +22,7 @@
         }
 
         #bg {
-            background: url('{{ asset('assets/bg.jpg') }}') no-repeat center center fixed;
+            background: url('{{ asset('assets/new.jpg') }}') no-repeat center center fixed;
             background-size: cover;
             width: 100%;
             height: 100%;
@@ -32,6 +32,8 @@
             bottom: 0;
             left: 0;
         }
+
+
 
         .vertical-center {
             display: flex;
@@ -69,8 +71,8 @@
         <div class="row justify-content-center vertical-center">
             <div class="col-md-12 col-lg-8 col-sm-12">
                 <div class="row mx-3">
-                    <div class="col-md-6 col-sm-6 d-none d-md-block d-lg-block bg-dark opacity-75 round-left shadow">
-                        <div class="pt-3 px-3">
+                    <div class="col-md-6 col-sm-6 d-none d-md-block d-lg-block bg-dark opacity-75 round-left shadow" id="right">
+                        <div class="pt-3 px-3 opacity-100">
                             <h5 class="my-3 text-white">Sistem Informasi Penyelenggaraan Bangunan Gedung</h5>
                             <br><br>
                             <span class="d-block text-white" style="height: 8rem">
@@ -81,17 +83,16 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6 bg-white round-right shadow round-left-m">
-                        <div class="p-3">
+                        <div class="p-1">
                             <div class="d-flex justify-content-between px-3 py-3">
                                 <img src="{{ asset('kab.png') }}" style="height: 2.5rem; width:2.5rem;">
-                                <h2 class="my-auto">SIP BANGED
-                                </h2>
+                                <h2 class="my-auto">SIP BANGED</h2>
                                 <img src="{{ asset('assets/logo.png') }}" style="height: 2.5rem; width:2.5rem;">
                             </div>
                             <h6 class="px-3">Login</h6>            
                             <form action="{{ route('sign') }}" method="post">
                                 @csrf
-                                <div class="form-group position-relative has-icon-left mb-4">
+                                <div class="form-group position-relative has-icon-left mb-3">
                                     <input type="email" class="form-control form-control-xl"
                                         value="{{ old('email') }}" name="email" placeholder="Email">
                                     <div class="form-control-icon">
@@ -101,7 +102,7 @@
                                         <div class='small text-danger text-left'>{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="form-group position-relative has-icon-left mb-4">
+                                <div class="form-group position-relative has-icon-left mb-3">
                                     <input type="password" name="password" class="form-control form-control-xl"
                                         placeholder="Password">
                                     <div class="form-control-icon">

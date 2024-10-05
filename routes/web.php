@@ -25,6 +25,7 @@ Route::get('/reload-captcha', [App\Http\Controllers\AuthController::class, 'relo
 Route::get('link/{id}', [App\Http\Controllers\HomeController::class, 'link'])->name('link');
 Route::get('/dokumene/{id}', [App\Http\Controllers\HomeController::class, 'dok'])->name('dok');
 Route::get('surat/{id}', [App\Http\Controllers\HomeController::class, 'surat'])->name('surat');  
+Route::get('part-doc/{id}/{par}', [App\Http\Controllers\HomeController::class, 'dok'])->name('req.dok'); 
 
 Route::group(['middleware' => 'auth'], function() {    
     
@@ -36,7 +37,6 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('main'); 
         Route::get('permohonan', [App\Http\Controllers\HomeController::class, 'req'])->name('req.index');     
         Route::get('dokumen/{id}', [App\Http\Controllers\HomeController::class, 'doc'])->name('req.doc'); 
-        Route::get('dokumen/{id}/{par}', [App\Http\Controllers\HomeController::class, 'dok'])->name('req.dok'); 
         Route::get('monitoring', [App\Http\Controllers\HomeController::class, 'monitoring'])->name('monitoring');         
     });
 
@@ -65,7 +65,9 @@ Route::group(['middleware' => 'auth'], function() {
             Route::resource('sub', App\Http\Controllers\Item\SubController::class);         
         });    
         Route::resource('kecamatan', App\Http\Controllers\DistrictController::class);  
-        Route::resource('desa', App\Http\Controllers\VillageController::class);  
+        Route::resource('desa', App\Http\Controllers\VillageController::class); 
+        Route::post('import', [App\Http\Controllers\SuperController::class, 'import'])->name('import');
+        Route::post('reset', [App\Http\Controllers\SuperController::class, 'reset'])->name('reset');  
     
         Route::group(['prefix'=>'formulir'],function() {   
             Route::resource('document', App\Http\Controllers\DocumentController::class);  
@@ -130,6 +132,7 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('verifikasi/{id}', [App\Http\Controllers\HomeController::class, 'verifikasi'])->name('monitoring.doc'); 
         Route::get('preview/{id}/{par}', [App\Http\Controllers\HomeController::class, 'preview'])->name('preview');    
         
+        Route::get('validasi/{id}', [App\Http\Controllers\HeaderController::class, 'validasi'])->name('ba.validasi');
         Route::get('ba-sign/{id}', [App\Http\Controllers\HeaderController::class, 'baSign'])->name('ba.sign');
         Route::post('ba-sign/{id}', [App\Http\Controllers\HeaderController::class, 'baSigned'])->name('ba.signed');
         Route::post('ba-ver/{id}', [App\Http\Controllers\HeaderController::class, 'baVer'])->name('ba.ver');
@@ -153,9 +156,10 @@ Route::group(['middleware' => 'auth'], function() {
     
         Route::post('doc-apporove/{id}', [App\Http\Controllers\HeadController::class, 'approve'])->name('doc.approve');  
         Route::post('doc-reject/{id}', [App\Http\Controllers\HeadController::class, 'reject'])->name('doc.reject');            
+        Route::post('doc-status/{id}', [App\Http\Controllers\HeadController::class, 'open'])->name('doc.status');       
     });
 
-    Route::resource('verifikasi', App\Http\Controllers\HeadController::class);      
+    Route::resource('verifikasi', App\Http\Controllers\HeadController::class);  
 });
 
 

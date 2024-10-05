@@ -1,8 +1,12 @@
+@php
+$remain = $head->steps->count() > 0 && $head->parent ? true : false;
+$head = $remain ? $head->old : $head;
+$remain = $head->steps->count() > 0 ? true : false;
+@endphp
 @if ($level == 'VL2')
     @php
-        $remain = $head->parent ? true : false;
-        $head = $remain ? $head->old : $head;
         $old = $head->steps->where('kode', 'VL2')->first();
+        $remain = $old ? true : false;
     @endphp
     @if ($head->type == 'umum')
         @php
@@ -114,7 +118,7 @@
             @endif
             @if ($row->name == doc(4, $head->type))
                 <div class="col-md-12">
-                    <h6>{{ $row->name }}</h6>
+                    <h6>{{ $row->name }} </h6>
                     @foreach ($row->items as $item)
                         @if (count($item->sub) > 0)
                             <p> {{ $no++ }}. {{ $item->name }}</p>
@@ -210,7 +214,7 @@
                     @for ($i = 0; $i < count($other); $i++)
                         <div class="col-md-3">
                             <input type="text" class="form-control" name="nameOther[{{ $i }}]"
-                                value="{{ $other[$i]->name }}" placeholder="item name">
+                                value="{{ $other[$i]->name }}" placeholder="Lain-lain">
                         </div>
                         <div class="col-md-5">
                             <div class="d-flex justify-content-center">
@@ -265,10 +269,9 @@
             <button class="btn btn-success btn-sm rounded-pill" type="button" id="add-item">Tambah</button>
         </div>
         <div class="form-group">
-            <input type="hidden" name="content" value="{{ $head ? $head->saran : null }}">
-            <div id="snow" style="height: 100px">
-                {!! $head ? $head->saran : null !!}
-            </div>
+            <textarea class="form-control summernote" name="content" rows="2">
+            {!! $head ? $head->saran : null !!}
+            </textarea>                                             
         </div>
     @else
         @php
@@ -366,17 +369,15 @@
             @endif
         @endforeach
         <div class="form-group">
-            <input type="hidden" name="content" value="{{ $head ? $head->saran : null }}">
-            <div id="snow" style="height: 100px">
+            <textarea class="form-control summernote" name="content" rows="2">
                 {!! $head ? $head->saran : null !!}
-            </div>
+            </textarea>
         </div>
     @endif
 @else
-    @php
-        $remain = $head->parent ? true : false;
-        $head = $remain ? $head->old : $head;
+    @php       
         $old = $head->steps->where('kode', 'VL3')->first();
+        $remain = $old ? true : false;
         if ($remain) {
             $da = json_decode($old->item);
             $itemDa = (array) $da->dokumen_administrasi->item;

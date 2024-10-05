@@ -1,3 +1,15 @@
+    @if ($head->do == 1 && $head->bak->primary == 'TPA')
+        <table style="width:30%" class="footer">
+            <tr>
+                <td style="padding:0.2rem;font-size:7;font-weight:bold">
+                    Mengetahui Kepala Bidang PBLTaru
+                </td>
+                <td align="center" style="padding:0.2rem;font-size:7;font-weight:bold">
+                    OK
+                </td>
+            </tr>
+        </table>
+    @endif
     <header>
         <table style="width: 100%; border:none">
             <tr>
@@ -6,7 +18,7 @@
                     <p>
                         <span style="font-weight: bold; font-size:0.8rem;text-wrap:none">BERITA ACARA RAPAT PLENO
                             (BARP)</span>
-                        <br>No.&nbsp;&nbsp;{{ str_replace('SPm', 'BARP', str_replace('600.1.15', '600.1.15/PBLT', $head->nomor)) }}
+                            <br>No.&nbsp;&nbsp;{{ $head->numbDoc('barp') }}
                     </p>
                 </td>
                 <td style="border:none"><img class="img" src="{{ gambar('logo.png') }}" /></td>
@@ -15,7 +27,7 @@
     </header>
     @php
         $header = (array) json_decode($head->bak->doc->header);
-        $mheader = json_decode($head->barp->header);
+        $mheader = json_decode($head->barp->header);    
         $items = json_decode($head->barp->item);
         $item = (array) json_decode($head->bak->item);
         $other = json_decode($head->barp->other);
@@ -28,7 +40,7 @@
         <tr>
             <td width="10%" style="border:none">Hari / Tanggal</td>
             <td width="1%" style="border:none">:</td>
-            <td width="20%" style="border:none">{{ dateID($surat[2]) }} </td>
+            <td width="20%" style="border:none">{{ hari($head->barp->tanggal) }} </td>
             <td width="10%" style="border:none">Permohonan </td>
             <td width="1%" style="border:none">:</td>
             <td width="20%" style="border:none">{{ strtoupper($header[1]) }}</td>
@@ -59,9 +71,9 @@
                 <td width="10%" style="border:none">Nama Bangunan </td>
                 <td width="1%"  style="border:none">:</td>
                 <td width="20%" style="border:none">{{ $header[5] }}</td>
-                <td width="10%" style="border:none">Fungsi </td>
+                <td width="10%" style="border:none">Fungsi Bangunan</td>
                 <td width="1%"  style="border:none">:</td>
-                <td width="20%" style="border:none">{{ $header[6] }}</td>
+                <td width="20%" style="border:none">{{ ucwords($mheader->fungsi) }}</td>
             </tr>
             <tr>
                 <td width="10%" style="border:none;vertical:align:top">Alamat Bangunan </td>
@@ -75,7 +87,12 @@
             <tr>
                 <td width="10%" style="border:none">Status Kepemilikan</td>
                 <td width="1%" style="border:none">:</td>
-                <td width="20%" style="border:none">{{ ucwords($mheader->status) }}</td>
+                <td width="20%" style="border:none">
+                    @php
+                      $status = $mheader->status == 'pemerintah' ? 'Pemerintah/Negara' : 'Perorangan/Badan Usaha/Badan Hukum'; 
+                    @endphp
+                    {{ ucwords($status) }}
+                </td>
                 <td width="10%" style="border:none">NIB </td>
                 <td width="1%" style="border:none">:</td>
                 <td width="20%" style="border:none">{{ $mheader->nib }}</td>
@@ -85,11 +102,11 @@
                 <td width="1%" style="border:none">:</td>
                 <td colspan="4" style="border:none">{{ ucwords($mheader->jenis) }}</td>              
             </tr>
-            <tr>
-                <td width="10%" style="border:none">Fungsi Bangunan</td>
+            {{-- <tr>
+                <td width="10%" style="border:none">Koordinat</td>
                 <td width="1%" style="border:none">:</td>
-                <td colspan="4" style="border:none">{{ ucwords($mheader->fungsi) }}</td>     
-            </tr>
+                <td colspan="4" style="border:none">{{ $header[8] }}</td>     
+            </tr> --}}
 
 
         </tbody>
@@ -180,11 +197,11 @@
     @endif
     <table style="width:100%;">
         <tr>
-            <td width="60%" style="border: none" align="center">
+            <td width="50%" width="60%" style="border: none" align="center">
             </td>
             <td style="border: none" align="center">
-            <p>{{ $head->barp->place }}, {{ dateID($head->barp->date) }}</p>           
-                <p>Mengetahui,<br>
+            {{ $head->barp->place }}, {{ dateID($head->barp->date) }}
+                <p style="margin-top:0" >Mengetahui,<br>
                     Ketua Rapat Pleno TPT/TPA
                 </p>
                 @if ($head->barp->grant == 1)
@@ -206,7 +223,7 @@
         <script type="text/php"> 
         if (isset($pdf)) { 
             //Shows number center-bottom of A4 page with $x,$y values
-            $x = 300;  //X-axis vertical position 
+            $x = 320;  //X-axis vertical position 
             $y = 990; //Y-axis horizontal position
             $text = "Lembar BARP No. {{ str_replace('SPm', 'BARP', str_replace('600.1.15', '600.1.15/PBLT', $head->nomor)) }} | Halaman {PAGE_NUM} dari {PAGE_COUNT}";             
             $font =  $fontMetrics->get_font("helvetica", "bold");

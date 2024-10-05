@@ -28,9 +28,19 @@
         margin-top: 0rem;
         margin-left: 0rem;
     }
+
+    .watermark {
+        position: fixed;
+        top: 50%;
+        left: 45%;
+        transform: translate(-50%, -50%);
+        opacity: 0.07;
+        z-index: -1;
+    }
 </style>
 
 <body>
+    <img class="watermark" src="{{ gambar('watermak.png') }}" width="75%" />
     <header>
         <table style="width: 100%; border:none">
             <tr>
@@ -140,7 +150,8 @@
                     </td>
                 @else
                     <td style="border:none;vertical-align:top">
-                        {{ ucwords(str_replace('_', ' ', $place[0])) }}<br>{{ ucwords(str_replace('_', ' ', $place[1])) }}
+                        {!! ucwords(str_replace('Teleconference','<i>Teleconference</i>',str_replace('_', ' ', $place[0]))) !!}<br>
+                        {{ ucwords(str_replace('_', ' ', $place[1])) }}
                     </td>
                 @endif
             </tr>
@@ -168,7 +179,7 @@
                 <td width="60%" style="border:none">&nbsp;</td>
                 <td style="border:none;">
                     <p style="text-align: center">
-                        Slawi, {{ dateID($schedule->created_at) }}<br>
+                        {{-- Slawi, {{ dateID($schedule->created_at) }}<br> --}}
                         <img src="data:image/png;base64, {{ $qrCode }}" width="40%">
                         <br>
                         DPUPR Kabupaten Tegal

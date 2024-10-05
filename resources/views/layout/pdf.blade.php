@@ -13,6 +13,7 @@
         height: 100vh;
         width: 100%;
         background: white;
+        font-family: 'Noto Serif', serif;
     }
 
     table {
@@ -29,10 +30,7 @@
         word-wrap: break-word;
         overflow-wrap: break-word;
         word-break: break-all;
-        white-space: normal;      
-    }
-    .simbol{
-        font-family:DejaVu Sans;
+        white-space: normal; 
     }
 
     .img {
@@ -74,6 +72,10 @@
 
     .table-bordered td{
         border: none;        
+    }
+
+    .simbol{
+        font-family:DejaVu Sans;
     }
 
 </style>

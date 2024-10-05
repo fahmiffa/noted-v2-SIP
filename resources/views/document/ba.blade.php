@@ -22,10 +22,10 @@
                             <thead>
                                 <tr>
                                     <th>No.</th>
+                                    <th width="17%">No. Registrasi</th>
                                     <th width="17%">Pemohon</th>
                                     <th>Nama Bangunan</th>
                                     <th width="17%">Lokasi Bangunan</th>
-                                    <th>Lokasi</th>
                                     <th>No. Dokumen</th>
                                     <th>Action</th>
                                 </tr>
@@ -45,14 +45,14 @@
                                             <h6 class="mb-0">Alamat</h6>
                                             {{ $item->region ? $item->region->name.', ' : null }} {!! $item->region ? $item->region->kecamatan->name.'<br>' : null !!} {{ $header ? $header[4] : null }}                                                                                
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             {{ $header ? $header[5] : null }}
 
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             {{ $header ? $header[7] : null }}
                                         </td>
-                                        <td>
+                                        <td class="text-center">
                                             {{ $item->nomor }}
                                         </td>
                                         <td class="text-center">
@@ -61,7 +61,7 @@
                                             @endphp
                                             <a target="_blank"
                                                 href="{{ route('ba.sign', ['id' => md5($item->id)]) }}"
-                                                data-toggle="tooltip" data-placement="top" title="Dokumen PDF"
+                                                data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Dokumen PDF"                                                
                                                 class="btn btn-sm {{$item->do == 0 ? $color : 'btn-danger'}} mb-1"><i class="bi bi-file-pdf"></i> </a>                               
                                         </td>                            
                                     </tr>

@@ -4,7 +4,7 @@
 <div class="row my-3">
     <div class="col-4">
         <h6>No Registrasi</h6>
-        {{ $head->reg}}
+        {{ $head->reg }}
     </div>
     <div class="col-4">
         <h6>Nama Pemohon</h6>
@@ -14,20 +14,21 @@
         <h6>Alamat Pemohon</h6>
         {{ $header ? $header[4] : null }}
     </div>
-    <div class="col-4">        
-        <h6>{{$head->type == 'umum' ? 'Fungsi' : 'Koordinat'}}</h6>            
-        {{ $header ? $header[6] : null }}
+    <div class="col-4">
+        <h6>{{ $head->type == 'umum' ? 'Fungsi' : 'Koordinat' }}</h6>
+        {{ $head->type == 'umum' ? ucfirst($header[6]) : $header[8] }}
     </div>
     <div class="col-4">
         <h6>Nama Bangunan</h6>
-        {{ $header ? $header[5] : null }}        
+        {{ $header ? $header[5] : null }}
     </div>
     <div class="col-4">
         <h6>Lokasi Bangunan</h6>
         {{ $header ? $header[7] : null }}<br>
-        {{ $head->region ? 'Desa/Kel. '.$head->region->name : null }} {{ $head->region ? ' Kec. '.$head->region->kecamatan->name : null }}
+        {{ $head->region ? 'Desa/Kel. ' . $head->region->name : null }}
+        {{ $head->region ? ' Kec. ' . $head->region->kecamatan->name : null }}
 
     </div>
-    <div class="col-4">                    
+    <div class="col-4">
     </div>
-</div>  
+</div>

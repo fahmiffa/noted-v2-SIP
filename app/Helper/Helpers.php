@@ -147,9 +147,9 @@ function gambar($val)
 
 function nomor()
 {
-    $num = Head::get()->count() == 0 ? 1 : Head::get()->count() + 1;
+    $num = Head::latest()->withTrashed()->first() ? Head::latest()->withTrashed()->first()->id + 1 : 1;
     $nom = str_pad($num, 4, '0', STR_PAD_LEFT);
-    return '600.1.15/' . $nom . '/SPm-SIMBG/' . numberToRoman(date('m')) . '/' . date('Y');
+    return '600.1.15/PBLT/' . $nom . '/SPm-SIMBG/' . numberToRoman(date('m')) . '/' . date('Y');
 }
 
 function baseDoc()

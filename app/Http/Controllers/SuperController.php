@@ -10,6 +10,10 @@ use App\Models\Signed;
 use App\Models\Tax;
 use DB;
 use Illuminate\Http\Request;
+use App\Imports\RegionImport;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Village as Desa;
+use App\Models\District;
 
 class SuperController extends Controller
 {
@@ -43,9 +47,9 @@ class SuperController extends Controller
         $item = News::where(DB::raw('md5(id)'), $id)->first();
         Signed::where('head', $item->head)->update(['bak' => null]);
         Head::where('head', $item->head)->update(['do' => 0]);
-        Meet::where('head', $item->head)->forceDelete();
-        Attach::where('head', $item->head)->forceDelete();
-        Tax::where('head', $item->head)->forceDelete();
+        // Meet::where('head', $item->head)->forceDelete();
+        // Attach::where('head', $item->head)->forceDelete();
+        // Tax::where('head', $item->head)->forceDelete();
         $item->forceDelete();
         toastr()->success('Hapus Berhasil', ['timeOut' => 5000]);
         return back();
@@ -72,10 +76,32 @@ class SuperController extends Controller
         $item = Meet::where(DB::raw('md5(id)'), $id)->first();
         Signed::where('head', $item->head)->update(['bak' => null, 'barp' => null]);
         Head::where('head', $item->head)->update(['do' => 0]);
-        Attach::where('head', $item->head)->forceDelete();
-        Tax::where('head', $item->head)->forceDelete();
+        // Attach::where('head', $item->head)->forceDelete();
+        // Tax::where('head', $item->head)->forceDelete();
         $item->forceDelete();
         toastr()->success('Hapus Berhasil', ['timeOut' => 5000]);
+        return back();
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xls,xlsx'
+        ]);
+
+        Excel::import(new RegionImport, $request->file('file'));
+        toastr()->success('Import Berhasil', ['timeOut' => 5000]);
+        return back();
+
+    }
+
+    public function reset()
+    {
+        dd('a');
+        // Desa::truncate();
+        // District::truncate();
+
+        toastr()->success('Reset Berhasil', ['timeOut' => 5000]);
         return back();
     }
 }

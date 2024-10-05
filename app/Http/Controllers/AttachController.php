@@ -23,9 +23,10 @@ class AttachController extends Controller
      */
     public function index(Request $request)
     {
-        $val = Head::whereHas('barp', function ($q) {
-            $q->where('grant', 1);
-        })->latest();
+        // $val = Head::whereHas('barp', function ($q) {
+        //     $q->where('grant', 1);
+        // })->latest();
+        $val = Head::has('kons')->latest();
         $da = $val->get();
 
         $data = "Lampiran";
@@ -37,9 +38,10 @@ class AttachController extends Controller
     public function doc($id)
     {
         $head = Head::where(DB::raw('md5(id)'), $id)->first();
-        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate($head->nomor));
+        $link = $head->links->where('ket', 'lampiran')->first();
+        $qrCode = base64_encode(QrCode::format('png')->size(200)->generate(route('link', ['id' => $link->short])));
         $data = compact('qrCode', 'head');
-
+        
         $pdf = PDF::loadView('document.attach.doc.index', $data)->setPaper('legal', 'potrait');
         return $pdf->stream();
         return view('document.attach.doc.index', $data);
@@ -68,7 +70,8 @@ class AttachController extends Controller
     public function tax()
     {
         $val = Setting::first();
-        $val = Head::has('attach')->latest();
+        // $val = Head::has('attach')->latest();
+        $val = Head::has('kons')->latest();
         $da = $val->get();
 
         $data = "Perhitungan Retribusi";
@@ -176,6 +179,8 @@ class AttachController extends Controller
         $item->persil = $request->persil;
         $item->koordinat = $request->koordinat;
         $item->save();
+
+        shortLink($head->id,'lampiran');
 
         toastr()->success('Input Data berhasil', ['timeOut' => 5000]);
         return redirect()->route('attach.index');

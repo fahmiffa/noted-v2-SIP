@@ -8,9 +8,24 @@
                 <div class="col-md-3 d-none d-md-block">
                     <div class="card">
                         <div class="card-body">
+
+                            @if ($errors->any())
+                                <div class="text-danger small">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             <div class="d-flex justify-content-center align-items-center flex-column">
-                                <div class="avatar avatar-2xl" data-bs-toggle="modal" data-bs-target="#myModal">
-                                    <img src="{{ asset('assets/compiled/jpg/2.jpg') }}" alt="Avatar">
+                                <div class="avatar avatar-2xl" data-bs-toggle="modal" data-bs-target="#myModals">
+                                    @if(auth()->user()->img)
+                                        <img src="{{ asset('storage/'.auth()->user()->img) }}">
+                                    @else
+                                        <img src="{{ asset('assets/compiled/jpg/2.jpg') }}" alt="Avatar">
+                                    @endif
                                 </div>
                                 <h6 class="mt-3">{{ auth()->user()->name }}</h6>
                                 <p class="text-small text-capitalize mb-3">{{ ucfirst(auth()->user()->roles->name) }}</p>
@@ -28,11 +43,13 @@
 
                                         <!-- Modal body -->
                                         <div class="modal-body">
-                                            <form action="{{ route('attach.store') }}" method="post" enctype="multipart/form-data">
+                                            <form action="{{ route('image') }}" method="post" enctype="multipart/form-data">
                                                 @csrf
                                                 <small class="text-danger" style="font-size:0.8rem">Format ekstensi upload JPG, JPEG, PNG</small>
-                                                <input class="form-control" type="file" name="pile_loc"
+                                                <input class="form-control" type="file" name="image"
                                                 accept=".jpg, .jpeg, .png" required>
+                                                <small class="text-danger" style="font-size:0.8rem">Rekomendasi 400x400 pixels</small>
+                                                <br>
 
                                                 <button class="btn btn-primary my-3">Save</button>
                                             </form>

@@ -67,8 +67,8 @@
                 @enderror
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group mb-3">
+        <div class="col-md-12 row">
+            <div class="col-md-6 form-group mb-3">
                 <label>Nama Bangunan</label>
                 <input type="text" name="namaBangunan"
                     value="{{ isset($verifikasi) ? $header[5] : old('namaBangunan') }}" class="form-control">
@@ -76,33 +76,44 @@
                     <div class='small text-danger text-left'>{{ $message }}</div>
                 @enderror
             </div>
-        </div>
-        <div class="col-md-6">
-            <div class="form-group mb-3">
-                <label id="con">Fungsi</label>
-                <input type="text" name="koordinat" id="koor" value="{{ isset($verifikasi) && $verifikasi->type == 'menara'  ? $header[6] : old('koordinat') }}"
-                    class="form-control {{ isset($verifikasi) && $verifikasi->type == 'menara' ? null : 'd-none' }}">
-                @error('koordinat')
+            <div class="col-md-6 form-group mb-3">
+                <label>No. Dokumen Tanah</label>
+                <input type="text" name="land"
+                    value="{{ isset($verifikasi) && isset($header[9]) ? $header[9] : old('land') }}" class="form-control">
+                @error('land')
                     <div class='small text-danger text-left'>{{ $message }}</div>
                 @enderror
-                <select class="form-control {{ isset($verifikasi) && $verifikasi->type == 'umum' ? null : 'd-none' }}" id="fung" name="fungsi">
-                    <option value="">Pilih fungsi</option>
-                    <option value="hunian" @selected(isset($verifikasi) && $verifikasi->type == 'umum' && $header[6] == 'hunian')>Hunian
+            </div> 
+        </div>
+        <div class="col-md-12 row">
+            <div class="form-group mb-3 col-md-6">
+                <label id="con">Fungsi</label>       
+                <select class="form-control" name="fungsi">
+                    <option value="">Pilih Fungsi</option>
+                    <option value="hunian" @selected(isset($verifikasi) && $header[6] == 'hunian')>Hunian
                     </option>
-                    <option value="keagamaan" @selected(isset($verifikasi) && $verifikasi->type == 'umum' && $header[6] == 'keagamaan')>Keagamaan
+                    <option value="keagamaan" @selected(isset($verifikasi) && $header[6] == 'keagamaan')>Keagamaan
                     </option>
-                    <option value="usaha" @selected(isset($verifikasi) && $verifikasi->type == 'umum' && $header[6] == 'usaha')>Usaha
+                    <option value="usaha" @selected(isset($verifikasi) && $header[6] == 'usaha')>Usaha
                     </option>
-                    <option value="sosial_budaya" @selected(isset($verifikasi) && $verifikasi->type == 'umum' && $header[6] == 'sosial_budaya')>Sosial Budaya
+                    <option value="sosial_budaya" @selected(isset($verifikasi) && $header[6] == 'sosial_budaya')>Sosial Budaya
                     </option>
-                    <option value="khusus" @selected(isset($verifikasi) && $verifikasi->type == 'umum' && $header[6] == 'khusus')>Khusus
+                    <option value="khusus" @selected(isset($verifikasi) && $header[6] == 'khusus')>Khusus
                     </option>
-                    <option value="campuran" @selected(isset($verifikasi) && $verifikasi->type == 'umum' && $header[6] == 'campuran')>Campuran
+                    <option value="campuran" @selected(isset($verifikasi) && $header[6] == 'campuran')>Campuran
                     </option>
                 </select>
                 @error('fungsi')
                     <div class='small text-danger text-left'>{{ $message }}</div>
                 @enderror
+            </div>
+            <div class="form-group mb-3 col-md-6">
+                <label id="con">Koordinat</label>
+                <input type="text" name="koordinat" value="{{ isset($verifikasi) ? $header[8] : old('koordinat') }}"
+                    class="form-control">
+                @error('koordinat')
+                    <div class='small text-danger text-left'>{{ $message }}</div>
+                @enderror      
             </div>
         </div>
         <div class="col-md-12">
@@ -124,7 +135,7 @@
                         </option>
                     @endforeach
                 </select>
-                @error('kec')
+                @error('dis')
                     <div class='small text-danger text-left'>{{ $message }}</div>
                 @enderror
             </div>

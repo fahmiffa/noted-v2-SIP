@@ -17,6 +17,12 @@ class HeaderController extends Controller
         $this->middleware('IsPermission:verifikasi_bak');
     }
 
+    public function validasi($id)
+    {
+        $head = Head::where(DB::raw('md5(id)'), $id)->first();
+        return view('document.pdf', compact('head'));
+    }
+
     public function ba()
     {
         $val = Head::has('kons')->whereNotNull('tang')->latest();
@@ -53,10 +59,13 @@ class HeaderController extends Controller
     public function baSigned(Request $request, $id)
     {
         $bak = News::where(DB::raw('md5(head)'), $id)->first();
-
+   
         if($request->type == 0)
         {
-            $bak->sign = $request->sign;
+            if($bak->primary == 'TPT')
+            {
+                $bak->sign = $request->sign;
+            }
             $bak->grant = 1;
             $bak->save();
             toastr()->success('Tanda tangan berhasil Dokumen BAK', ['timeOut' => 5000]);
@@ -70,7 +79,10 @@ class HeaderController extends Controller
             else
             {
                 $barp = Meet::where(DB::raw('md5(head)'), $id)->first();
-                $barp->sign = $request->sign;
+                if($bak->primary == 'TPT')
+                {
+                    $barp->sign = $request->sign;
+                }
                 $barp->grant = 1;
                 $barp->save();
 
@@ -163,6 +175,7 @@ class HeaderController extends Controller
     public function approveBak(Request $request, $id)
     {
         $head = News::where(DB::raw('md5(id)'),$id)->first();   
+
         if($request->has('sign'))
         {
             $head->sign = $request->sign;

@@ -51,7 +51,12 @@ class VerificationController extends Controller
         $step = Step::where(DB::raw('md5(head)'), $id)->where('kode', $kode)->where('status', 1)->first();
 
         if ($head->grant == 1) {
-            toastr()->success('Document on Step', ['timeOut' => 5000]);
+            toastr()->error('Dokumen dalam proses', ['timeOut' => 5000]);
+            return redirect()->route('verification.index');
+        }
+
+        if ($head->open == 0) {
+            toastr()->error('Dokumen belum di buka', ['timeOut' => 5000]);
             return redirect()->route('verification.index');
         }
 

@@ -3,10 +3,12 @@
             <td style="border:none"><img class="img" src="{{ gambar('kab.png') }}" /></td>
             <td width="100%" style="border:none; text-align:center">
                 <p>
-                    <span style="font-weight: bold; font-size:0.8rem;text-wrap:none">PERHITUNGAN RETRIBUSI PERSETUJUAN
-                        BANGUNAN GEDUNG</span>
+                    <span style="font-weight: bold; font-size:0.8rem;text-wrap:none">SIMULASI PERHITUNGAN RETRIBUSI
+                        <br>PERSETUJUAN BANGUNAN GEDUNG (PBG) DAN/ATAU SERTIFIKAT LAIK FUNGSI (SLF)
+                    </span>
                 </p>
             </td>
+
             <td style="border:none"><img class="img" src="{{ gambar('logo.png') }}" /></td>
         </tr>
     </table>
@@ -16,7 +18,7 @@
     <h4>A. INFORMASI UMUM</h4>
     <table style="width:95%;" align="center">
         <tr>
-            <td width="30%" style="border:none">No. Registrasi PBG </td>
+            <td width="30%" style="border:none">No. Registrasi</td>
             <td width="1%" style="border:none">:</td>
             <td width="60%" style="border:none">{{ $header[0] }} </td>
             <td width="20%" style="border:none">Tanggal</td>
@@ -42,7 +44,7 @@
             <td width="20%" style="border:none;vertical:align:top">Alamat Bangunan </td>
             <td width="1%" style="border:none;vertical-align:top">:</td>
             <td colspan="4" style="border:none;vertical-align:top">
-                {{ $header[7] }}, Kec. {{ $head->region->name }}, Kab. {{ $head->region->kecamatan->name }}
+                {{ $header[7] }}, Desa/Ke. {{ $head->region->name }}, Kec. {{ $head->region->kecamatan->name }}, Kab. Tegal, Prov. Jawa Tengah
             </td>
         </tr>
     </table>
@@ -54,7 +56,7 @@
         <tr align="center" style="background-color:lightgrey">
             <td>No.</td>
             <td>Uraian</td>
-            <td>Indexs</td>
+            <td>Parameter</td>
         </tr>
         <tr>
             <td align="center">1</td>
@@ -98,7 +100,7 @@
         </tr>
         <tr>
             <td align="center">9</td>
-            <td style="padding:0.2rem">SHST Tahun 2023</td>
+            <td style="padding:0.2rem">Standar Harga Satuan Tertinggi (SHST)</td>
             <td style="padding:0.2rem">{{ $par->shst }}</td>
         </tr>
     </table>
@@ -140,8 +142,8 @@
                 <td>No.</td>
                 <td>Uraian</td>
                 <td>Volume</td>
-                <td>Sat.</td>
-                <td>Harga Satuan.</td>
+                <td>Satuan</td>
+                <td>Harga Satuan</td>
                 <td>Jumlah Harga</td>
             </tr>
             @for ($i = 1; $i < count($pra); $i++)
@@ -174,8 +176,8 @@
             </table>
             <p>Catatan :</p>
             <ol>
-                <li>Perhitungan Retribusi ini merupakan simulasi dengan mengacu pada Perda Kab. Tegal Nomor 11 Tahun 2023
-                    tentang Pajak Daerah dan Retribusi Daerah
+                <li>
+                    Perhitungan Retribusi ini merupakan simulasi dengan mengacu pada Peraturan Pemerintah (PP) No. 16 Tahun 2021 tentang Peraturan Pelaksanaan Undang-Undang Nomor 28 Tahun 2002 tentang Bangunan Gedung dan Perda Kab. Tegal Nomor 11 Tahun 2023 tentang Pajak Daerah dan Retribusi Daerah
                 </li>
                 <li>Dokumen ini BUKAN merupakan PBG / Bukti Penagihan / Bukti Pembayaran yang sah, proses penagihan dan
                     pembayaran tetap mengacu pada SKRD yang dikeluarkan oleh DPMPTSP

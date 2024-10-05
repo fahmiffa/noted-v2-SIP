@@ -81,7 +81,7 @@ class Head extends Model
         $bak = $this->bak()->exists();
         $kons = $this->kons()->exists();
 
-        if ($attach && $tax) {
+        if ($attach && $tax && $this->do == 1) {
             $val = 'Selesai';
         } else if ($this->do == 1) {
             $val = 'Pembuatan Lampiran';
@@ -107,9 +107,13 @@ class Head extends Model
                     $val = 'Verifikasi Kelengkapan Dokumen';
                 }
             } else {
-                if ($this->parents()->count() > 0 && $this->grant == 0 && $this->status != 1) {
+                if ($this->parents()->count() > 0 && $this->grant == 0 && $this->open == 0 && $this->status != 1) {
+                    $val = 'Perbaikian Dokumen';
+                }
+                else if ($this->parents()->count() > 0 && $this->grant == 0 && $this->open == 1 && $this->status != 1) {
                     $val = 'Verifikasi Ulang';
-                } else if ($this->status == 2) {
+                }
+                else if ($this->status == 2) {
                     $val = 'Verifikasi Kelengkapan Dokumen';
                 } else if ($this->status == 1 && $this->grant == 0) {
                     $val = 'Verifikasi Operator';
@@ -142,12 +146,40 @@ class Head extends Model
 
     public function numbDoc($par)
     {
-        if ($par == 'bak' && $this->bak()->exists()) {
-            return str_replace('SPm', 'BAK', str_replace('600.1.15', '600.1.15/PBLT', $this->nomor));
-        } else if ($par == 'barp' && $this->barp()->exists()) {
-            return str_replace('SPm', 'BARP', str_replace('600.1.15', '600.1.15/PBLT', $this->nomor));
-        } else {
-            return null;
+        if($this->surat)
+        {
+            $nom = str_pad($this->surat->id, 4, '0', STR_PAD_LEFT);
+            $time = explode('#', $this->surat->waktu);
+            $tang = explode('-', $time[2]);
+            if ($par == 'bak' && $this->bak()->exists()) {
+                return '600.1.15/PBLT/' . $nom . '/BAK-SIMBG/' . numberToRoman($tang[1]) . '/' . $tang[0];
+            } else if ($par == 'barp' && $this->barp()->exists()) {
+                return '600.1.15/PBLT/' . $nom . '/BARP-SIMBG/' . numberToRoman($tang[1]) . '/' . $tang[0];
+            }
+            else if ($par == 'lampiran' && $this->barp()->exists()) {
+                return '600.1.15/PBLT/' . $nom . '/LDP-SIMBG/' . numberToRoman($tang[1]) . '/' . $tang[0];
+            }
+            else if ($par == 'tax' && $this->barp()->exists()) {
+                return '600.1.15/PBLT/' . $nom . '/LDP-SIMBG/' . numberToRoman($tang[1]) . '/' . $tang[0];
+            }            
+            else if ($par == 'verifikasi') {
+                $nom = str_pad($this->id, 4, '0', STR_PAD_LEFT);
+                $tang = explode('-', $this->created_at);
+                return '600.1.15/PBLT/' . $nom . '/SPm-SIMBG/' . numberToRoman($tang[1]) . '/' . $tang[0];
+            } else {
+                return null;
+            }
+
+        }
+        else
+        {
+            if ($par == 'verifikasi') {
+                $nom = str_pad($this->id, 4, '0', STR_PAD_LEFT);
+                $tang = explode('-', $this->created_at);
+                return '600.1.15/PBLT/' . $nom . '/SPm-SIMBG/' . numberToRoman($tang[1]) . '/' . $tang[0];
+            } else {
+                return null;
+            }
         }
 
     }

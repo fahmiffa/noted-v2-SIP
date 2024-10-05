@@ -14,7 +14,7 @@
 
     <style>
         #bg {
-            background: url('{{ asset('assets/bga.jpg') }}') no-repeat center center fixed;
+            background: url('{{ asset('assets/new.jpg') }}') no-repeat center center fixed;
             background-size: cover;
             width: 100%;
             height: 100%;
@@ -96,7 +96,7 @@
                             <h5 class="my-5 text-white p-3">Dinas Pekerjaan Umum dan Penataan Ruang <br>Kabupaten Tegal</h5>
                         </div>
                     </div>
-                    <div class="col-md-6 bg-white round-right shadow round-left-m">
+                    <div class="col-md-6 bg-white round-right shadow opacity-100 round-left-m">
                         <div class="p-3">
                             <div class="d-flex justify-content-start py-3">
                                 <img src="{{ asset('kab.png') }}" style="height: 2.5rem; width:2.5rem;" class="p-1 me-1">

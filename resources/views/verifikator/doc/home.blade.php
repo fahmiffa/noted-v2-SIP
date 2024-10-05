@@ -247,7 +247,7 @@
 
     @include('verifikator.doc.footer')
 
-    @if ($head->deleted_at)
+    @if ($head->deleted_at && $num)
         <script type="text/php"> 
             if (isset($pdf)) { 
                 //Shows number center-bottom of A4 page with $x,$y values
